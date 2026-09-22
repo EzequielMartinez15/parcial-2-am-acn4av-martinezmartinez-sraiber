@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
             //Cree el intent para que si es valido el loghin se vaya a la home_activity
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
-
+            finish();
         }
     }
 }
