@@ -51,6 +51,9 @@ public class LoginActivity extends AppCompatActivity {
         });
         WindowInsetsControllerCompat controller =
                 WindowCompat.getInsetsController(getWindow(), main);
+        getWindow().setStatusBarColor(
+                ContextCompat.getColor(this, R.color.marber_background)
+        );
         controller.setAppearanceLightStatusBars(false);
         controller.setAppearanceLightNavigationBars(false);
         ViewCompat.requestApplyInsets(main);
@@ -118,8 +121,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void submitLogin() {
-        // Primero cierro el teclado (esto corre tanto si tocás el botón como si usás "Listo"),
-        // así el usuario ve bien el resultado del login sin el teclado tapando la pantalla.
         WindowCompat.getInsetsController(getWindow(), main)
                 .hide(WindowInsetsCompat.Type.ime());
 
@@ -129,8 +130,6 @@ public class LoginActivity extends AppCompatActivity {
         passwordLayout.setError(null);
         boolean valid = true;
 
-        // Al email le saco los espacios de los costados antes de validar (por si al usuario
-        // se le coló un espacio sin querer). La contraseña la evalúo tal cual la escribió.
         if (emailText == null || emailText.toString().trim().isEmpty()) {
             emailLayout.setError(getString(R.string.error_email_required));
             valid = false;
@@ -151,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
             Snackbar.make(main, R.string.login_welcome, Snackbar.LENGTH_SHORT).show();
             String email = emailText.toString().trim();
             String password = passwordText.toString();
-
+            //Cree el intent para que si es valido el loghin se vaya a la home_activity
             Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
 
