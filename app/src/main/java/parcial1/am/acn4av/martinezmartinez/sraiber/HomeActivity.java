@@ -3,6 +3,8 @@ package parcial1.am.acn4av.martinezmartinez.sraiber;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
@@ -17,6 +19,8 @@ import com.google.android.material.button.MaterialButton;
 public class HomeActivity extends AppCompatActivity {
 
     private View home;
+
+    private AutoCompleteTextView menuFiltros;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +39,43 @@ public class HomeActivity extends AppCompatActivity {
 
         //declaración de las variables de los botones de la activity
         MaterialButton logoutButton = findViewById(R.id.btn_logout);
+        menuFiltros = findViewById(R.id.menu_drop_filtros);
 
 
+        //Estos son los filtros que van a aparecer en el layout, osea el xml
+        String[] filtros = {
+                "Fecha reciente",
+                "Fecha antigua",
+                "Más realizadas",
+                "Menos realizadas"
+        };
+
+        //este objeto toma el contexto, un layout apra mostrar los datos, los datos
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
+                filtros
+        );
+
+        //acá estoy pasando los datos para el layout nuestro y que se agregue eso a nuestro filtro
+        menuFiltros.setAdapter(adapter);
+
+        menuFiltros.setOnItemClickListener((parent, view, position, id) -> {
+            switch (position) {
+                case 0:
+                    ordenarPorFechaReciente();
+                    break;
+                case 1:
+                    ordenarPorFechaAntigua();
+                    break;
+                case 2:
+                    ordenarPorMasRealizadas();
+                    break;
+                case 3:
+                    ordenarPorMenosRealizadas();
+                    break;
+            }
+        });
 
 
         //Evento para simular logout, como no hay una autenticación simplemente vuelve a la activity de login.
@@ -56,6 +95,21 @@ public class HomeActivity extends AppCompatActivity {
                 });
     }
 
+    private void ordenarPorFechaReciente() {
+        //TODO ordenar por fecha descendente
+    }
+
+    private void ordenarPorFechaAntigua() {
+        //TODO ordenar por fecha ascendente
+    }
+
+    private void ordenarPorMasRealizadas() {
+        //TODO ordenar por cantidad descendente
+    }
+
+    private void ordenarPorMenosRealizadas() {
+        //TODO ordenar por cantidad ascendente
+    }
     protected void popUpCerrarSesion(Intent intent){
         new AlertDialog.Builder(HomeActivity.this)
                 .setTitle("Cerrar sesión")
