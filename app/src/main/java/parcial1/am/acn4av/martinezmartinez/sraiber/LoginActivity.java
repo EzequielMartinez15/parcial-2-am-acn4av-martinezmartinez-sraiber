@@ -1,5 +1,6 @@
 package parcial1.am.acn4av.martinezmartinez.sraiber;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.Editable;
@@ -148,7 +149,12 @@ public class LoginActivity extends AppCompatActivity {
 
         if (valid) {
             Snackbar.make(main, R.string.login_welcome, Snackbar.LENGTH_SHORT).show();
-            // TODO: acá falta navegar a la HomeActivity, pero todavía no la armamos.
+            String email = emailText.toString().trim();
+            String password = passwordText.toString();
+
+            Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+            startActivity(intent);
+
         }
     }
 }
