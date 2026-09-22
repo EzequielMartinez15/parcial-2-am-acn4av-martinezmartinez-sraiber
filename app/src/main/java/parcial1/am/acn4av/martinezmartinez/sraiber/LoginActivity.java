@@ -22,7 +22,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     private static final int MIN_PASSWORD_LENGTH = 6;
 
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         // Acá agarro el padding de la barra de estado/navegación y le sumo el alto del
         // teclado cuando está abierto, para que no me tape los campos de abajo.
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         ViewCompat.requestApplyInsets(main);
 
         // Enlazo acá todas las vistas del formulario. Como todavía es una sola pantalla,
-        // dejo todo dentro de este mismo onCreate; si sumamos más pantallas lo separamos.
+        // dejotodo dentro de este mismo onCreate; si sumamos más pantallas lo separamos.
         emailLayout = findViewById(R.id.email_layout);
         passwordLayout = findViewById(R.id.password_layout);
         emailInput = findViewById(R.id.email_input);
