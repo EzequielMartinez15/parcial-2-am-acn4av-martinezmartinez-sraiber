@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="space_none">0dp</dimen>
+    <dimen name="space_small">8dp</dimen>
+    <dimen name="space_medium">16dp</dimen>
+    <dimen name="space_large">24dp</dimen>
+    <dimen name="space_extra_large">32dp</dimen>
+    <dimen name="brand_icon_size">72dp</dimen>
+    <dimen name="brand_title_size">34sp</dimen>
+    <dimen name="body_text_size">14sp</dimen>
+    <dimen name="input_text_size">16sp</dimen>
+    <dimen name="secondary_text_size">13sp</dimen>
+    <dimen name="footer_text_size">12sp</dimen>
+    <dimen name="control_height">56dp</dimen>
+    <dimen name="touch_target_height">48dp</dimen>
+    <dimen name="control_corner_radius">14dp</dimen>
+    <dimen name="stroke_width">1dp</dimen>
+    <dimen name="stroke_width_focused">2dp</dimen>
+</resources>

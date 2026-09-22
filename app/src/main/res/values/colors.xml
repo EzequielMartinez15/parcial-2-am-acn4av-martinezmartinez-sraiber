@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="marber_background">#0D0F12</color>
+    <color name="marber_surface">#171A20</color>
+    <color name="marber_surface_alt">#21252E</color>
+    <color name="marber_primary">#C6F432</color>
+    <color name="marber_on_primary">#10130A</color>
+    <color name="marber_text_high">#F2F4F7</color>
+    <color name="marber_text_medium">#A7AEBA</color>
+    <color name="marber_error">#FF5A5F</color>
 </resources>

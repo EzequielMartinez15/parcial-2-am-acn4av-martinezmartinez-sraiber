@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Marber</string>
+    <string name="brand_title">MARBER</string>
+    <string name="brand_tagline">Entrenás vos. Del resto nos encargamos nosotros.</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Contraseña</string>
+    <string name="login_submit">INGRESAR</string>
+    <string name="login_forgot_password">¿Olvidaste tu contraseña?</string>
+    <string name="login_separator">o</string>
+    <string name="login_create_account">CREAR CUENTA</string>
+    <string name="login_footer">Versión 1.0 · Martinez Martinez / Sraiber</string>
+    <string name="error_email_required">Ingresá tu email</string>
+    <string name="error_email_invalid">El email no es válido</string>
+    <string name="error_password_required">Ingresá tu contraseña</string>
+    <string name="error_password_short">Mínimo 6 caracteres</string>
+    <string name="login_welcome">¡Bienvenido a Marber!</string>
+    <string name="forgot_password_coming_soon">Próximamente</string>
+    <string name="create_account_coming_soon">Próximamente</string>
 </resources>

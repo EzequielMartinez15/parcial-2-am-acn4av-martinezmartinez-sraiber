@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="@dimen/brand_icon_size"
+    android:height="@dimen/brand_icon_size"
+    android:viewportWidth="72"
+    android:viewportHeight="72"
+    android:tint="@color/marber_primary">
+    <!-- Barra horizontal, dos discos por lado y extremos cortos. -->
+    <path
+        android:fillColor="@color/marber_primary"
+        android:pathData="M4,33H68V39H4Z M8,24H16V48H8Z M18,16H27V56H18Z M45,16H54V56H45Z M56,24H64V48H56Z" />
+</vector>

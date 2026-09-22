@@ -1,9 +1,41 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<resources>
+    <!-- Paleta común: la pantalla conserva su aspecto oscuro en ambos modos. -->
     <style name="Base.Theme.Marber" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/marber_primary</item>
+        <item name="colorOnPrimary">@color/marber_on_primary</item>
+        <item name="colorSurface">@color/marber_surface</item>
+        <item name="colorOnSurface">@color/marber_text_high</item>
+        <item name="colorOnSurfaceVariant">@color/marber_text_medium</item>
+        <item name="colorOutline">@color/marber_surface_alt</item>
+        <item name="colorOnBackground">@color/marber_text_high</item>
+        <item name="android:colorBackground">@color/marber_background</item>
+        <item name="android:windowBackground">@color/marber_background</item>
+        <item name="colorError">@color/marber_error</item>
+        <item name="colorOnError">@color/marber_on_primary</item>
+        <item name="android:textColorPrimary">@color/marber_text_high</item>
+        <item name="android:textColorSecondary">@color/marber_text_medium</item>
+        <item name="android:statusBarColor">@color/marber_background</item>
+        <item name="android:navigationBarColor">@color/marber_background</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:forceDarkAllowed">false</item>
     </style>
 
     <style name="Theme.Marber" parent="Base.Theme.Marber" />
+
+    <!-- Estilo compartido por los dos campos del formulario. -->
+    <style name="Widget.Marber.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/marber_surface</item>
+        <item name="boxStrokeWidth">@dimen/stroke_width</item>
+        <item name="boxStrokeWidthFocused">@dimen/stroke_width_focused</item>
+        <item name="boxStrokeErrorColor">@color/marber_error</item>
+        <item name="boxCornerRadiusTopStart">@dimen/control_corner_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/control_corner_radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/control_corner_radius</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/control_corner_radius</item>
+        <item name="android:textColorHint">@color/marber_text_medium</item>
+        <item name="hintTextColor">@color/marber_primary</item>
+        <item name="errorTextColor">@color/marber_error</item>
+        <item name="endIconTint">@color/marber_text_medium</item>
+    </style>
 </resources>

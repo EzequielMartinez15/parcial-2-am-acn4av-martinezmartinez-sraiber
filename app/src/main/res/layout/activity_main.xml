@@ -1,19 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/marber_background"
+    android:fillViewport="true"
+    android:clipToPadding="false"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:padding="@dimen/space_large">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Pongo el ícono como decorativo (sin descripción de accesibilidad) porque el
+             título de acá abajo ya dice de qué gimnasio se trata. -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/brand_icon_size"
+            android:layout_height="@dimen/brand_icon_size"
+            android:layout_gravity="center_horizontal"
+            android:importantForAccessibility="no"
+            app:srcCompat="@drawable/ic_marber_dumbbell"
+            app:tint="@color/marber_primary" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:gravity="center"
+            android:letterSpacing="0.08"
+            android:text="@string/brand_title"
+            android:textColor="@color/marber_text_high"
+            android:textSize="@dimen/brand_title_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:gravity="center"
+            android:text="@string/brand_tagline"
+            android:textColor="@color/marber_text_medium"
+            android:textSize="@dimen/body_text_size" />
+
+        <!-- Le dejo errorEnabled activado en los dos TextInputLayout para que cuando
+             MainActivity.java tire un error de validación, ya haya lugar reservado
+             abajo del campo y no salte el layout. -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/email_layout"
+            style="@style/Widget.Marber.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_extra_large"
+            android:hint="@string/login_email"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/control_height"
+                android:autofillHints="emailAddress"
+                android:inputType="textEmailAddress"
+                android:imeOptions="actionNext"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/marber_text_high"
+                android:textSize="@dimen/input_text_size" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/password_layout"
+            style="@style/Widget.Marber.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:hint="@string/login_password"
+            app:endIconMode="password_toggle"
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/control_height"
+                android:autofillHints="password"
+                android:inputType="textPassword"
+                android:imeOptions="actionDone"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/marber_text_high"
+                android:textSize="@dimen/input_text_size" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/login_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/control_height"
+            android:layout_marginTop="@dimen/space_small"
+            android:insetTop="@dimen/space_none"
+            android:insetBottom="@dimen/space_none"
+            android:text="@string/login_submit"
+            android:textColor="@color/marber_on_primary"
+            android:textSize="@dimen/body_text_size"
+            android:textStyle="bold"
+            app:backgroundTint="@color/marber_primary"
+            app:cornerRadius="@dimen/control_corner_radius" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/forgot_password_button"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/touch_target_height"
+            android:layout_marginTop="@dimen/space_small"
+            android:text="@string/login_forgot_password"
+            android:textAllCaps="false"
+            android:textColor="@color/marber_text_medium"
+            android:textSize="@dimen/secondary_text_size" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:layout_marginBottom="@dimen/space_large"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="@dimen/space_none"
+                android:layout_height="@dimen/stroke_width"
+                android:layout_weight="1"
+                android:background="@color/marber_surface_alt" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_medium"
+                android:layout_marginEnd="@dimen/space_medium"
+                android:text="@string/login_separator"
+                android:textColor="@color/marber_text_medium"
+                android:textSize="@dimen/body_text_size" />
+
+            <View
+                android:layout_width="@dimen/space_none"
+                android:layout_height="@dimen/stroke_width"
+                android:layout_weight="1"
+                android:background="@color/marber_surface_alt" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/create_account_button"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/control_height"
+            android:insetTop="@dimen/space_none"
+            android:insetBottom="@dimen/space_none"
+            android:text="@string/login_create_account"
+            android:textColor="@color/marber_primary"
+            android:textSize="@dimen/body_text_size"
+            android:textStyle="bold"
+            app:cornerRadius="@dimen/control_corner_radius"
+            app:strokeColor="@color/marber_primary"
+            app:strokeWidth="@dimen/stroke_width" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_extra_large"
+            android:gravity="center"
+            android:text="@string/login_footer"
+            android:textColor="@color/marber_text_medium"
+            android:textSize="@dimen/footer_text_size" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
