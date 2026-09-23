@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
@@ -13,14 +15,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+
+import java.util.List;
+
+import parcial1.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
+import parcial1.am.acn4av.martinezmartinez.sraiber.adapter.RutinaAdapter;
+import parcial1.am.acn4av.martinezmartinez.sraiber.model.Rutina;
 
 public class HomeActivity extends AppCompatActivity {
 
     private View home;
 
     private AutoCompleteTextView menuFiltros;
+
+    List<Rutina> rutinas = RutinaRepository.getRutinas();
+
+    private RecyclerView rvRutinas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +55,15 @@ public class HomeActivity extends AppCompatActivity {
         MaterialButton logoutButton = findViewById(R.id.btn_logout);
         menuFiltros = findViewById(R.id.menu_drop_filtros);
 
+        //Pongo datos en el card para probar
+        rvRutinas = findViewById(R.id.rv_rutinas);
 
+        rvRutinas.setLayoutManager(
+                new LinearLayoutManager(this)
+        );
+        rvRutinas.setAdapter(
+                new RutinaAdapter(rutinas)
+        );
         //Estos son los filtros que van a aparecer en el layout, osea el xml
         String[] filtros = {
                 "Fecha reciente",
