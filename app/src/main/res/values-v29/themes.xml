@@ -1,0 +1,7 @@
+<resources>
+    <!-- Desde API 29 también desactivé el cambio automático de colores. -->
+    <style name="Platform.Theme.Marber" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:forceDarkAllowed">false</item>
+    </style>
+</resources>

@@ -1,6 +1,8 @@
 <resources>
     <!-- Paleta común: la pantalla conserva su aspecto oscuro en ambos modos. -->
-    <style name="Base.Theme.Marber" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Platform.Theme.Marber" parent="Theme.Material3.DayNight.NoActionBar" />
+
+    <style name="Base.Theme.Marber" parent="Platform.Theme.Marber">
         <item name="colorPrimary">@color/marber_primary</item>
         <item name="colorOnPrimary">@color/marber_on_primary</item>
         <item name="colorSurface">@color/marber_surface</item>
@@ -17,8 +19,6 @@
         <item name="android:statusBarColor">@color/marber_background</item>
         <item name="android:navigationBarColor">@color/marber_background</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
-        <item name="android:forceDarkAllowed">false</item>
     </style>
 
     <style name="Theme.Marber" parent="Base.Theme.Marber" />
