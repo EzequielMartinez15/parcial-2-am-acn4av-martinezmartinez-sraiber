@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
@@ -19,20 +17,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
 import parcial1.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
 import parcial1.am.acn4av.martinezmartinez.sraiber.adapter.RutinaAdapter;
+import parcial1.am.acn4av.martinezmartinez.sraiber.model.Ejercicio;
 import parcial1.am.acn4av.martinezmartinez.sraiber.model.Rutina;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements AgregarEjercicioDialog.Listener {
 
     private View home;
 
     private AutoCompleteTextView menuFiltros;
 
-    List<Rutina> rutinas = RutinaRepository.getRutinas();
+    private List<Rutina> rutinas;
+    private RutinaAdapter rutinaAdapter;
 
     private RecyclerView rvRutinas;
 
@@ -41,6 +42,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
+        home = findViewById(android.R.id.content);
+        rutinas = RutinaRepository.getRutinas(this);
 
         WindowInsetsControllerCompat controller =
                 WindowCompat.getInsetsController(getWindow(), home);
@@ -61,9 +64,13 @@ public class HomeActivity extends AppCompatActivity {
         rvRutinas.setLayoutManager(
                 new LinearLayoutManager(this)
         );
-        rvRutinas.setAdapter(
-                new RutinaAdapter(rutinas)
-        );
+        rutinaAdapter = new RutinaAdapter(rutinas, rutina -> {
+            if (getSupportFragmentManager().findFragmentByTag("agregar_ejercicio") == null) {
+                AgregarEjercicioDialog.crear(rutina.getNombre())
+                        .show(getSupportFragmentManager(), "agregar_ejercicio");
+            }
+        });
+        rvRutinas.setAdapter(rutinaAdapter);
         //Estos son los filtros que van a aparecer en el layout, osea el xml
         String[] filtros = {
                 "Fecha reciente",
@@ -115,6 +122,25 @@ public class HomeActivity extends AppCompatActivity {
                         popUpCerrarSesion(intent);
                     }
                 });
+    }
+
+    @Override
+    public boolean onAgregarEjercicio(String nombreRutina, String nombre, int series, int repeticiones) {
+        for (int i = 0; i < rutinas.size(); i++) {
+            Rutina rutina = rutinas.get(i);
+            if (rutina.getNombre().equals(nombreRutina)) {
+                try {
+                    RutinaRepository.agregarEjercicio(this, rutina,
+                            new Ejercicio(nombre, series, repeticiones, R.drawable.blue));
+                    rutinaAdapter.notifyItemChanged(i, RutinaAdapter.EJERCICIO_AGREGADO);
+                    Snackbar.make(rvRutinas, R.string.ejercicio_agregado, Snackbar.LENGTH_SHORT).show();
+                    return true;
+                } catch (IllegalStateException e) {
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
     private void ordenarPorFechaReciente() {

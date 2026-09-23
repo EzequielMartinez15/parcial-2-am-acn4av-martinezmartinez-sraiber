@@ -20,9 +20,17 @@ public class RutinaAdapter
         extends RecyclerView.Adapter<RutinaAdapter.RutinaViewHolder> {
 
     private final List<Rutina> rutinas;
+    public static final String EJERCICIO_AGREGADO = "ejercicio_agregado";
 
-    public RutinaAdapter(List<Rutina> rutinas) {
+    public interface OnAgregarEjercicioListener {
+        void onAgregarEjercicio(Rutina rutina);
+    }
+
+    private final OnAgregarEjercicioListener listener;
+
+    public RutinaAdapter(List<Rutina> rutinas, OnAgregarEjercicioListener listener) {
         this.rutinas = rutinas;
+        this.listener = listener;
     }
 
     @NonNull
@@ -43,6 +51,7 @@ public class RutinaAdapter
             int position) {
 
         Rutina rutina = rutinas.get(position);
+        holder.agregar.setOnClickListener(v -> listener.onAgregarEjercicio(rutina));
 
         holder.titulo.setText(
                 rutina.getNombre()
@@ -82,6 +91,15 @@ public class RutinaAdapter
     }
 
     @Override
+    public void onBindViewHolder(@NonNull RutinaViewHolder holder, int position,
+                                 @NonNull List<Object> payloads) {
+        onBindViewHolder(holder, position);
+        if (payloads.contains(EJERCICIO_AGREGADO)) {
+            holder.rvEjercicios.scrollToPosition(rutinas.get(position).getEjercicios().size() - 1);
+        }
+    }
+
+    @Override
     public int getItemCount() {
         return rutinas.size();
     }
@@ -94,11 +112,13 @@ public class RutinaAdapter
         TextView fecha;
 
         RecyclerView rvEjercicios;
+        View agregar;
 
         public RutinaViewHolder(
                 @NonNull View itemView) {
 
             super(itemView);
+            agregar = itemView.findViewById(R.id.btn_agregar_ejercicio);
 
             titulo =
                     itemView.findViewById(

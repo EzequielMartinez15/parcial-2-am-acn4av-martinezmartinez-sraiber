@@ -26,4 +26,16 @@
     <string name="txt_subtitulo_ftos_rutina">Ejercicos actuales</string>
     <string name="txt_subtitulo2_card_home">"Último día realizada: "</string>
     <string name="txt_btn_logout">"Logout"</string>
+    <string name="agregar_ejercicio">Agregar ejercicio</string>
+    <string name="agregar_ejercicio_titulo">Agregar a %1$s</string>
+    <string name="ejercicio_nombre">Nombre del ejercicio</string>
+    <string name="ejercicio_series">Series</string>
+    <string name="ejercicio_repeticiones">Repeticiones</string>
+    <string name="ejercicio_guardar">Guardar</string>
+    <string name="ejercicio_cancelar">Cancelar</string>
+    <string name="ejercicio_nombre_error">Ingresá el nombre del ejercicio</string>
+    <string name="ejercicio_numero_error">Ingresá un número entero mayor que cero</string>
+    <string name="ejercicio_agregado">Ejercicio agregado a la rutina</string>
+    <string name="ejercicio_guardado_error">No se pudo guardar. Volvé a intentar.</string>
+    <string name="ejercicio_series_repeticiones">%1$d series · %2$d rep.</string>
 </resources>

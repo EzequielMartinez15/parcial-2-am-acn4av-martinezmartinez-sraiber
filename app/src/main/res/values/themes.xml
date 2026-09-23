@@ -23,6 +23,22 @@
 
     <style name="Theme.Marber" parent="Base.Theme.Marber" />
 
+    <style name="ThemeOverlay.Marber.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="colorSurface">@color/marber_surface</item>
+        <item name="colorSurfaceContainerHigh">@color/marber_surface_alt</item>
+        <item name="colorOnSurface">@color/marber_text_high</item>
+        <item name="colorOnSurfaceVariant">@color/marber_text_medium</item>
+        <item name="colorPrimary">@color/marber_primary</item>
+        <item name="colorOutline">@color/marber_text_medium</item>
+        <item name="android:textColorPrimary">@color/marber_text_high</item>
+        <item name="android:textColorSecondary">@color/marber_text_medium</item>
+        <item name="alertDialogStyle">@style/Widget.Marber.Dialog</item>
+    </style>
+
+    <style name="Widget.Marber.Dialog" parent="MaterialAlertDialog.Material3">
+        <item name="backgroundTint">@color/marber_surface_alt</item>
+    </style>
+
     <!-- Estilo compartido por los dos campos del formulario. -->
     <style name="Widget.Marber.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
         <item name="boxBackgroundColor">@color/marber_surface</item>

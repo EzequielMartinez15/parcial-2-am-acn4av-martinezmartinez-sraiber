@@ -1,5 +1,6 @@
 package parcial1.am.acn4av.martinezmartinez.sraiber.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class Rutina {
             Date ultimaVezRealizada
     ) {
         this.nombre = nombre;
-        this.ejercicios = ejercicios;
+        this.ejercicios = new ArrayList<>(ejercicios);
         this.vecesRealizada = vecesRealizada;
         this.ultimaVezRealizada = ultimaVezRealizada;
     }
