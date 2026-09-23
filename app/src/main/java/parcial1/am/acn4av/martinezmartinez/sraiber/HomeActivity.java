@@ -20,6 +20,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
+import java.util.Comparator;
 
 import parcial1.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
 import parcial1.am.acn4av.martinezmartinez.sraiber.adapter.RutinaAdapter;
@@ -27,6 +28,8 @@ import parcial1.am.acn4av.martinezmartinez.sraiber.model.Ejercicio;
 import parcial1.am.acn4av.martinezmartinez.sraiber.model.Rutina;
 
 public class HomeActivity extends AppCompatActivity implements AgregarEjercicioDialog.Listener {
+    private static final String ORDEN_SELECCIONADO = "orden_seleccionado";
+    private int ordenSeleccionado = 0;
 
     private View home;
 
@@ -72,12 +75,7 @@ public class HomeActivity extends AppCompatActivity implements AgregarEjercicioD
         });
         rvRutinas.setAdapter(rutinaAdapter);
         //Estos son los filtros que van a aparecer en el layout, osea el xml
-        String[] filtros = {
-                "Fecha reciente",
-                "Fecha antigua",
-                "Más realizadas",
-                "Menos realizadas"
-        };
+        String[] filtros = getResources().getStringArray(R.array.orden_rutinas);
 
         //este objeto toma el contexto, un layout apra mostrar los datos, los datos
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -88,23 +86,16 @@ public class HomeActivity extends AppCompatActivity implements AgregarEjercicioD
 
         //acá estoy pasando los datos para el layout nuestro y que se agregue eso a nuestro filtro
         menuFiltros.setAdapter(adapter);
+        menuFiltros.setOnClickListener(v -> menuFiltros.showDropDown());
+        com.google.android.material.textfield.TextInputLayout campoOrden = findViewById(R.id.input_filtros);
+        campoOrden.setEndIconOnClickListener(v -> menuFiltros.showDropDown());
 
-        menuFiltros.setOnItemClickListener((parent, view, position, id) -> {
-            switch (position) {
-                case 0:
-                    ordenarPorFechaReciente();
-                    break;
-                case 1:
-                    ordenarPorFechaAntigua();
-                    break;
-                case 2:
-                    ordenarPorMasRealizadas();
-                    break;
-                case 3:
-                    ordenarPorMenosRealizadas();
-                    break;
-            }
-        });
+        menuFiltros.setOnItemClickListener((parent, view, position, id) -> aplicarOrden(position));
+        // Guardé la selección para mantener el orden cuando se recrea la pantalla.
+        if (savedInstanceState != null) {
+            ordenSeleccionado = savedInstanceState.getInt(ORDEN_SELECCIONADO, 0);
+        }
+        aplicarOrden(ordenSeleccionado);
 
 
         //Evento para simular logout, como no hay una autenticación simplemente vuelve a la activity de login.
@@ -143,20 +134,55 @@ public class HomeActivity extends AppCompatActivity implements AgregarEjercicioD
         return false;
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(ORDEN_SELECCIONADO, ordenSeleccionado);
+        super.onSaveInstanceState(outState);
+    }
+
+    private void aplicarOrden(int opcion) {
+        ordenSeleccionado = opcion;
+        switch (opcion) {
+            case 0:
+                ordenarPorFechaReciente();
+                break;
+            case 1:
+                ordenarPorFechaAntigua();
+                break;
+            case 2:
+                ordenarPorMasRealizadas();
+                break;
+            case 3:
+                ordenarPorMenosRealizadas();
+                break;
+            default:
+                ordenSeleccionado = 0;
+                ordenarPorFechaReciente();
+        }
+        // Usé false para que el texto elegido no filtre las opciones del desplegable.
+        menuFiltros.setText(getResources().getStringArray(R.array.orden_rutinas)[ordenSeleccionado], false);
+        rutinaAdapter.notifyDataSetChanged();
+        rvRutinas.scrollToPosition(0);
+    }
+
     private void ordenarPorFechaReciente() {
-        //TODO ordenar por fecha descendente
+        rutinas.sort(Comparator.comparing(Rutina::getUltimaVezRealizada).reversed()
+                .thenComparing(Rutina::getNombre));
     }
 
     private void ordenarPorFechaAntigua() {
-        //TODO ordenar por fecha ascendente
+        rutinas.sort(Comparator.comparing(Rutina::getUltimaVezRealizada)
+                .thenComparing(Rutina::getNombre));
     }
 
     private void ordenarPorMasRealizadas() {
-        //TODO ordenar por cantidad descendente
+        rutinas.sort(Comparator.comparingInt(Rutina::getVecesRealizada).reversed()
+                .thenComparing(Rutina::getNombre));
     }
 
     private void ordenarPorMenosRealizadas() {
-        //TODO ordenar por cantidad ascendente
+        rutinas.sort(Comparator.comparingInt(Rutina::getVecesRealizada)
+                .thenComparing(Rutina::getNombre));
     }
     protected void popUpCerrarSesion(Intent intent){
         new AlertDialog.Builder(HomeActivity.this)

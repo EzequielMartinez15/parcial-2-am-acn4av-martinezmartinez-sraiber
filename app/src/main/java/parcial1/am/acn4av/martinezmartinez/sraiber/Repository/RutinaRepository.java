@@ -91,7 +91,7 @@ public class RutinaRepository {
                                     new Ejercicio("Curl Martillo", 3, 12, R.drawable.blue)
                             ),
                             6,
-                            formatter.parse("15/09/2026")
+                            formatter.parse("20/09/2026")
                     )
             );
 
@@ -107,7 +107,7 @@ public class RutinaRepository {
                                     new Ejercicio("Gemelos", 4, 20, R.drawable.blue)
                             ),
                             5,
-                            formatter.parse("15/09/2026")
+                            formatter.parse("18/09/2026")
                     )
             );
         }catch (ParseException e) {

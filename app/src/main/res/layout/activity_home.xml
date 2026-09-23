@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="0dp"
-        android:layout_height="172dp"
+        android:layout_height="224dp"
         android:layout_marginStart="12dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="12dp"
@@ -47,36 +47,41 @@
             android:layout_width="225dp"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:gravity="center"
             android:text="@string/txt_h2_home"
             android:textColor="@color/marber_text_high"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/titulo_home"
-            app:layout_constraintVertical_bias="0.623" />
+            app:layout_constraintTop_toBottomOf="@id/titulo_home" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/input_filtros"
-            android:layout_width="wrap_content"
+            style="@style/Widget.Marber.TextInputLayout"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="16dp"
+            android:hint="@string/ordenar_rutinas"
             app:endIconMode="dropdown_menu"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.541"
-            app:layout_constraintStart_toEndOf="@+id/h2_home"
-            app:layout_constraintTop_toBottomOf="@+id/img_ft_perfil"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/h2_home"
             app:layout_constraintVertical_bias="0.0">
 
-            <AutoCompleteTextView
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/menu_drop_filtros"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_weight="1"
-                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="48dp"
+                android:saveEnabled="false"
+                android:singleLine="true"
                 android:inputType="none"
-                android:text="@string/txt_btn_filtros" />
+                android:textColor="@color/marber_text_high"
+                android:dropDownHeight="wrap_content"
+                app:dropDownBackgroundTint="@color/marber_surface" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

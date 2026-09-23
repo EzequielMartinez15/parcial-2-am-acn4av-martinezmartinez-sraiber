@@ -21,6 +21,13 @@
     <string name="txt_btn_detalle">Detalle</string>
     <string name="txt_h2_home">Tus rutinas</string>
     <string name="txt_btn_filtros">Filtrar</string>
+    <string name="ordenar_rutinas">Ordenar por</string>
+    <string-array name="orden_rutinas">
+        <item>Fecha reciente</item>
+        <item>Fecha antigua</item>
+        <item>Más realizadas</item>
+        <item>Menos realizadas</item>
+    </string-array>
     <string name="subtitulo1_card">"Veces relizada: "</string>
     <string name="txt_titulo_card_rutina">Nombre Rutina</string>
     <string name="txt_subtitulo_ftos_rutina">Ejercicos actuales</string>
