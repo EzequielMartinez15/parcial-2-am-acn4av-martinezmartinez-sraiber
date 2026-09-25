@@ -99,18 +99,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/login_button"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/control_height"
-            android:layout_marginTop="@dimen/space_small"
-            android:insetTop="@dimen/space_none"
-            android:insetBottom="@dimen/space_none"
-            android:text="@string/login_submit"
-            android:textColor="@color/marber_on_primary"
-            android:textSize="@dimen/body_text_size"
-            android:textStyle="bold"
-            app:backgroundTint="@color/marber_primary"
-            app:cornerRadius="@dimen/control_corner_radius" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_glass_primary"
+            android:textColor="@color/marber_primary_light"
+            android:text="@string/txt_login_submit"
+            android:elevation="12dp"
+            app:backgroundTint="@null"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/forgot_password_button"
@@ -155,19 +150,13 @@
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/create_account_button"
-            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/control_height"
-            android:insetTop="@dimen/space_none"
-            android:insetBottom="@dimen/space_none"
-            android:text="@string/login_create_account"
-            android:textColor="@color/marber_primary"
-            android:textSize="@dimen/body_text_size"
-            android:textStyle="bold"
-            app:cornerRadius="@dimen/control_corner_radius"
-            app:strokeColor="@color/marber_primary"
-            app:strokeWidth="@dimen/stroke_width" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_glass_info"
+            android:textColor="@color/marber_info"
+            android:text="@string/txt_login_create_account"
+            android:elevation="12dp"
+            app:backgroundTint="@null"/>
 
         <TextView
             android:layout_width="match_parent"

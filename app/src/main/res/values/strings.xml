@@ -4,10 +4,10 @@
     <string name="brand_tagline">Entrenás vos. Del resto nos encargamos nosotros.</string>
     <string name="login_email">Email</string>
     <string name="login_password">Contraseña</string>
-    <string name="login_submit">INGRESAR</string>
+    <string name="txt_login_submit">INGRESAR</string>
     <string name="login_forgot_password">¿Olvidaste tu contraseña?</string>
     <string name="login_separator">o</string>
-    <string name="login_create_account">CREAR CUENTA</string>
+    <string name="txt_login_create_account">CREAR CUENTA</string>
     <string name="login_footer">Versión 1.0 · Martinez Martinez / Sraiber</string>
     <string name="error_email_required">Ingresá tu email</string>
     <string name="error_email_invalid">El email no es válido</string>
@@ -19,7 +19,7 @@
     <string name="description_img_exercise">Imagen del ejercicio</string>
     <string name="description_img_perfil">Foto de perfil del usuario</string>
     <string name="txt_btn_detalle">Detalle</string>
-    <string name="txt_h2_home">Tus rutinas</string>
+    <string name="txt_h1_home">TUS RUTINAS</string>
     <string name="txt_btn_filtros">Filtrar</string>
     <string name="ordenar_rutinas">Ordenar por</string>
     <string-array name="orden_rutinas">
@@ -28,10 +28,10 @@
         <item>Más realizadas</item>
         <item>Menos realizadas</item>
     </string-array>
-    <string name="subtitulo1_card">"Veces relizada: "</string>
+    <string name="txt_subtitulo1_card_rutina">"Veces relizada"</string>
     <string name="txt_titulo_card_rutina">Nombre Rutina</string>
     <string name="txt_subtitulo_ftos_rutina">Ejercicos actuales</string>
-    <string name="txt_subtitulo2_card_home">"Último día realizada: "</string>
+    <string name="txt_subtitulo2_card_rutina">"Último día realizada"</string>
     <string name="txt_btn_logout">"Logout"</string>
     <string name="agregar_ejercicio">Agregar ejercicio</string>
     <string name="agregar_ejercicio_titulo">Agregar a %1$s</string>
