@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MarberGlassButton"><!--Estilos para los botones-->
+
+        <item name="android:textStyle">bold</item>
+
+        <item name="android:textSize">16sp</item>
+
+        <item name="android:minHeight">48dp</item>
+
+        <item name="android:paddingHorizontal">20dp</item>
+
+        <item name="android:paddingVertical">12dp</item>
+
+    </style>
+</resources>
