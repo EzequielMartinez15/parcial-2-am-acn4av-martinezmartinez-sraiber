@@ -1,11 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="marber_background">#0D0F12</color>
-    <color name="marber_surface">#171A20</color>
-    <color name="marber_surface_alt">#21252E</color>
-    <color name="marber_primary">#C6F432</color>
-    <color name="marber_on_primary">#10130A</color>
-    <color name="marber_text_high">#F2F4F7</color>
-    <color name="marber_text_medium">#A7AEBA</color>
-    <color name="marber_error">#FF5A5F</color>
+    <!-- Fondos -->
+    <color name="marber_background">#0A0F1A</color>
+    <color name="marber_background_secondary">#121A2A</color>
+
+    <!-- Cards y superficies -->
+    <color name="marber_surface">#0F172A</color>
+    <color name="marber_surface_alt">#1F2937</color>
+    <color name="marber_card">#0D1629</color>
+    <color name="marber_card_dark">#070B14</color>
+
+    <!-- Azules -->
+    <color name="marber_primary">#1E6BFF</color>
+    <color name="marber_primary_light">#3DA5FF</color>
+    <color name="marber_primary_dark">#0F2A44</color>
+
+    <!-- Bordes -->
+    <color name="marber_border">#1F2937</color>
+    <color name="marber_border_highlight">#3DA5FF</color>
+
+    <!-- Textos -->
+    <color name="marber_text_high">#FFFFFF</color>
+    <color name="marber_text_medium">#B0B8C5</color>
+    <color name="marber_text_muted">#6B7280</color>
+
+    <!-- Estados -->
+    <color name="marber_success">#00FF8C</color>
+    <color name="marber_warning">#FFD700</color>
+    <color name="marber_error">#FF6B6B</color>
+    <color name="marber_info">#7FFFEE</color>
+
+    <!-- Extras -->
+    <color name="marber_overlay">#99000000</color>
+
+    <!-- Gradiente -->
+    <color name="marber_gradient_start">#1E6BFF</color>
+    <color name="marber_gradient_end">#3DA5FF</color>
+
 </resources>
