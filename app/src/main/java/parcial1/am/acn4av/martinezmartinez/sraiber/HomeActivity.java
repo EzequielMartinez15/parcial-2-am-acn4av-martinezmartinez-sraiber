@@ -27,7 +27,7 @@ import parcial1.am.acn4av.martinezmartinez.sraiber.adapter.RutinaAdapter;
 import parcial1.am.acn4av.martinezmartinez.sraiber.model.Ejercicio;
 import parcial1.am.acn4av.martinezmartinez.sraiber.model.Rutina;
 
-public class HomeActivity extends AppCompatActivity implements AgregarEjercicioDialog.Listener {
+public class HomeActivity extends AppCompatActivity implements AgregarModificarEjercicioDialog.ListenerAgregarEjercicio {
     private static final String ORDEN_SELECCIONADO = "orden_seleccionado";
     private int ordenSeleccionado = 0;
 
@@ -71,7 +71,7 @@ public class HomeActivity extends AppCompatActivity implements AgregarEjercicioD
                 rutinas,
                 rutina -> {
                     if (getSupportFragmentManager().findFragmentByTag("agregar_ejercicio") == null) {
-                        AgregarEjercicioDialog.crear(rutina.getNombre())
+                        AgregarModificarEjercicioDialog.crearAgregar(rutina.getNombre())
                                 .show(getSupportFragmentManager(), "agregar_ejercicio");
                     }
                 },

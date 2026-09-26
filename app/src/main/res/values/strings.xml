@@ -44,6 +44,7 @@
     <string name="ejercicio_nombre_error">Ingresá el nombre del ejercicio</string>
     <string name="ejercicio_numero_error">Ingresá un número entero mayor que cero</string>
     <string name="ejercicio_agregado">Ejercicio agregado a la rutina</string>
+    <string name="ejercicio_editado">Ejercicio editado correctamente</string>
     <string name="ejercicio_guardado_error">No se pudo guardar. Volvé a intentar.</string>
     <string name="ejercicio_series_repeticiones">%1$d series · %2$d rep.</string>
     <string name="txt_borrar_rutina">Borrar rutina</string>
