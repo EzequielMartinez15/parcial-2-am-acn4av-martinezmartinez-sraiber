@@ -14,12 +14,12 @@ import java.util.List;
 import parcial1.am.acn4av.martinezmartinez.sraiber.R;
 import parcial1.am.acn4av.martinezmartinez.sraiber.model.Ejercicio;
 
-public class EjercicioAdapter
-        extends RecyclerView.Adapter<EjercicioAdapter.EjercicioViewHolder> {
+public class EjercicioFotoHomeAdapter
+        extends RecyclerView.Adapter<EjercicioFotoHomeAdapter.EjercicioViewHolder> {
 
     private final List<Ejercicio> ejercicios;
 
-    public EjercicioAdapter(List<Ejercicio> ejercicios) {
+    public EjercicioFotoHomeAdapter(List<Ejercicio> ejercicios) {
         this.ejercicios = ejercicios;
     }
 
