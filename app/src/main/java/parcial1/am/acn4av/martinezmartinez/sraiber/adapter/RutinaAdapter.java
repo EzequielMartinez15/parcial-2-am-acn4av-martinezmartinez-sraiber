@@ -25,12 +25,16 @@ public class RutinaAdapter
     public interface OnAgregarEjercicioListener {
         void onAgregarEjercicio(Rutina rutina);
     }
-
+    public interface OnDetalleListener {
+        void OnDetalleListener(Rutina rutina);
+    }
     private final OnAgregarEjercicioListener listener;
+    private final OnDetalleListener listenerDetalle;
 
-    public RutinaAdapter(List<Rutina> rutinas, OnAgregarEjercicioListener listener) {
+    public RutinaAdapter(List<Rutina> rutinas, OnAgregarEjercicioListener listener, OnDetalleListener listenerDetalle) {
         this.rutinas = rutinas;
         this.listener = listener;
+        this.listenerDetalle = listenerDetalle;
     }
 
     @NonNull
@@ -40,7 +44,7 @@ public class RutinaAdapter
             int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_rutina, parent, false);
+                .inflate(R.layout.item_rutina_home, parent, false);
 
         return new RutinaViewHolder(view);
     }
@@ -52,7 +56,7 @@ public class RutinaAdapter
 
         Rutina rutina = rutinas.get(position);
         holder.agregar.setOnClickListener(v -> listener.onAgregarEjercicio(rutina));
-
+        holder.btnDetalle.setOnClickListener(v -> listenerDetalle.OnDetalleListener(rutina));
         holder.titulo.setText(
                 rutina.getNombre()
         );
@@ -84,7 +88,7 @@ public class RutinaAdapter
         );
 
         holder.rvEjercicios.setAdapter(
-                new EjercicioAdapter(
+                new EjercicioFotoHomeAdapter(
                         rutina.getEjercicios()
                 )
         );
@@ -113,12 +117,14 @@ public class RutinaAdapter
 
         RecyclerView rvEjercicios;
         View agregar;
+        View btnDetalle;
 
         public RutinaViewHolder(
                 @NonNull View itemView) {
 
             super(itemView);
             agregar = itemView.findViewById(R.id.btn_agregar_ejercicio);
+            btnDetalle = itemView.findViewById(R.id.btn_detalle_rutina);
 
             titulo =
                     itemView.findViewById(

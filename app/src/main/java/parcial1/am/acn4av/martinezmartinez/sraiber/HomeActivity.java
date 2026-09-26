@@ -67,12 +67,27 @@ public class HomeActivity extends AppCompatActivity implements AgregarEjercicioD
         rvRutinas.setLayoutManager(
                 new LinearLayoutManager(this)
         );
-        rutinaAdapter = new RutinaAdapter(rutinas, rutina -> {
-            if (getSupportFragmentManager().findFragmentByTag("agregar_ejercicio") == null) {
-                AgregarEjercicioDialog.crear(rutina.getNombre())
-                        .show(getSupportFragmentManager(), "agregar_ejercicio");
-            }
-        });
+        rutinaAdapter = new RutinaAdapter(
+                rutinas,
+                rutina -> {
+                    if (getSupportFragmentManager().findFragmentByTag("agregar_ejercicio") == null) {
+                        AgregarEjercicioDialog.crear(rutina.getNombre())
+                                .show(getSupportFragmentManager(), "agregar_ejercicio");
+                    }
+                },
+                rutina -> {
+                    Intent intent =
+                            new Intent(
+                                    HomeActivity.this,
+                                    DetalleRutinaActivity.class
+                            );
+                    intent.putExtra(
+                            "nombre_rutina",
+                            rutina.getNombre()
+                    );
+                    startActivity(intent);
+                }
+        );
         rvRutinas.setAdapter(rutinaAdapter);
         //Estos son los filtros que van a aparecer en el layout, osea el xml
         String[] filtros = getResources().getStringArray(R.array.orden_rutinas);
@@ -122,7 +137,7 @@ public class HomeActivity extends AppCompatActivity implements AgregarEjercicioD
             if (rutina.getNombre().equals(nombreRutina)) {
                 try {
                     RutinaRepository.agregarEjercicio(this, rutina,
-                            new Ejercicio(nombre, series, repeticiones, R.drawable.blue));
+                            new Ejercicio(nombre, series, repeticiones, R.drawable.blue));//TODO para que agregue foto de ejercicio
                     rutinaAdapter.notifyItemChanged(i, RutinaAdapter.EJERCICIO_AGREGADO);
                     Snackbar.make(rvRutinas, R.string.ejercicio_agregado, Snackbar.LENGTH_SHORT).show();
                     return true;

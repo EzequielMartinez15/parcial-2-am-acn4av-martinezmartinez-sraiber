@@ -46,4 +46,5 @@
     <string name="ejercicio_agregado">Ejercicio agregado a la rutina</string>
     <string name="ejercicio_guardado_error">No se pudo guardar. Volvé a intentar.</string>
     <string name="ejercicio_series_repeticiones">%1$d series · %2$d rep.</string>
+    <string name="txt_borrar_rutina">Borrar rutina</string>
 </resources>
