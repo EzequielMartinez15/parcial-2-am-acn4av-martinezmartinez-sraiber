@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/marber_background">
+
+    <TextView
+        android:id="@+id/txtTituloRutina"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/txt_titulo_card_rutina"
+        android:textColor="@color/marber_text_high"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvEjercicios"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/space_medium"
+        android:layout_marginTop="@dimen/space_medium"
+        app:layout_constraintTop_toBottomOf="@id/txtTituloRutina"
+        app:layout_constraintBottom_toTopOf="@id/btnAgregarEjercicio"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAgregarEjercicio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_medium"
+        android:text="@string/agregar_ejercicio"
+        android:background="@drawable/btn_glass_succes"
+        android:elevation="12dp"
+        android:textColor="@color/marber_success"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toTopOf="@id/btnBorrarRutina"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnBorrarRutina"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/space_medium"
+        android:layout_marginBottom="@dimen/space_medium"
+        android:text="@string/txt_borrar_rutina"
+        android:background="@drawable/btn_glass_error"
+        android:elevation="12dp"
+        android:textColor="@color/marber_error"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
