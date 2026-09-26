@@ -33,6 +33,15 @@
         <item name="android:textColorPrimary">@color/marber_text_high</item>
         <item name="android:textColorSecondary">@color/marber_text_medium</item>
         <item name="alertDialogStyle">@style/Widget.Marber.Dialog</item>
+        <item name="buttonBarPositiveButtonStyle">@style/MarberDialogPositiveButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/MarberDialogNegativeButton</item>
+    </style>
+
+    <style name="MarberDialogPositiveButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/marber_success</item>
+    </style>
+    <style name="MarberDialogNegativeButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/marber_error</item>
     </style>
 
     <style name="Widget.Marber.Dialog" parent="MaterialAlertDialog.Material3">
