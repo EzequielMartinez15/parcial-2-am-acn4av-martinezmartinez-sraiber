@@ -25,10 +25,11 @@ import java.util.List;
 
 import parcial1.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
 import parcial1.am.acn4av.martinezmartinez.sraiber.adapter.EjercicioDetalleRutinaAdapter;
+import parcial1.am.acn4av.martinezmartinez.sraiber.adapter.RutinaAdapter;
 import parcial1.am.acn4av.martinezmartinez.sraiber.model.Ejercicio;
 import parcial1.am.acn4av.martinezmartinez.sraiber.model.Rutina;
 
-public class DetalleRutinaActivity extends AppCompatActivity {
+public class DetalleRutinaActivity extends AppCompatActivity implements AgregarModificarEjercicioDialog.ListenerEditarEjercicio{
 
     private View main;
     private RecyclerView rvEjercicios;
@@ -135,6 +136,13 @@ public class DetalleRutinaActivity extends AppCompatActivity {
                                     }
                             )
                             .show();
+                },
+                ejercicio -> {
+
+                    if (getSupportFragmentManager().findFragmentByTag("editar_ejercicio") == null) {
+                        AgregarModificarEjercicioDialog.crearEditar(rutinaActual.getNombre(),ejercicio)
+                                .show(getSupportFragmentManager(), "editar_ejercicio");
+                    }
                 });
 
         rvEjercicios.setLayoutManager(
@@ -165,5 +173,18 @@ public class DetalleRutinaActivity extends AppCompatActivity {
             ).show();
 
         });
+    }
+
+    @Override
+    public boolean onEditarEjercicio(Ejercicio ejercicio, String nombreNuevo, int seriesNuevo, int repeticionesNuevo) {
+
+        try {
+            RutinaRepository.editarEjercicio(this, rutinaActual,ejercicio, nombreNuevo, seriesNuevo, repeticionesNuevo);//TODO para que agregue foto de ejercicio
+            adapter.notifyDataSetChanged();
+            Snackbar.make(rvEjercicios, R.string.ejercicio_editado, Snackbar.LENGTH_SHORT).show();
+            return true;
+        } catch (IllegalStateException e) {
+            return false;
+        }
     }
 }

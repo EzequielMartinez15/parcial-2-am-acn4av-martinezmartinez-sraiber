@@ -14,6 +14,7 @@ import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
+import parcial1.am.acn4av.martinezmartinez.sraiber.AgregarModificarEjercicioDialog;
 import parcial1.am.acn4av.martinezmartinez.sraiber.R;
 import parcial1.am.acn4av.martinezmartinez.sraiber.model.Ejercicio;
 
@@ -25,11 +26,14 @@ public class EjercicioDetalleRutinaAdapter
 
     public interface OnEjercicioDeleteListener { void onDelete(Ejercicio ejercicio);}
     private final OnEjercicioDeleteListener listenerBorrar;
+    public interface OnEjercicioEditListener { void onEdit(Ejercicio ejercicio);}
+    private final OnEjercicioEditListener listenerEdit;
 
-    public EjercicioDetalleRutinaAdapter(Context context, List<Ejercicio> ejercicios, OnEjercicioDeleteListener listenerBorrar) {
+    public EjercicioDetalleRutinaAdapter(Context context, List<Ejercicio> ejercicios, OnEjercicioDeleteListener listenerBorrar, OnEjercicioEditListener listenerEdit) {
         this.context = context;
         this.ejercicios = ejercicios;
         this.listenerBorrar = listenerBorrar;
+        this.listenerEdit = listenerEdit;
     }
 
     @NonNull
@@ -71,7 +75,12 @@ public class EjercicioDetalleRutinaAdapter
 
         holder.btnEditar.setOnClickListener(v -> {
 
-            // editar ejercicio
+            int posicionActual = holder.getAdapterPosition();
+
+            if (posicionActual != RecyclerView.NO_POSITION) {
+
+                listenerEdit.onEdit(ejercicios.get(posicionActual));
+            }
         });
 
         holder.btnBorrar.setOnClickListener(v -> {
