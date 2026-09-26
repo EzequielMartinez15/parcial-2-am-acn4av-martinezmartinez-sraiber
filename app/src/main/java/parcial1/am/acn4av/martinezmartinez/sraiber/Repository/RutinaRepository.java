@@ -33,6 +33,15 @@ public class RutinaRepository {
                             ejercicio.getString("nombre"), ejercicio.getInt("series"),
                             ejercicio.getInt("repeticiones"), R.drawable.blue));
                 }
+
+                //Acá estoy sacando de la lista de la rutina los ejercicios borrados, esto sirve para que no aparezcan los ejercicios hardcodeados en la rutina hardcodeada si es que se borraron
+                JSONArray eliminados = new JSONArray(preferencias.getString(rutina.getNombre() + "_eliminados", "[]"));
+                for (int i = 0; i < eliminados.length(); i++) {
+                    String nombreEjercicio = eliminados.getString(i);
+                    rutina.getEjercicios().removeIf(ejercicio ->
+                                    ejercicio.getNombre().equals(nombreEjercicio)
+                    );
+                }
             } catch (JSONException e) {
                 Log.e("RutinaRepository", "No se pudieron leer los ejercicios guardados", e);
             }
@@ -56,6 +65,37 @@ public class RutinaRepository {
         }
     }
 
+    public static void eliminarEjercicio(Context context, Rutina rutina, Ejercicio ejercicioAEliminar) {
+
+        SharedPreferences preferencias = context.getSharedPreferences(PREFERENCIAS, Context.MODE_PRIVATE);
+        try {
+
+            JSONArray guardados = new JSONArray(preferencias.getString(rutina.getNombre(), "[]"));
+            JSONArray nuevos = new JSONArray();
+
+            for (int i = 0; i < guardados.length(); i++) {
+
+                JSONObject ejercicio = guardados.getJSONObject(i);
+
+                boolean esElMismo =
+                        ejercicio.getString("nombre").equals(ejercicioAEliminar.getNombre())
+                            &&
+                            ejercicio.getInt("series") == ejercicioAEliminar.getSeries()
+                            &&
+                            ejercicio.getInt("repeticiones") == ejercicioAEliminar.getRepeticiones();
+                if (!esElMismo) {
+                    nuevos.put(ejercicio);
+                }
+            }
+
+            preferencias.edit().putString(rutina.getNombre(), nuevos.toString()).apply();
+
+            rutina.getEjercicios().remove(ejercicioAEliminar);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
     public static List<Rutina> getRutinas() {
 
         List<Rutina> rutinas = new ArrayList<>();

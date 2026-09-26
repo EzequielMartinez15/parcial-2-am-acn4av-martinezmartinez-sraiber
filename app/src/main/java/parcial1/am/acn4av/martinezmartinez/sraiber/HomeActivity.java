@@ -131,6 +131,17 @@ public class HomeActivity extends AppCompatActivity implements AgregarEjercicioD
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        rutinas.clear();
+        rutinas.addAll(
+                RutinaRepository.getRutinas(this)
+        );
+
+        rutinaAdapter.notifyDataSetChanged();
+    }
+    @Override
     public boolean onAgregarEjercicio(String nombreRutina, String nombre, int series, int repeticiones) {
         for (int i = 0; i < rutinas.size(); i++) {
             Rutina rutina = rutinas.get(i);

@@ -2,8 +2,10 @@ package parcial1.am.acn4av.martinezmartinez.sraiber;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -15,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ public class DetalleRutinaActivity extends AppCompatActivity {
 
     private EjercicioDetalleRutinaAdapter adapter;
     private Rutina rutinaActual;
+    private TextView txtTituloRutina;
     private List<Ejercicio> ejercicios;
 
     @Override
@@ -75,10 +79,10 @@ public class DetalleRutinaActivity extends AppCompatActivity {
     }
 
     private void inicializarVistas() {
-
         rvEjercicios = findViewById(R.id.rvEjercicios);
         btnAgregarEjercicio = findViewById(R.id.btnAgregarEjercicio);
         btnBorrarRutina = findViewById(R.id.btnBorrarRutina);
+        txtTituloRutina = findViewById(R.id.txtTituloRutina);
     }
 
     private void configurarRecyclerView() {
@@ -91,6 +95,8 @@ public class DetalleRutinaActivity extends AppCompatActivity {
             if (rutina.getNombre().equals(nombreRutina)) {
                 rutinaSeleccionada = rutina;
                 rutinaActual = rutina;
+
+                txtTituloRutina.setText(rutina.getNombre());
                 break;
             }
         }
@@ -101,8 +107,35 @@ public class DetalleRutinaActivity extends AppCompatActivity {
         ejercicios = rutinaSeleccionada.getEjercicios();
         adapter = new EjercicioDetalleRutinaAdapter(
                 this,
-                ejercicios
-        );
+                ejercicios,
+                ejercicio -> {
+
+                    new MaterialAlertDialogBuilder(
+                            this,
+                            R.style.ThemeOverlay_Marber_Dialog
+                    )
+                            .setTitle("Eliminar ejercicio")
+                            .setMessage("¿Seguro que querés borrar el ejercicio " + ejercicio.getNombre() + "?")
+                            .setNegativeButton("Cancelar", null)
+                            .setPositiveButton("Eliminar", (dialog, which) -> {
+
+                                        RutinaRepository.eliminarEjercicio(
+                                                this,
+                                                rutinaActual,
+                                                ejercicio
+                                        );
+
+                                        adapter.notifyDataSetChanged();
+
+                                        Snackbar.make(
+                                                main,
+                                                "Ejercicio borrado correctamente",
+                                                Snackbar.LENGTH_SHORT
+                                        ).show();
+                                    }
+                            )
+                            .show();
+                });
 
         rvEjercicios.setLayoutManager(
                 new LinearLayoutManager(this)

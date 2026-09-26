@@ -23,12 +23,13 @@ public class EjercicioDetalleRutinaAdapter
     private final Context context;
     private final List<Ejercicio> ejercicios;
 
-    public EjercicioDetalleRutinaAdapter(
-            Context context,
-            List<Ejercicio> ejercicios
-    ) {
+    public interface OnEjercicioDeleteListener { void onDelete(Ejercicio ejercicio);}
+    private final OnEjercicioDeleteListener listenerBorrar;
+
+    public EjercicioDetalleRutinaAdapter(Context context, List<Ejercicio> ejercicios, OnEjercicioDeleteListener listenerBorrar) {
         this.context = context;
         this.ejercicios = ejercicios;
+        this.listenerBorrar = listenerBorrar;
     }
 
     @NonNull
@@ -75,8 +76,12 @@ public class EjercicioDetalleRutinaAdapter
 
         holder.btnBorrar.setOnClickListener(v -> {
 
-            ejercicios.remove(position);
-            notifyItemRemoved(position);
+            int posicionActual = holder.getAdapterPosition();
+
+            if (posicionActual != RecyclerView.NO_POSITION) {
+
+                listenerBorrar.onDelete(ejercicios.get(posicionActual));
+            }
         });
     }
 
