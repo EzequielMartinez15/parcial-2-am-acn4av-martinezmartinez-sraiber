@@ -14,6 +14,18 @@ public class Ejercicio {
         this.imagen = imagen;
     }
 
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setSeries(int series) {
+        this.series = series;
+    }
+
+    public void setRepeticiones(int repeticiones) {
+        this.repeticiones = repeticiones;
+    }
+
     public String getNombre() {
         return nombre;
     }
