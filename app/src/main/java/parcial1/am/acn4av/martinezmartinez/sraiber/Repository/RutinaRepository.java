@@ -19,11 +19,13 @@ import parcial1.am.acn4av.martinezmartinez.sraiber.model.Rutina;
 
 public class RutinaRepository {
     private static final String PREFERENCIAS = "ejercicios_agregados";
+    private static final String PREFERENCIASBORRADOS = "ejercicios_borrados";
 
     // Dejé los datos de prueba y sumé los ejercicios que el usuario guardó en este dispositivo.
     public static List<Rutina> getRutinas(Context context) {
         List<Rutina> rutinas = getRutinas();
         SharedPreferences preferencias = context.getSharedPreferences(PREFERENCIAS, Context.MODE_PRIVATE);
+        SharedPreferences preferenciasBorrados = context.getSharedPreferences(PREFERENCIASBORRADOS, Context.MODE_PRIVATE);
         for (Rutina rutina : rutinas) {
             try {
                 JSONArray guardados = new JSONArray(preferencias.getString(rutina.getNombre(), "[]"));
@@ -35,7 +37,7 @@ public class RutinaRepository {
                 }
 
                 //Acá estoy sacando de la lista de la rutina los ejercicios borrados, esto sirve para que no aparezcan los ejercicios hardcodeados en la rutina hardcodeada si es que se borraron
-                JSONArray eliminados = new JSONArray(preferencias.getString(rutina.getNombre() + "_eliminados", "[]"));
+                JSONArray eliminados = new JSONArray(preferenciasBorrados.getString(rutina.getNombre(), "[]"));
                 for (int i = 0; i < eliminados.length(); i++) {
                     String nombreEjercicio = eliminados.getString(i);
                     rutina.getEjercicios().removeIf(ejercicio ->
@@ -65,30 +67,50 @@ public class RutinaRepository {
         }
     }
 
-    public static void eliminarEjercicio(Context context, Rutina rutina, Ejercicio ejercicioAEliminar) {
-
+    public static void editarEjercicio(Context context, Rutina rutina, Ejercicio ejercicio,  String nombreNuevo, int seriesNuevo, int repeticionesNuevo) {
         SharedPreferences preferencias = context.getSharedPreferences(PREFERENCIAS, Context.MODE_PRIVATE);
         try {
-
             JSONArray guardados = new JSONArray(preferencias.getString(rutina.getNombre(), "[]"));
-            JSONArray nuevos = new JSONArray();
-
             for (int i = 0; i < guardados.length(); i++) {
 
-                JSONObject ejercicio = guardados.getJSONObject(i);
+                JSONObject jsonEjercicio = guardados.getJSONObject(i);
 
                 boolean esElMismo =
-                        ejercicio.getString("nombre").equals(ejercicioAEliminar.getNombre())
-                            &&
-                            ejercicio.getInt("series") == ejercicioAEliminar.getSeries()
-                            &&
-                            ejercicio.getInt("repeticiones") == ejercicioAEliminar.getRepeticiones();
-                if (!esElMismo) {
-                    nuevos.put(ejercicio);
+                        jsonEjercicio.getString("nombre")
+                                .equals(ejercicio.getNombre())
+                                &&
+                                jsonEjercicio.getInt("series")
+                                        == ejercicio.getSeries()
+                                &&
+                                jsonEjercicio.getInt("repeticiones")
+                                        == ejercicio.getRepeticiones();
+                if (esElMismo) {
+                    jsonEjercicio.put("nombre", nombreNuevo);
+                    jsonEjercicio.put("series", seriesNuevo);
+                    jsonEjercicio.put("repeticiones", repeticionesNuevo);
+
+                    break;
                 }
             }
 
-            preferencias.edit().putString(rutina.getNombre(), nuevos.toString()).apply();
+            preferencias.edit().putString(rutina.getNombre(), guardados.toString()).apply();
+
+            ejercicio.setNombre(nombreNuevo);
+            ejercicio.setSeries(seriesNuevo);
+            ejercicio.setRepeticiones(repeticionesNuevo);
+        } catch (JSONException e) {
+            throw new IllegalStateException("No se pudo editar el ejercicio", e);
+        }
+    }
+    public static void eliminarEjercicio(Context context, Rutina rutina, Ejercicio ejercicioAEliminar) {
+
+        SharedPreferences preferenciasBorrados = context.getSharedPreferences(PREFERENCIASBORRADOS, Context.MODE_PRIVATE);
+        try {
+
+            JSONArray eliminados = new JSONArray(preferenciasBorrados.getString(rutina.getNombre(), "[]"));
+            eliminados.put(ejercicioAEliminar.getNombre());
+
+            preferenciasBorrados.edit().putString(rutina.getNombre(), eliminados.toString()).apply();
 
             rutina.getEjercicios().remove(ejercicioAEliminar);
 
