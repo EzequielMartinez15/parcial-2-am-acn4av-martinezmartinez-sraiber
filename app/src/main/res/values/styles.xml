@@ -8,9 +8,36 @@
 
         <item name="android:minHeight">48dp</item>
 
-        <item name="android:paddingHorizontal">20dp</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
 
-        <item name="android:paddingVertical">12dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
 
+    </style>
+    <style name="Widget.Marber.Button.Primary" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/marber_primary</item>
+        <item name="android:textColor">@color/marber_text_high</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">bold</item>
+        <item name="rippleColor">#40FFFFFF</item>
+    </style>
+    <style name="Widget.Marber.Button.Quiet" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/marber_primary_light</item>
+        <item name="iconTint">@color/marber_primary_light</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">12dp</item>
+        <item name="rippleColor">#203DA5FF</item>
+    </style>
+    <style name="Widget.Marber.Button.Danger" parent="Widget.Marber.Button.Quiet">
+        <item name="android:textColor">@color/marber_text_medium</item>
+        <item name="iconTint">@color/marber_text_medium</item>
+    </style>
+    <style name="Widget.Marber.Button.Secondary" parent="Widget.Marber.Button.Primary">
+        <item name="backgroundTint">@color/marber_surface_alt</item>
+        <item name="android:textColor">@color/marber_text_high</item>
     </style>
 </resources>

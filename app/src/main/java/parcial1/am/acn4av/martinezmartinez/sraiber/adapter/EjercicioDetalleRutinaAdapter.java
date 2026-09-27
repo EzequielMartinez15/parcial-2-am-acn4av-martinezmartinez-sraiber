@@ -60,22 +60,24 @@ public class EjercicioDetalleRutinaAdapter
     ) {
 
         Ejercicio ejercicio = ejercicios.get(position);
+        holder.imgEjercicio.setImageResource(ejercicio.getImagen());
+        holder.imgEjercicio.setContentDescription(context.getString(R.string.foto_de_ejercicio, ejercicio.getNombre()));
 
         holder.txtNombre.setText(
                 ejercicio.getNombre()
         );
 
         holder.txtSeries.setText(
-                "Series: "+ejercicio.getSeries()
+                context.getString(R.string.detalle_series, ejercicio.getSeries())
         );
 
         holder.txtRepeticiones.setText(
-                "Repeticiones: "+ejercicio.getRepeticiones()
+                context.getString(R.string.detalle_repeticiones, ejercicio.getRepeticiones())
         );
 
         holder.btnEditar.setOnClickListener(v -> {
 
-            int posicionActual = holder.getAdapterPosition();
+            int posicionActual = holder.getBindingAdapterPosition();
 
             if (posicionActual != RecyclerView.NO_POSITION) {
 
@@ -85,7 +87,7 @@ public class EjercicioDetalleRutinaAdapter
 
         holder.btnBorrar.setOnClickListener(v -> {
 
-            int posicionActual = holder.getAdapterPosition();
+            int posicionActual = holder.getBindingAdapterPosition();
 
             if (posicionActual != RecyclerView.NO_POSITION) {
 

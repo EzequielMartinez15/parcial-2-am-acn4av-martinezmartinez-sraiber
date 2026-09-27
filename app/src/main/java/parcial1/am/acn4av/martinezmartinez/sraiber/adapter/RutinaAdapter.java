@@ -62,9 +62,8 @@ public class RutinaAdapter
         );
 
         holder.veces.setText(
-                "Realizada " +
-                        rutina.getVecesRealizada() +
-                        " veces"
+                holder.itemView.getResources().getQuantityString(R.plurals.rutina_realizaciones,
+                        rutina.getVecesRealizada(), rutina.getVecesRealizada())
         );
 
         SimpleDateFormat sdf =

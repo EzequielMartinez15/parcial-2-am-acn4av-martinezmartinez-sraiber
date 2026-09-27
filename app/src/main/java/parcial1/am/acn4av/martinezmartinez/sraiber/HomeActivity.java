@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Comparator;
 
 import parcial1.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
+import parcial1.am.acn4av.martinezmartinez.sraiber.Repository.EjercicioRepository;
 import parcial1.am.acn4av.martinezmartinez.sraiber.adapter.RutinaAdapter;
 import parcial1.am.acn4av.martinezmartinez.sraiber.model.Ejercicio;
 import parcial1.am.acn4av.martinezmartinez.sraiber.model.Rutina;
@@ -45,7 +46,12 @@ public class HomeActivity extends AppCompatActivity implements AgregarModificarE
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_home);
-        home = findViewById(android.R.id.content);
+        home = findViewById(R.id.home_root);
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(home, (v, insets) -> {
+            androidx.core.graphics.Insets barras = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars());
+            v.setPadding(barras.left, barras.top, barras.right, barras.bottom);
+            return insets;
+        });
         rutinas = RutinaRepository.getRutinas(this);
 
         WindowInsetsControllerCompat controller =
@@ -139,7 +145,8 @@ public class HomeActivity extends AppCompatActivity implements AgregarModificarE
                 RutinaRepository.getRutinas(this)
         );
 
-        rutinaAdapter.notifyDataSetChanged();
+        aplicarOrden(ordenSeleccionado);
+        findViewById(R.id.home_vacio).setVisibility(rutinas.isEmpty() ? View.VISIBLE : View.GONE);
     }
     @Override
     public boolean onAgregarEjercicio(String nombreRutina, String nombre, int series, int repeticiones) {
@@ -148,7 +155,8 @@ public class HomeActivity extends AppCompatActivity implements AgregarModificarE
             if (rutina.getNombre().equals(nombreRutina)) {
                 try {
                     RutinaRepository.agregarEjercicio(this, rutina,
-                            new Ejercicio(nombre, series, repeticiones, R.drawable.blue));//TODO para que agregue foto de ejercicio
+                            new Ejercicio(nombre, series, repeticiones,
+                                    EjercicioRepository.imagenPorNombre(nombre)));
                     rutinaAdapter.notifyItemChanged(i, RutinaAdapter.EJERCICIO_AGREGADO);
                     Snackbar.make(rvRutinas, R.string.ejercicio_agregado, Snackbar.LENGTH_SHORT).show();
                     return true;
@@ -212,13 +220,13 @@ public class HomeActivity extends AppCompatActivity implements AgregarModificarE
     }
     protected void popUpCerrarSesion(Intent intent){
         new AlertDialog.Builder(HomeActivity.this)
-                .setTitle("Cerrar sesión")
-                .setMessage("¿Seguro que quieres salir de tu sesión?")
-                .setPositiveButton("Sí", (dialog, which) -> {
+                .setTitle(R.string.cerrar_sesion)
+                .setMessage(R.string.confirmar_cerrar_sesion)
+                .setPositiveButton(R.string.confirmar_si, (dialog, which) -> {
                     startActivity(intent);
                     finish();
                 })
-                .setNegativeButton("Cancelar", null)
+                .setNegativeButton(R.string.ejercicio_cancelar, null)
                 .show();
     }
 }

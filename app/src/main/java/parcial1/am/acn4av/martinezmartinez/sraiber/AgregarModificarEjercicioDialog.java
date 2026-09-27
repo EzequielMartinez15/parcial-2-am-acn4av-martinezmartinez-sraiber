@@ -6,6 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+import parcial1.am.acn4av.martinezmartinez.sraiber.Repository.EjercicioRepository;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,7 +31,7 @@ public class AgregarModificarEjercicioDialog extends DialogFragment {
     private static final String REPETICIONES = "repeticiones";
     private static final String EDITAR = "editar";
 
-    private Ejercicio ejercicioEditar;
+    private static final String POSICION = "posicion";
 
     public interface ListenerAgregarEjercicio {
         boolean onAgregarEjercicio(String rutina, String nombre, int series, int repeticiones);
@@ -35,7 +39,7 @@ public class AgregarModificarEjercicioDialog extends DialogFragment {
     }
     public interface ListenerEditarEjercicio {
         //agregué el métod para editar un ejercicio
-        boolean onEditarEjercicio(Ejercicio ejercicio, String nombre, int series, int repeticiones);
+        boolean onEditarEjercicio(int posicion, String nombre, int series, int repeticiones);
 
     }
 
@@ -47,16 +51,16 @@ public class AgregarModificarEjercicioDialog extends DialogFragment {
         dialog.setArguments(argumentos);
         return dialog;
     }
-    public static AgregarModificarEjercicioDialog crearEditar(String rutina, Ejercicio ejercicio) {
+    public static AgregarModificarEjercicioDialog crearEditar(String rutina, Ejercicio ejercicio, int posicion) {
         AgregarModificarEjercicioDialog dialog = new AgregarModificarEjercicioDialog();
-        dialog.ejercicioEditar = ejercicio;
+
         Bundle argumentos = new Bundle();
         argumentos.putString(RUTINA, rutina);
         argumentos.putBoolean(EDITAR, true);
+        argumentos.putInt(POSICION, posicion);
         argumentos.putString(NOMBRE, ejercicio.getNombre());
         argumentos.putInt(SERIES, ejercicio.getSeries());
         argumentos.putInt(REPETICIONES, ejercicio.getRepeticiones());
-        //argumentos.putInt(REPETICIONES, ejercicio.getImagen());todo
         dialog.setArguments(argumentos);
         return dialog;
     }
@@ -71,7 +75,13 @@ public class AgregarModificarEjercicioDialog extends DialogFragment {
         TextInputLayout campoNombre = formulario.findViewById(R.id.campo_nombre_ejercicio);
         TextInputLayout campoSeries = formulario.findViewById(R.id.campo_series_ejercicio);
         TextInputLayout campoRepeticiones = formulario.findViewById(R.id.campo_repeticiones_ejercicio);
-        TextInputEditText nombre = formulario.findViewById(R.id.input_nombre_ejercicio);
+        MaterialAutoCompleteTextView nombre = formulario.findViewById(R.id.input_nombre_ejercicio);
+        java.util.List<String> nombres = new java.util.ArrayList<>();
+        for (Ejercicio ejercicio : EjercicioRepository.getEjercicios()) {
+            nombres.add(ejercicio.getNombre());
+        }
+        nombre.setAdapter(new ArrayAdapter<>(builder.getContext(), android.R.layout.simple_dropdown_item_1line, nombres));
+        nombre.setThreshold(1);
         TextInputEditText series = formulario.findViewById(R.id.input_series_ejercicio);
         TextInputEditText repeticiones = formulario.findViewById(R.id.input_repeticiones_ejercicio);
         TextView errorGuardado = formulario.findViewById(R.id.error_guardado_ejercicio);
@@ -82,7 +92,7 @@ public class AgregarModificarEjercicioDialog extends DialogFragment {
 
         if (editar) {
 
-            nombre.setText(requireArguments().getString(NOMBRE));
+            nombre.setText(requireArguments().getString(NOMBRE), false);
 
             series.setText(String.valueOf(requireArguments().getInt(SERIES)));
 
@@ -90,7 +100,7 @@ public class AgregarModificarEjercicioDialog extends DialogFragment {
         }
 
         AlertDialog dialog = builder
-                .setTitle(editar ? "Editar ejercicio" : getString(R.string.agregar_ejercicio_titulo, rutina))
+                .setTitle(editar ? getString(R.string.editar_ejercicio) : getString(R.string.agregar_ejercicio_titulo, rutina))
                 .setView(formulario)
                 .setNegativeButton(R.string.ejercicio_cancelar, null)
                 .setPositiveButton(R.string.ejercicio_guardar, null)
@@ -120,7 +130,7 @@ public class AgregarModificarEjercicioDialog extends DialogFragment {
                     boolean guardado;
 
                     if (editar) {
-                        guardado = ((ListenerEditarEjercicio) requireActivity()).onEditarEjercicio(ejercicioEditar, nombreIngresado, cantidadSeries, cantidadRepeticiones);
+                        guardado = ((ListenerEditarEjercicio) requireActivity()).onEditarEjercicio(requireArguments().getInt(POSICION), nombreIngresado, cantidadSeries, cantidadRepeticiones);
                     } else {
                         guardado = ((ListenerAgregarEjercicio) requireActivity()).onAgregarEjercicio(rutina, nombreIngresado, cantidadSeries, cantidadRepeticiones);
                     }
@@ -141,7 +151,7 @@ public class AgregarModificarEjercicioDialog extends DialogFragment {
     }
 
 
-    private String texto(TextInputEditText campo) {
+    private String texto(EditText campo) {
         return campo.getText() == null ? "" : campo.getText().toString().trim();
     }
 

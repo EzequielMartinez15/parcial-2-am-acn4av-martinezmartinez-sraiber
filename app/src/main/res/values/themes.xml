@@ -4,7 +4,7 @@
 
     <style name="Base.Theme.Marber" parent="Platform.Theme.Marber">
         <item name="colorPrimary">@color/marber_primary</item>
-        <item name="colorOnPrimary">@color/marber_primary_light</item>
+        <item name="colorOnPrimary">@color/marber_text_high</item>
         <item name="colorSurface">@color/marber_surface</item>
         <item name="colorOnSurface">@color/marber_text_high</item>
         <item name="colorOnSurfaceVariant">@color/marber_text_medium</item>
@@ -13,7 +13,7 @@
         <item name="android:colorBackground">@color/marber_background</item>
         <item name="android:windowBackground">@color/marber_background</item>
         <item name="colorError">@color/marber_error</item>
-        <item name="colorOnError">@color/marber_error</item>
+        <item name="colorOnError">@color/marber_background</item>
         <item name="android:textColorPrimary">@color/marber_text_high</item>
         <item name="android:textColorSecondary">@color/marber_text_medium</item>
         <item name="android:statusBarColor">@color/marber_background</item>
@@ -38,10 +38,10 @@
     </style>
 
     <style name="MarberDialogPositiveButton" parent="Widget.Material3.Button.TextButton">
-        <item name="android:textColor">@color/marber_success</item>
+        <item name="android:textColor">@color/marber_primary_light</item>
     </style>
     <style name="MarberDialogNegativeButton" parent="Widget.Material3.Button.TextButton">
-        <item name="android:textColor">@color/marber_error</item>
+        <item name="android:textColor">@color/marber_text_medium</item>
     </style>
 
     <style name="Widget.Marber.Dialog" parent="MaterialAlertDialog.Material3">

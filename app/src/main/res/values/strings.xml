@@ -29,9 +29,9 @@
         <item>Menos realizadas</item>
     </string-array>
     <string name="txt_rutina">"RUTINA"</string>
-    <string name="txt_subtitulo1_card_rutina">"Veces relizada"</string>
+    <string name="txt_subtitulo1_card_rutina">Veces realizada</string>
     <string name="txt_titulo_card_rutina">Nombre Rutina</string>
-    <string name="txt_subtitulo_ftos_rutina">Ejercicos actuales</string>
+    <string name="txt_subtitulo_ftos_rutina">Ejercicios actuales</string>
     <string name="txt_subtitulo2_card_rutina">"Último día realizada"</string>
     <string name="txt_btn_logout">"Logout"</string>
     <string name="agregar_ejercicio">Agregar ejercicio</string>
@@ -48,4 +48,33 @@
     <string name="ejercicio_guardado_error">No se pudo guardar. Volvé a intentar.</string>
     <string name="ejercicio_series_repeticiones">%1$d series · %2$d rep.</string>
     <string name="txt_borrar_rutina">Borrar rutina</string>
+    <string name="editar_ejercicio">Editar ejercicio</string>
+    <string name="eliminar_ejercicio">Eliminar ejercicio</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="confirmar_eliminar_ejercicio">¿Querés eliminar %1$s de esta rutina?</string>
+    <string name="confirmar_eliminar_rutina">¿Querés borrar %1$s y sus ejercicios? Esta acción no se puede deshacer.</string>
+    <string name="ejercicio_eliminado">Ejercicio eliminado de la rutina</string>
+    <string name="detalle_series">Series: %1$d</string>
+    <string name="detalle_repeticiones">Repeticiones: %1$d</string>
+    <string name="foto_de_ejercicio">Foto de %1$s</string>
+    <string name="volver_rutinas">Volver a rutinas</string>
+    <string name="detalle_sin_ejercicios">Tu rutina está vacía. Agregá el primer ejercicio para empezar.</string>
+    <string name="home_sin_rutinas">No tenés rutinas disponibles.</string>
+    <string name="catalogo_ayuda">Elegí una sugerencia para usar su foto, o escribí un ejercicio personalizado.</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="confirmar_cerrar_sesion">¿Seguro que querés cerrar tu sesión?</string>
+    <string name="confirmar_si">Sí</string>
+    <plurals name="cantidad_ejercicios">
+        <item quantity="one">%d ejercicio en tu rutina</item>
+        <item quantity="other">%d ejercicios en tu rutina</item>
+    </plurals>
+    <plurals name="rutina_realizaciones">
+        <item quantity="one">Realizada %d vez</item>
+        <item quantity="other">Realizada %d veces</item>
+    </plurals>
+    <string name="editar_corto">Editar</string>
+    <string name="ver_rutina">Ver rutina</string>
+    <string name="salir_corto">Salir</string>
+    <string name="titulo_entrenamiento">Tu entrenamiento.</string>
+    <string name="subtitulo_entrenamiento">Tus rutinas, a tu ritmo.</string>
 </resources>
