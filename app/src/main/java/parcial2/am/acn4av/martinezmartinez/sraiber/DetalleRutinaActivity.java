@@ -1,0 +1,144 @@
+package parcial2.am.acn4av.martinezmartinez.sraiber;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
+import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.EjercicioRepository;
+import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
+import parcial2.am.acn4av.martinezmartinez.sraiber.adapter.EjercicioDetalleRutinaAdapter;
+import parcial2.am.acn4av.martinezmartinez.sraiber.model.Ejercicio;
+import parcial2.am.acn4av.martinezmartinez.sraiber.model.Rutina;
+
+public class DetalleRutinaActivity extends AppCompatActivity implements
+        AgregarModificarEjercicioDialog.ListenerAgregarEjercicio,
+        AgregarModificarEjercicioDialog.ListenerEditarEjercicio {
+    private View main;
+    private RecyclerView rvEjercicios;
+    private EjercicioDetalleRutinaAdapter adapter;
+    private Rutina rutinaActual;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_detalle_rutina);
+        main = findViewById(R.id.detalle_root);
+        WindowCompat.getInsetsController(getWindow(), main).setAppearanceLightStatusBars(false);
+        WindowCompat.getInsetsController(getWindow(), main).setAppearanceLightNavigationBars(false);
+        ViewCompat.setOnApplyWindowInsetsListener(main, (v, insets) -> {
+            Insets barras = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(barras.left, barras.top, barras.right, barras.bottom);
+            return insets;
+        });
+        String nombre = getIntent().getStringExtra("nombre_rutina");
+        for (Rutina rutina : RutinaRepository.getRutinas(this)) {
+            if (rutina.getNombre().equals(nombre)) rutinaActual = rutina;
+        }
+        if (rutinaActual == null) {
+            finish();
+            return;
+        }
+        ((TextView) findViewById(R.id.txtTituloRutina)).setText(rutinaActual.getNombre());
+        findViewById(R.id.btn_volver).setOnClickListener(v -> finish());
+        rvEjercicios = findViewById(R.id.rvEjercicios);
+        rvEjercicios.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new EjercicioDetalleRutinaAdapter(this, rutinaActual.getEjercicios(),
+                this::confirmarBorradoEjercicio, ejercicio -> {
+                    if (getSupportFragmentManager().findFragmentByTag("ejercicio") == null) {
+                        AgregarModificarEjercicioDialog.crearEditar(rutinaActual.getNombre(), ejercicio,
+                                rutinaActual.getEjercicios().indexOf(ejercicio))
+                                .show(getSupportFragmentManager(), "ejercicio");
+                    }
+                });
+        rvEjercicios.setAdapter(adapter);
+        findViewById(R.id.btnAgregarEjercicio).setOnClickListener(v -> {
+            if (getSupportFragmentManager().findFragmentByTag("ejercicio") == null) {
+                AgregarModificarEjercicioDialog.crearAgregar(rutinaActual.getNombre())
+                        .show(getSupportFragmentManager(), "ejercicio");
+            }
+        });
+        findViewById(R.id.btnBorrarRutina).setOnClickListener(v -> confirmarBorradoRutina());
+        actualizarResumen();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!isFinishing()) Sesion.exigir(this);
+    }
+
+    private void actualizarResumen() {
+        int cantidad = rutinaActual.getEjercicios().size();
+        ((TextView) findViewById(R.id.txtResumenRutina)).setText(
+                getResources().getQuantityString(R.plurals.cantidad_ejercicios, cantidad, cantidad));
+        findViewById(R.id.detalle_vacio).setVisibility(cantidad == 0 ? View.VISIBLE : View.GONE);
+    }
+
+    private void confirmarBorradoEjercicio(Ejercicio ejercicio) {
+        new MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_Marber_Dialog)
+                .setTitle(R.string.eliminar_ejercicio)
+                .setMessage(getString(R.string.confirmar_eliminar_ejercicio, ejercicio.getNombre()))
+                .setNegativeButton(R.string.ejercicio_cancelar, null)
+                .setPositiveButton(R.string.eliminar, (dialog, which) -> {
+                    int posicion = rutinaActual.getEjercicios().indexOf(ejercicio);
+                    if (posicion < 0) return;
+                    RutinaRepository.eliminarEjercicio(this, rutinaActual, ejercicio);
+                    adapter.notifyItemRemoved(posicion);
+                    actualizarResumen();
+                    Snackbar.make(main, R.string.ejercicio_eliminado, Snackbar.LENGTH_SHORT).show();
+                }).show();
+    }
+
+    private void confirmarBorradoRutina() {
+        new MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_Marber_Dialog)
+                .setTitle(R.string.txt_borrar_rutina)
+                .setMessage(getString(R.string.confirmar_eliminar_rutina, rutinaActual.getNombre()))
+                .setNegativeButton(R.string.ejercicio_cancelar, null)
+                .setPositiveButton(R.string.eliminar, (dialog, which) -> {
+                    RutinaRepository.eliminarRutina(this, rutinaActual);
+                    finish();
+                }).show();
+    }
+
+    @Override
+    public boolean onAgregarEjercicio(String rutina, String nombre, int series, int repeticiones) {
+        if (!rutinaActual.getNombre().equals(rutina)) return false;
+        try {
+            RutinaRepository.agregarEjercicio(this, rutinaActual, new Ejercicio(nombre, series,
+                    repeticiones, EjercicioRepository.imagenPorNombre(nombre)));
+            int posicion = rutinaActual.getEjercicios().size() - 1;
+            adapter.notifyItemInserted(posicion);
+            actualizarResumen();
+            rvEjercicios.smoothScrollToPosition(posicion);
+            Snackbar.make(main, R.string.ejercicio_agregado, Snackbar.LENGTH_SHORT).show();
+            return true;
+        } catch (IllegalStateException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean onEditarEjercicio(int posicion, String nombre, int series, int repeticiones) {
+        if (posicion < 0 || posicion >= rutinaActual.getEjercicios().size()) return false;
+        try {
+            // Recuperé el ejercicio de la lista actual para soportar la rotación del formulario.
+            RutinaRepository.editarEjercicio(this, rutinaActual, rutinaActual.getEjercicios().get(posicion),
+                    nombre, series, repeticiones);
+            adapter.notifyItemChanged(posicion);
+            Snackbar.make(main, R.string.ejercicio_editado, Snackbar.LENGTH_SHORT).show();
+            return true;
+        } catch (IllegalStateException e) {
+            return false;
+        }
+    }
+}

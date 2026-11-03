@@ -1,0 +1,19 @@
+<resources>
+    <string name="auth_confirmar_password">Repetí la contraseña</string>
+    <string name="auth_password_distinta">Las contraseñas no coinciden</string>
+    <string name="auth_volver_login">Ya tengo cuenta · Ingresar</string>
+    <string name="auth_registro_ayuda">Creá tu cuenta con tu email y una contraseña de al menos 6 caracteres.</string>
+    <string name="auth_esperando">Procesando…</string>
+    <string name="auth_reset_titulo">Recuperar contraseña</string>
+    <string name="auth_reset_confirmacion">¿Enviar un enlace de recuperación a %1$s?</string>
+    <string name="auth_enviar">Enviar enlace</string>
+    <string name="auth_reset_enviado">Si el email tiene una cuenta, recibirás un enlace para recuperar la contraseña. Revisá también spam.</string>
+    <string name="auth_error_red">No pude conectar. Revisá tu conexión y volvé a intentar.</string>
+    <string name="auth_error_intentos">Hubo demasiados intentos. Esperá unos minutos antes de volver a intentar.</string>
+    <string name="auth_error_email_usado">Ese email ya tiene una cuenta. Ingresá o recuperá tu contraseña.</string>
+    <string name="auth_error_password">La contraseña no cumple los requisitos. Usá una más segura.</string>
+    <string name="auth_error_deshabilitado">Esta cuenta está deshabilitada.</string>
+    <string name="auth_error_credenciales">El email o la contraseña son incorrectos.</string>
+    <string name="auth_error_proveedor">El ingreso por email y contraseña no está habilitado.</string>
+    <string name="auth_error_general">No pude completar la operación. Volvé a intentar.</string>
+</resources>
