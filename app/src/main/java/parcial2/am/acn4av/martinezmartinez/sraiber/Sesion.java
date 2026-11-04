@@ -26,6 +26,7 @@ public final class Sesion {
     }
 
     public static void cerrar(Activity activity) {
+        parcial2.am.acn4av.martinezmartinez.sraiber.Repository.DatosUsuario.soltar();
         FirebaseAuth.getInstance().signOut();
         volverAlLogin(activity);
     }

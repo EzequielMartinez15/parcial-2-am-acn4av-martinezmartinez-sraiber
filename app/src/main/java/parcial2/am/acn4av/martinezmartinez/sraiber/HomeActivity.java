@@ -1,232 +1,67 @@
 package parcial2.am.acn4av.martinezmartinez.sraiber;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-
-import androidx.activity.EdgeToEdge;
+import android.widget.LinearLayout;
+import android.widget.FrameLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
 import androidx.activity.OnBackPressedCallback;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import java.util.List;
-import java.util.Comparator;
-
-import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
-import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.EjercicioRepository;
-import parcial2.am.acn4av.martinezmartinez.sraiber.adapter.RutinaAdapter;
-import parcial2.am.acn4av.martinezmartinez.sraiber.model.Ejercicio;
-import parcial2.am.acn4av.martinezmartinez.sraiber.model.Rutina;
-
-public class HomeActivity extends AppCompatActivity implements AgregarModificarEjercicioDialog.ListenerAgregarEjercicio {
-    private static final String ORDEN_SELECCIONADO = "orden_seleccionado";
-    private int ordenSeleccionado = 0;
-
-    private View home;
-
-    private AutoCompleteTextView menuFiltros;
-
-    private List<Rutina> rutinas;
-    private RutinaAdapter rutinaAdapter;
-
-    private RecyclerView rvRutinas;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_home);
-        home = findViewById(R.id.home_root);
-        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(home, (v, insets) -> {
-            androidx.core.graphics.Insets barras = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars());
-            v.setPadding(barras.left, barras.top, barras.right, barras.bottom);
-            return insets;
+public class HomeActivity extends PantallaDatosActivity {
+    private int seleccion = Navegacion.HOME;
+    private BottomNavigationView barra;
+    @Override protected void onCreate(Bundle state) {
+        super.onCreate(state);
+        if (isFinishing()) return;
+        LinearLayout root = findViewById(R.id.seccion_root);
+        android.view.View scroll = findViewById(R.id.seccion_scroll);
+        int posicion = root.indexOfChild(scroll);
+        root.removeView(scroll);
+        FrameLayout contenedor = new FrameLayout(this);
+        contenedor.setId(R.id.contenedor_pestanas);
+        root.addView(contenedor, posicion, new LinearLayout.LayoutParams(-1, 0, 1));
+        seleccion = state == null ? getIntent().getIntExtra("seccion", Navegacion.HOME)
+                : state.getInt("pestana", Navegacion.HOME);
+        if (seleccion < Navegacion.EJERCICIOS || seleccion > Navegacion.PERFIL) seleccion = Navegacion.HOME;
+        barra = Navegacion.instalar(this, root, seleccion);
+        barra.setId(R.id.barra_principal);
+        barra.setOnItemSelectedListener(item -> { cambiar(item.getItemId()); return true; });
+        cambiar(seleccion);
+        datos.cambios.observe(this, cambio -> estadoDatos());
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override public void handleOnBackPressed() {
+                if (seleccion != Navegacion.HOME) barra.setSelectedItemId(Navegacion.HOME);
+                else { setEnabled(false); getOnBackPressedDispatcher().onBackPressed(); setEnabled(true); }
+            }
         });
-        rutinas = RutinaRepository.getRutinas(this);
-
-        WindowInsetsControllerCompat controller =
-                WindowCompat.getInsetsController(getWindow(), home);
-
-        getWindow().setStatusBarColor(
-                ContextCompat.getColor(this, R.color.marber_background)
-        );
-        controller.setAppearanceLightStatusBars(false);
-        controller.setAppearanceLightNavigationBars(false);
-
-        //declaración de las variables de los botones de la activity
-        MaterialButton logoutButton = findViewById(R.id.btn_logout);
-        menuFiltros = findViewById(R.id.menu_drop_filtros);
-
-        //Pongo datos en el card para probar
-        rvRutinas = findViewById(R.id.rv_rutinas);
-
-        rvRutinas.setLayoutManager(
-                new LinearLayoutManager(this)
-        );
-        rutinaAdapter = new RutinaAdapter(
-                rutinas,
-                rutina -> {
-                    if (getSupportFragmentManager().findFragmentByTag("agregar_ejercicio") == null) {
-                        AgregarModificarEjercicioDialog.crearAgregar(rutina.getNombre())
-                                .show(getSupportFragmentManager(), "agregar_ejercicio");
-                    }
-                },
-                rutina -> {
-                    Intent intent =
-                            new Intent(
-                                    HomeActivity.this,
-                                    DetalleRutinaActivity.class
-                            );
-                    intent.putExtra(
-                            "nombre_rutina",
-                            rutina.getNombre()
-                    );
-                    Sesion.agregarUsuario(intent);
-                    startActivity(intent);
-                }
-        );
-        rvRutinas.setAdapter(rutinaAdapter);
-        //Estos son los filtros que van a aparecer en el layout, osea el xml
-        String[] filtros = getResources().getStringArray(R.array.orden_rutinas);
-
-        //este objeto toma el contexto, un layout apra mostrar los datos, los datos
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_dropdown_item_1line,
-                filtros
-        );
-
-        //acá estoy pasando los datos para el layout nuestro y que se agregue eso a nuestro filtro
-        menuFiltros.setAdapter(adapter);
-        menuFiltros.setOnClickListener(v -> menuFiltros.showDropDown());
-        com.google.android.material.textfield.TextInputLayout campoOrden = findViewById(R.id.input_filtros);
-        campoOrden.setEndIconOnClickListener(v -> menuFiltros.showDropDown());
-
-        menuFiltros.setOnItemClickListener((parent, view, position, id) -> aplicarOrden(position));
-        // Guardé la selección para mantener el orden cuando se recrea la pantalla.
-        if (savedInstanceState != null) {
-            ordenSeleccionado = savedInstanceState.getInt(ORDEN_SELECCIONADO, 0);
-        }
-        aplicarOrden(ordenSeleccionado);
-
-
-        // Pedí confirmación antes de cerrar la sesión real de Firebase.
-        logoutButton.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-            popUpCerrarSesion(intent);
-        });
-        getOnBackPressedDispatcher().addCallback(this,
-                new OnBackPressedCallback(true) {
-                    @Override
-                    public void handleOnBackPressed() {
-                        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                        popUpCerrarSesion(intent);
-                    }
-                });
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (!Sesion.exigir(this)) return;
-
-        rutinas.clear();
-        rutinas.addAll(
-                RutinaRepository.getRutinas(this)
-        );
-
-        aplicarOrden(ordenSeleccionado);
-        findViewById(R.id.home_vacio).setVisibility(rutinas.isEmpty() ? View.VISIBLE : View.GONE);
-    }
-    @Override
-    public boolean onAgregarEjercicio(String nombreRutina, String nombre, int series, int repeticiones) {
-        for (int i = 0; i < rutinas.size(); i++) {
-            Rutina rutina = rutinas.get(i);
-            if (rutina.getNombre().equals(nombreRutina)) {
-                try {
-                    RutinaRepository.agregarEjercicio(this, rutina,
-                            new Ejercicio(nombre, series, repeticiones,
-                                    EjercicioRepository.imagenPorNombre(nombre)));
-                    rutinaAdapter.notifyItemChanged(i, RutinaAdapter.EJERCICIO_AGREGADO);
-                    Snackbar.make(rvRutinas, R.string.ejercicio_agregado, Snackbar.LENGTH_SHORT).show();
-                    return true;
-                } catch (IllegalStateException e) {
-                    return false;
-                }
+    private void cambiar(int id) {
+        if (getSupportFragmentManager().isStateSaved()) return;
+        String etiqueta = "pestana_" + id;
+        Fragment destino = getSupportFragmentManager().findFragmentByTag(etiqueta);
+        FragmentTransaction cambio = getSupportFragmentManager().beginTransaction().setReorderingAllowed(true);
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment.getId() == R.id.contenedor_pestanas && fragment != destino) {
+                cambio.hide(fragment).setMaxLifecycle(fragment, Lifecycle.State.STARTED);
             }
         }
-        return false;
+        if (destino == null) {
+            if (id == Navegacion.HOME) destino = new InicioFragment();
+            else if (id == Navegacion.RUTINAS) destino = new RutinasFragment();
+            else if (id == Navegacion.HISTORIAL) destino = new HistorialFragment();
+            else {
+                destino = new PendienteFragment();
+                Bundle args = new Bundle(); args.putInt("seccion", id); destino.setArguments(args);
+            }
+            cambio.add(R.id.contenedor_pestanas, destino, etiqueta);
+        } else cambio.show(destino);
+        cambio.setMaxLifecycle(destino, Lifecycle.State.RESUMED).setPrimaryNavigationFragment(destino).commitNow();
+        seleccion = id;
     }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt(ORDEN_SELECCIONADO, ordenSeleccionado);
-        super.onSaveInstanceState(outState);
+    @Override protected void onSaveInstanceState(Bundle out) {
+        out.putInt("pestana", seleccion); super.onSaveInstanceState(out);
     }
-
-    private void aplicarOrden(int opcion) {
-        ordenSeleccionado = opcion;
-        switch (opcion) {
-            case 0:
-                ordenarPorFechaReciente();
-                break;
-            case 1:
-                ordenarPorFechaAntigua();
-                break;
-            case 2:
-                ordenarPorMasRealizadas();
-                break;
-            case 3:
-                ordenarPorMenosRealizadas();
-                break;
-            default:
-                ordenSeleccionado = 0;
-                ordenarPorFechaReciente();
-        }
-        // Usé false para que el texto elegido no filtre las opciones del desplegable.
-        menuFiltros.setText(getResources().getStringArray(R.array.orden_rutinas)[ordenSeleccionado], false);
-        rutinaAdapter.notifyDataSetChanged();
-        rvRutinas.scrollToPosition(0);
-    }
-
-    private void ordenarPorFechaReciente() {
-        rutinas.sort(Comparator.comparing(Rutina::getUltimaVezRealizada).reversed()
-                .thenComparing(Rutina::getNombre));
-    }
-
-    private void ordenarPorFechaAntigua() {
-        rutinas.sort(Comparator.comparing(Rutina::getUltimaVezRealizada)
-                .thenComparing(Rutina::getNombre));
-    }
-
-    private void ordenarPorMasRealizadas() {
-        rutinas.sort(Comparator.comparingInt(Rutina::getVecesRealizada).reversed()
-                .thenComparing(Rutina::getNombre));
-    }
-
-    private void ordenarPorMenosRealizadas() {
-        rutinas.sort(Comparator.comparingInt(Rutina::getVecesRealizada)
-                .thenComparing(Rutina::getNombre));
-    }
-    protected void popUpCerrarSesion(Intent intent){
-        // Apliqué el tema oscuro para que se lean el mensaje y los botones de confirmación.
-        new MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_Marber_Dialog)
-                .setTitle(R.string.cerrar_sesion)
-                .setMessage(R.string.confirmar_cerrar_sesion)
-                .setPositiveButton(R.string.confirmar_si, (dialog, which) -> {
-                    Sesion.cerrar(this);
-                })
-                .setNegativeButton(R.string.ejercicio_cancelar, null)
-                .show();
-    }
+    @Override protected void mostrar() { }
 }

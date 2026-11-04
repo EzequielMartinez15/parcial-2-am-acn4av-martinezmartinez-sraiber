@@ -132,7 +132,7 @@ public class AgregarModificarEjercicioDialog extends DialogFragment {
                     if (editar) {
                         guardado = ((ListenerEditarEjercicio) requireActivity()).onEditarEjercicio(requireArguments().getInt(POSICION), nombreIngresado, cantidadSeries, cantidadRepeticiones);
                     } else {
-                        guardado = ((ListenerAgregarEjercicio) requireActivity()).onAgregarEjercicio(rutina, nombreIngresado, cantidadSeries, cantidadRepeticiones);
+                        guardado = ((ListenerAgregarEjercicio) (getParentFragment() instanceof ListenerAgregarEjercicio ? getParentFragment() : requireActivity())).onAgregarEjercicio(rutina, nombreIngresado, cantidadSeries, cantidadRepeticiones);
                     }
                     if (guardado) {
                         dismiss();

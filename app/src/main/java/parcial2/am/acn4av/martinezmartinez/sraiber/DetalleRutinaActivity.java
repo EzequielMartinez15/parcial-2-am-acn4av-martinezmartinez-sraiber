@@ -30,6 +30,7 @@ public class DetalleRutinaActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!Sesion.exigir(this)) return;
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_detalle_rutina);
         main = findViewById(R.id.detalle_root);
@@ -40,12 +41,31 @@ public class DetalleRutinaActivity extends AppCompatActivity implements
             v.setPadding(barras.left, barras.top, barras.right, barras.bottom);
             return insets;
         });
+        findViewById(R.id.btn_volver).setOnClickListener(v -> finish());
+        // Esperé la carga de Firestore antes de buscar la rutina al recrear la pantalla.
+        parcial2.am.acn4av.martinezmartinez.sraiber.Repository.DatosUsuario datos =
+                parcial2.am.acn4av.martinezmartinez.sraiber.Repository.DatosUsuario.obtener(this);
+        datos.cambios.observe(this, cambio -> { if (datos.listo) cargarRutina(); });
+        datos.error.observe(this, error -> {
+            if (error != null && !error.isEmpty()) Snackbar.make(main, error, Snackbar.LENGTH_LONG).show();
+        });
+    }
+
+    private void cargarRutina() {
+        Rutina anterior = rutinaActual;
         String nombre = getIntent().getStringExtra("nombre_rutina");
+        String id = getIntent().getStringExtra("rutina_id");
+        rutinaActual = null;
         for (Rutina rutina : RutinaRepository.getRutinas(this)) {
-            if (rutina.getNombre().equals(nombre)) rutinaActual = rutina;
+            if (id != null ? rutina.getId().equals(id) : rutina.getNombre().equals(nombre)) rutinaActual = rutina;
         }
         if (rutinaActual == null) {
             finish();
+            return;
+        }
+        if (anterior != null && parcial2.am.acn4av.martinezmartinez.sraiber.Repository.DatosUsuario.datosRutina(anterior)
+                .equals(parcial2.am.acn4av.martinezmartinez.sraiber.Repository.DatosUsuario.datosRutina(rutinaActual))) {
+            rutinaActual = anterior;
             return;
         }
         ((TextView) findViewById(R.id.txtTituloRutina)).setText(rutinaActual.getNombre());

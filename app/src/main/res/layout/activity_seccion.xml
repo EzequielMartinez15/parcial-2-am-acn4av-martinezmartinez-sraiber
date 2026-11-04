@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/seccion_root" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:background="@color/marber_background">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center_vertical" android:paddingHorizontal="20dp">
+        <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content"
+            android:text="@string/brand_title" android:textColor="@color/marber_primary_light"
+            android:textStyle="bold" android:letterSpacing="0.18" />
+        <com.google.android.material.button.MaterialButton android:id="@+id/seccion_salir"
+            style="@style/Widget.Marber.Button.Quiet" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:text="@string/salir_corto" />
+    </LinearLayout>
+    <TextView android:id="@+id/seccion_estado" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:paddingHorizontal="20dp" android:paddingBottom="8dp"
+        android:textSize="12sp" android:textColor="@color/marber_text_medium"
+        android:accessibilityLiveRegion="polite" />
+    <androidx.core.widget.NestedScrollView android:id="@+id/seccion_scroll" android:layout_width="match_parent"
+        android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true">
+        <LinearLayout android:id="@+id/seccion_contenido" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp" />
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

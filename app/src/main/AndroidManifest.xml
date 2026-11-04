@@ -12,6 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Marber">
+        <activity android:name=".RutinasActivity" android:exported="false" />
+        <activity android:name=".EntrenamientoActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".HistorialActivity" android:exported="false" />
+        <activity android:name=".DetalleEntrenamientoActivity" android:exported="false" />
+        <activity android:name=".SeccionPendienteActivity" android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="true"

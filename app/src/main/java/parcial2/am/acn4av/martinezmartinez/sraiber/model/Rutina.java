@@ -7,6 +7,7 @@ import java.util.List;
 public class Rutina {
 
     private String nombre;
+    private String id;
     private List<Ejercicio> ejercicios;
     private int vecesRealizada;
     private Date ultimaVezRealizada;
@@ -18,6 +19,7 @@ public class Rutina {
             Date ultimaVezRealizada
     ) {
         this.nombre = nombre;
+        this.id = java.util.UUID.nameUUIDFromBytes(nombre.getBytes(java.nio.charset.StandardCharsets.UTF_8)).toString();
         this.ejercicios = new ArrayList<>(ejercicios);
         this.vecesRealizada = vecesRealizada;
         this.ultimaVezRealizada = ultimaVezRealizada;
@@ -26,6 +28,9 @@ public class Rutina {
     public String getNombre() {
         return nombre;
     }
+
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public List<Ejercicio> getEjercicios() {
         return ejercicios;

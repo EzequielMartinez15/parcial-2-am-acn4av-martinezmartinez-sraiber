@@ -73,7 +73,7 @@ public class RutinaAdapter
                 );
 
         holder.fecha.setText(
-                sdf.format(
+                rutina.getVecesRealizada() == 0 ? holder.itemView.getContext().getString(R.string.sin_entrenamientos_previos) : sdf.format(
                         rutina.getUltimaVezRealizada()
                 )
         );

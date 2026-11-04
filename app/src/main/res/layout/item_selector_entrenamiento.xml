@@ -1,0 +1,4 @@
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="56dp"
+    android:gravity="center_vertical" android:paddingHorizontal="16dp" android:paddingVertical="12dp"
+    android:textSize="16sp" android:textColor="@color/marber_text_high" android:background="@color/marber_surface" />
