@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import parcial2.am.acn4av.martinezmartinez.sraiber.R;
-import parcial2.am.acn4av.martinezmartinez.sraiber.model.Ejercicio;
+import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
 
 public class EjercicioFotoHomeAdapter
         extends RecyclerView.Adapter<EjercicioFotoHomeAdapter.EjercicioViewHolder> {
 
-    private final List<Ejercicio> ejercicios;
+    private final List<EjercicioRutina> ejercicios;
 
-    public EjercicioFotoHomeAdapter(List<Ejercicio> ejercicios) {
+    public EjercicioFotoHomeAdapter(List<EjercicioRutina> ejercicios) {
         this.ejercicios = ejercicios;
     }
 
@@ -40,7 +40,7 @@ public class EjercicioFotoHomeAdapter
             @NonNull EjercicioViewHolder holder,
             int position) {
 
-        Ejercicio ejercicio = ejercicios.get(position);
+        EjercicioRutina ejercicio = ejercicios.get(position);
         holder.nombre.setText(ejercicio.getNombre());
         holder.resumen.setText(holder.itemView.getContext().getString(
                 R.string.ejercicio_series_repeticiones, ejercicio.getSeries(), ejercicio.getRepeticiones()));

@@ -1,5 +1,7 @@
 package parcial2.am.acn4av.martinezmartinez.sraiber;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import com.google.android.gms.tasks.Task;
@@ -7,6 +9,13 @@ import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AuthViewModel extends ViewModel {
     final MutableLiveData<Boolean> ocupado = new MutableLiveData<>(false);
@@ -22,7 +31,7 @@ public class AuthViewModel extends ViewModel {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         // Conservé la operación al girar la pantalla sin guardar la contraseña en el ViewModel.
         completar(registro ? auth.createUserWithEmailAndPassword(email, password)
-                : auth.signInWithEmailAndPassword(email, password), false);
+                : auth.signInWithEmailAndPassword(email, password), false, registro);
     }
 
     void recuperar(String email) {
@@ -30,16 +39,33 @@ public class AuthViewModel extends ViewModel {
         ocupado.setValue(true);
         mensaje.setValue(0);
         FirebaseAuth.getInstance().setLanguageCode("es");
-        completar(FirebaseAuth.getInstance().sendPasswordResetEmail(email), true);
+        completar(FirebaseAuth.getInstance().sendPasswordResetEmail(email), true, false);
     }
 
-    private void completar(Task<?> tarea, boolean recuperacion) {
+    private void completar(Task<?> tarea, boolean recuperacion, boolean registro) {
         tarea.addOnCompleteListener(resultado -> {
             ocupado.setValue(false);
             if (resultado.isSuccessful()) {
-                if (recuperacion) mensaje.setValue(R.string.auth_reset_enviado);
-                else autenticado.setValue(true);
-            } else {
+
+                if (recuperacion) {
+
+                    mensaje.setValue(
+                            R.string.auth_reset_enviado
+                    );
+
+                } else if (registro) {
+
+                    inicializarUsuarioNuevo(
+                            FirebaseAuth.getInstance()
+                                    .getCurrentUser()
+                                    .getUid()
+                    );
+
+                } else {
+
+                    autenticado.setValue(true);
+                }
+            }else {
                 mensaje.setValue(error(resultado.getException()));
             }
         });
@@ -63,5 +89,48 @@ public class AuthViewModel extends ViewModel {
             }
         }
         return R.string.auth_error_general;
+    }
+
+    //Acá inicializa el usuarioNuevo, poniendolo en la BD, junto con las rutinas predeterminadas de la app. Además de guardar la fecha en la que creó la cuenta
+    private void inicializarUsuarioNuevo(String uid) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("rutinasPredeterminadas")
+                .get()
+                .addOnSuccessListener(snapshot -> {
+
+                    WriteBatch batch = db.batch();
+
+                    Map<String, Object> datosUsuario = new HashMap<>();
+
+                    datosUsuario.put("uid", uid);
+                    datosUsuario.put("fechaCreacion", System.currentTimeMillis());
+
+                    batch.set(db.collection("usuarios").document(uid), datosUsuario);
+
+                    batch.set(
+                            db.collection("usuarios")
+                                    .document(uid)
+                                    .collection("estado")
+                                    .document("migracion"),
+                            Collections.singletonMap("version",1)
+                    );
+
+                    for (DocumentSnapshot doc : snapshot.getDocuments()) {
+
+                        batch.set(db.collection("usuarios")
+                                        .document(uid)
+                                        .collection("rutinas")
+                                        .document(doc.getId()),
+                                doc.getData()
+                        );
+                    }
+
+                    batch.commit()
+                            .addOnSuccessListener(v -> {autenticado.setValue(true);})
+                            .addOnFailureListener(e -> {});
+                })
+                .addOnFailureListener(e -> mensaje.setValue(R.string.auth_error_general)
+                );
     }
 }

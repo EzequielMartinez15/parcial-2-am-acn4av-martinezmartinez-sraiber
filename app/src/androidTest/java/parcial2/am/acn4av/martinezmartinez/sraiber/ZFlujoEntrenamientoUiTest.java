@@ -48,7 +48,7 @@ public class ZFlujoEntrenamientoUiTest {
         }
     }
     @Test public void registroRotacionHistorialYComparacion() throws Exception {
-        Rutina r = new Rutina("Rutina de prueba", Arrays.asList(new Ejercicio("Sentadilla", 2, 10, 0)), 0, new Date(0));
+        Rutina r = new Rutina("Rutina de prueba", Arrays.asList(new EjercicioRutina("Sentadilla", 2, 10, 0)), 0, new Date(0));
         InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> datos.guardarRutina(r));
         await(db.waitForPendingWrites()); hasta(() -> datos.buscarRutina(r.getId()) != null);
         try (ActivityScenario<HomeActivity> home = ActivityScenario.launch(HomeActivity.class)) { captura("home"); }

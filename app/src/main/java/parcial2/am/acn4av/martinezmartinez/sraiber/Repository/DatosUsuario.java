@@ -68,33 +68,20 @@ public final class DatosUsuario {
     private void iniciar(Context context) {
         if (iniciando) return;
         iniciando = true; error.setValue("");
-        DocumentReference marca = usuario.collection("estado").document("migracion");
-        // Recuperé primero la marca local para poder abrir una cuenta ya migrada sin conexión.
-        marca.get(Source.CACHE).addOnCompleteListener(cache -> {
-            if (cerrado) return;
-            if (cache.isSuccessful() && cache.getResult().exists()) escuchar();
-            else migrar(context, marca);
-        });
-    }
-
-    private void migrar(Context context, DocumentReference marca) {
-        android.content.SharedPreferences origen = context.getSharedPreferences("propietario_migracion", Context.MODE_PRIVATE);
-        String propietario = origen.getString("uid", "");
-        // Asigné los datos viejos a una sola cuenta para no copiarlos a todos los usuarios del teléfono.
-        if (propietario.isEmpty()) { origen.edit().putString("uid", uid).commit(); propietario = uid; }
-        List<Rutina> iniciales = propietario.equals(uid)
-                ? RutinaLocalAnterior.getRutinas(context) : RutinaLocalAnterior.getRutinas();
-        db.runTransaction(transaction -> {
-            if (!transaction.get(marca).exists()) {
-                for (Rutina r : iniciales) transaction.set(usuario.collection("rutinas").document(r.getId()), datosRutina(r));
-                transaction.set(marca, Collections.singletonMap("version", 1));
+        //Crea el catálogo de los ejercicios creados por la app y los deja en un hashmap para que se use este en la app y no vaya siempre a la bd para ver los ejercicios
+        EjercicioRepository.getCatalogo(new EjercicioRepository.Callback() {
+                @Override
+                public void onSuccess(List<EjercicioCatalogo> ejercicios) {
+                    escuchar();
+                }
+                @Override
+                public void onError(Exception e) {
+                    fallo(e);
+                }
             }
-            return null;
-        }).addOnSuccessListener(ignorado -> escuchar()).addOnFailureListener(e -> {
-            iniciando = false; fallo(e);
-        });
+        );
     }
-
+    //Borré el méthod que migraba todos los datos del almacenamiento local. En el authViewModel se cargan las rutinas predefinidas de un nuevo user y más abajo se cargan las rutinas de un user logeado
     private void escuchar() {
         if (cerrado) return;
         if (!escuchas.isEmpty()) return;
@@ -206,21 +193,39 @@ public final class DatosUsuario {
     public static Map<String, Object> datosRutina(Rutina r) {
         Map<String, Object> d = new HashMap<>(); d.put("nombre", r.getNombre());
         List<Map<String, Object>> lista = new ArrayList<>();
-        for (Ejercicio e : r.getEjercicios()) {
-            Map<String, Object> item = new HashMap<>(); item.put("nombre", e.getNombre());
-            item.put("series", e.getSeries()); item.put("repeticiones", e.getRepeticiones()); lista.add(item);
+        for (EjercicioRutina e : r.getEjercicios()) {
+            Map<String, Object> item = new HashMap<>();
+            //Hice un cambio en el For por el refractor de ejercicioRutina y puse la información guardad en la db con el nuevo modelado
+            item.put("ejercicioId", e.getIdFirebase());
+            item.put("series", e.getSeries());
+            item.put("repeticiones", e.getRepeticiones());
+
+            lista.add(item);
         }
         d.put("ejercicios", lista); return d;
     }
     @SuppressWarnings("unchecked")
     private Rutina leerRutina(DocumentSnapshot d) {
-        List<Ejercicio> ejercicios = new ArrayList<>();
+        List<EjercicioRutina> ejercicios = new ArrayList<>();
         Object datos = d.get("ejercicios");
         if (datos instanceof List) for (Object item : (List<?>) datos) {
             Map<String, Object> e = (Map<String, Object>) item;
-            String nombre = Entrenamiento.texto(e, "nombre");
-            ejercicios.add(new Ejercicio(nombre, (int)Entrenamiento.numero(e, "series"),
-                    (int)Entrenamiento.numero(e, "repeticiones"), EjercicioRepository.imagenPorNombre(nombre)));
+
+            String ejercicioId  = Entrenamiento.texto(e, "ejercicioId");
+            int series = (int) Entrenamiento.numero(e, "series");
+            int repeticiones = (int) Entrenamiento.numero(e, "repeticiones");
+
+            EjercicioCatalogo catalogo = EjercicioRepository.buscarPorId(ejercicioId);
+            //cuando lee la rutina busca el ejercicio específico por la id de firestore y lo agrega a la lista de ejercicios de la rutina
+            ejercicios.add(
+                    new EjercicioRutina(
+                            ejercicioId,
+                            catalogo.getNombre(),
+                            series,
+                            repeticiones,
+                            catalogo.getNombreFoto()
+                    )
+            );
         }
         Rutina r = new Rutina(d.getString("nombre"), ejercicios, 0, new Date(0)); r.setId(d.getId()); return r;
     }

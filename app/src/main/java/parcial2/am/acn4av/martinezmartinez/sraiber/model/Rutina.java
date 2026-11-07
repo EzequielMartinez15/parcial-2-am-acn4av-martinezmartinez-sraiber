@@ -8,13 +8,13 @@ public class Rutina {
 
     private String nombre;
     private String id;
-    private List<Ejercicio> ejercicios;
+    private List<EjercicioRutina> ejercicios;
     private int vecesRealizada;
     private Date ultimaVezRealizada;
 
     public Rutina(
             String nombre,
-            List<Ejercicio> ejercicios,
+            List<EjercicioRutina> ejercicios,
             int vecesRealizada,
             Date ultimaVezRealizada
     ) {
@@ -32,7 +32,7 @@ public class Rutina {
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
-    public List<Ejercicio> getEjercicios() {
+    public List<EjercicioRutina> getEjercicios() {
         return ejercicios;
     }
 

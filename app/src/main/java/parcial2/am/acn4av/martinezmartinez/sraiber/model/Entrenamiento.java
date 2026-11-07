@@ -48,7 +48,7 @@ public class Entrenamiento {
         e.id = UUID.randomUUID().toString(); e.rutinaId = rutina.getId();
         e.nombre = rutina.getNombre(); e.inicio = System.currentTimeMillis();
         Map<String, Integer> repetidos = new HashMap<>();
-        for (Ejercicio ejercicio : rutina.getEjercicios()) {
+        for (EjercicioRutina ejercicio : rutina.getEjercicios()) {
             Movimiento m = new Movimiento(); m.nombre = ejercicio.getNombre();
             String base = m.nombre.trim().toLowerCase(java.util.Locale.ROOT);
             int numero = repetidos.getOrDefault(base, 0);

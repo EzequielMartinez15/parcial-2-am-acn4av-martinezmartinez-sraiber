@@ -20,7 +20,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import parcial2.am.acn4av.martinezmartinez.sraiber.model.Ejercicio;
+import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioCatalogo;
+import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
 
 // Usé DialogFragment para que el formulario se conserve al girar el dispositivo.
 public class AgregarModificarEjercicioDialog extends DialogFragment {
@@ -51,7 +52,7 @@ public class AgregarModificarEjercicioDialog extends DialogFragment {
         dialog.setArguments(argumentos);
         return dialog;
     }
-    public static AgregarModificarEjercicioDialog crearEditar(String rutina, Ejercicio ejercicio, int posicion) {
+    public static AgregarModificarEjercicioDialog crearEditar(String rutina, EjercicioRutina ejercicio, int posicion) {
         AgregarModificarEjercicioDialog dialog = new AgregarModificarEjercicioDialog();
 
         Bundle argumentos = new Bundle();
@@ -77,7 +78,7 @@ public class AgregarModificarEjercicioDialog extends DialogFragment {
         TextInputLayout campoRepeticiones = formulario.findViewById(R.id.campo_repeticiones_ejercicio);
         MaterialAutoCompleteTextView nombre = formulario.findViewById(R.id.input_nombre_ejercicio);
         java.util.List<String> nombres = new java.util.ArrayList<>();
-        for (Ejercicio ejercicio : EjercicioRepository.getEjercicios()) {
+        for (EjercicioCatalogo ejercicio : EjercicioRepository.getCatalogoCache()) {//TODO Ver si esto funciona bien
             nombres.add(ejercicio.getNombre());
         }
         nombre.setAdapter(new ArrayAdapter<>(builder.getContext(), android.R.layout.simple_dropdown_item_1line, nombres));

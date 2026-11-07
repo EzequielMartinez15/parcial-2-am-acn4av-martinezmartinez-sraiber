@@ -16,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.EjercicioRepository;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
 import parcial2.am.acn4av.martinezmartinez.sraiber.adapter.EjercicioDetalleRutinaAdapter;
-import parcial2.am.acn4av.martinezmartinez.sraiber.model.Ejercicio;
+import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Rutina;
 
 public class DetalleRutinaActivity extends AppCompatActivity implements
@@ -104,7 +104,7 @@ public class DetalleRutinaActivity extends AppCompatActivity implements
         findViewById(R.id.detalle_vacio).setVisibility(cantidad == 0 ? View.VISIBLE : View.GONE);
     }
 
-    private void confirmarBorradoEjercicio(Ejercicio ejercicio) {
+    private void confirmarBorradoEjercicio(EjercicioRutina ejercicio) {
         new MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_Marber_Dialog)
                 .setTitle(R.string.eliminar_ejercicio)
                 .setMessage(getString(R.string.confirmar_eliminar_ejercicio, ejercicio.getNombre()))
@@ -131,20 +131,22 @@ public class DetalleRutinaActivity extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onAgregarEjercicio(String rutina, String nombre, int series, int repeticiones) {
-        if (!rutinaActual.getNombre().equals(rutina)) return false;
-        try {
-            RutinaRepository.agregarEjercicio(this, rutinaActual, new Ejercicio(nombre, series,
-                    repeticiones, EjercicioRepository.imagenPorNombre(nombre)));
-            int posicion = rutinaActual.getEjercicios().size() - 1;
-            adapter.notifyItemInserted(posicion);
-            actualizarResumen();
-            rvEjercicios.smoothScrollToPosition(posicion);
-            Snackbar.make(main, R.string.ejercicio_agregado, Snackbar.LENGTH_SHORT).show();
-            return true;
-        } catch (IllegalStateException e) {
-            return false;
-        }
+    public boolean onAgregarEjercicio(String rutina, String nombre, int series, int repeticiones) {//TODO HACER BIEN EL METHOD
+        //Lo voy a hacer en los siguietnes commits cuando pruebe todos los méthods
+//        if (!rutinaActual.getNombre().equals(rutina)) return false;
+//        try {
+//            RutinaRepository.agregarEjercicio(this, rutinaActual, new EjercicioRutina(nombre, series,
+//                    repeticiones, null/*EjercicioRepository.imagenPorNombre(nombre)*/));
+//            int posicion = rutinaActual.getEjercicios().size() - 1;
+//            adapter.notifyItemInserted(posicion);
+//            actualizarResumen();
+//            rvEjercicios.smoothScrollToPosition(posicion);
+//            Snackbar.make(main, R.string.ejercicio_agregado, Snackbar.LENGTH_SHORT).show();
+//            return true;
+//        } catch (IllegalStateException e) {
+//            return false;
+//        }
+        return true;
     }
 
     @Override

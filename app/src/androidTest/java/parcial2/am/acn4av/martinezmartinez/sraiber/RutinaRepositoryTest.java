@@ -11,8 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.EjercicioRepository;
-import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.RutinaLocalAnterior;
-import parcial2.am.acn4av.martinezmartinez.sraiber.model.Ejercicio;
+import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Rutina;
 
 @RunWith(AndroidJUnit4.class)
@@ -41,7 +40,7 @@ public class RutinaRepositoryTest {
     public void editarEjercicioOriginalPersisteAlRecargar() {
         Rutina rutina = RutinaLocalAnterior.getRutinas(context).get(0);
         RutinaLocalAnterior.editarEjercicio(context, rutina, rutina.getEjercicios().get(0), "Press Banca", 7, 9);
-        Ejercicio recuperado = RutinaLocalAnterior.getRutinas(context).get(0).getEjercicios().get(0);
+        EjercicioRutina recuperado = RutinaLocalAnterior.getRutinas(context).get(0).getEjercicios().get(0);
         assertEquals(7, recuperado.getSeries());
         assertEquals(9, recuperado.getRepeticiones());
         assertEquals(R.drawable.press_banca, recuperado.getImagen());
@@ -50,9 +49,9 @@ public class RutinaRepositoryTest {
     @Test
     public void borrarUnDuplicadoNoBorraLosDemasYPermiteVolverAAgregar() {
         Rutina rutina = RutinaLocalAnterior.getRutinas(context).get(0);
-        Ejercicio original = rutina.getEjercicios().get(0);
+        EjercicioRutina original = rutina.getEjercicios().get(0);
         int cantidad = rutina.getEjercicios().size();
-        RutinaLocalAnterior.agregarEjercicio(context, rutina, new Ejercicio(original.getNombre(), 2, 5, original.getImagen()));
+        RutinaLocalAnterior.agregarEjercicio(context, rutina, new EjercicioRutina(original.getNombre(), 2, 5, original.getImagen()));
         RutinaLocalAnterior.eliminarEjercicio(context, rutina, original);
         Rutina recuperada = RutinaLocalAnterior.getRutinas(context).get(0);
         assertEquals(cantidad, recuperada.getEjercicios().size());
@@ -92,7 +91,7 @@ public class RutinaRepositoryTest {
     @Test
     public void catalogoTieneFotosYReconoceAcentos() {
         assertEquals(18, EjercicioRepository.getEjercicios().size());
-        for (Ejercicio ejercicio : EjercicioRepository.getEjercicios()) {
+        for (EjercicioRutina ejercicio : EjercicioRepository.getEjercicios()) {
             assertNotEquals(R.drawable.blue, ejercicio.getImagen());
             assertNotNull(context.getDrawable(ejercicio.getImagen()));
         }

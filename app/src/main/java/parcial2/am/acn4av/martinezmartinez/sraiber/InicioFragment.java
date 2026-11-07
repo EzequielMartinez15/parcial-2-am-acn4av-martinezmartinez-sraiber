@@ -80,7 +80,7 @@ public class InicioFragment extends DatosFragment {
             public void onNothingSelected(AdapterView<?> parent) { }
             public void onItemSelected(AdapterView<?> parent, android.view.View view, int p, long id) {
                 Rutina r = rutinas.get(p); seleccion = r.getId(); int series = 0;
-                for (Ejercicio e : r.getEjercicios()) series += e.getSeries();
+                for (EjercicioRutina e : r.getEjercicios()) series += e.getSeries();
                 resumen.setText(getString(R.string.rutina_resumen, r.getEjercicios().size(), series));
             }
         });

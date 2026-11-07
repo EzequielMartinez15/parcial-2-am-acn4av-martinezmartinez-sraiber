@@ -15,20 +15,20 @@ import com.google.android.material.button.MaterialButton;
 import java.util.List;
 
 import parcial2.am.acn4av.martinezmartinez.sraiber.R;
-import parcial2.am.acn4av.martinezmartinez.sraiber.model.Ejercicio;
+import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
 
 public class EjercicioDetalleRutinaAdapter
         extends RecyclerView.Adapter<EjercicioDetalleRutinaAdapter.ViewHolder> {
 
     private final Context context;
-    private final List<Ejercicio> ejercicios;
+    private final List<EjercicioRutina> ejercicios;
 
-    public interface OnEjercicioDeleteListener { void onDelete(Ejercicio ejercicio);}
+    public interface OnEjercicioDeleteListener { void onDelete(EjercicioRutina ejercicio);}
     private final OnEjercicioDeleteListener listenerBorrar;
-    public interface OnEjercicioEditListener { void onEdit(Ejercicio ejercicio);}
+    public interface OnEjercicioEditListener { void onEdit(EjercicioRutina ejercicio);}
     private final OnEjercicioEditListener listenerEdit;
 
-    public EjercicioDetalleRutinaAdapter(Context context, List<Ejercicio> ejercicios, OnEjercicioDeleteListener listenerBorrar, OnEjercicioEditListener listenerEdit) {
+    public EjercicioDetalleRutinaAdapter(Context context, List<EjercicioRutina> ejercicios, OnEjercicioDeleteListener listenerBorrar, OnEjercicioEditListener listenerEdit) {
         this.context = context;
         this.ejercicios = ejercicios;
         this.listenerBorrar = listenerBorrar;
@@ -58,7 +58,7 @@ public class EjercicioDetalleRutinaAdapter
             int position
     ) {
 
-        Ejercicio ejercicio = ejercicios.get(position);
+        EjercicioRutina ejercicio = ejercicios.get(position);
         holder.imgEjercicio.setImageResource(ejercicio.getImagen());
         holder.imgEjercicio.setContentDescription(context.getString(R.string.foto_de_ejercicio, ejercicio.getNombre()));
 
