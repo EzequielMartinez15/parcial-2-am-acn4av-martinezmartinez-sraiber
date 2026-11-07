@@ -59,8 +59,21 @@ public class EjercicioDetalleRutinaAdapter
     ) {
 
         EjercicioRutina ejercicio = ejercicios.get(position);
-        holder.imgEjercicio.setImageResource(ejercicio.getImagen());
+
         holder.imgEjercicio.setContentDescription(context.getString(R.string.foto_de_ejercicio, ejercicio.getNombre()));
+        int imagen = holder.itemView.getContext()
+                .getResources()
+                .getIdentifier(
+                        ejercicio.getNombreImg(),
+                        "drawable",
+                        holder.itemView.getContext().getPackageName()
+                );
+
+        holder.imgEjercicio.setImageResource(
+                imagen != 0
+                        ? imagen
+                        : R.drawable.ic_marber_dumbbell
+        );
 
         holder.txtNombre.setText(
                 ejercicio.getNombre()

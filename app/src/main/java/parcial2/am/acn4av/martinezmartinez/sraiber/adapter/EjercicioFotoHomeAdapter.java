@@ -41,12 +41,29 @@ public class EjercicioFotoHomeAdapter
             int position) {
 
         EjercicioRutina ejercicio = ejercicios.get(position);
+
         holder.nombre.setText(ejercicio.getNombre());
-        holder.resumen.setText(holder.itemView.getContext().getString(
-                R.string.ejercicio_series_repeticiones, ejercicio.getSeries(), ejercicio.getRepeticiones()));
+
+        holder.resumen.setText(
+                holder.itemView.getContext().getString(
+                        R.string.ejercicio_series_repeticiones,
+                        ejercicio.getSeries(),
+                        ejercicio.getRepeticiones()
+                )
+        );
+
+        int imagen = holder.itemView.getContext()
+                .getResources()
+                .getIdentifier(
+                        ejercicio.getNombreImg(),
+                        "drawable",
+                        holder.itemView.getContext().getPackageName()
+                );
 
         holder.imgEjercicio.setImageResource(
-                ejercicio.getImagen()
+                imagen != 0
+                        ? imagen
+                        : R.drawable.ic_marber_dumbbell
         );
     }
 
