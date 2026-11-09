@@ -37,6 +37,11 @@
     <string name="agregar_ejercicio">Agregar ejercicio</string>
     <string name="agregar_ejercicio_titulo">Agregar a %1$s</string>
     <string name="ejercicio_nombre">Nombre del ejercicio</string>
+    <string name="titulo_ejercicio">Ejercicio</string>
+    <string name="grupo_muscular">Grupo muscular</string>
+    <string name="url_foto">Url de la foto</string>
+    <string name="no_ejercicios">No se encontraron ejercicios</string>
+    <string name="guardar">Guardar</string>
     <string name="ejercicio_series">Series</string>
     <string name="ejercicio_repeticiones">Repeticiones</string>
     <string name="ejercicio_guardar">Guardar</string>
@@ -77,4 +82,12 @@
     <string name="salir_corto">Salir</string>
     <string name="titulo_entrenamiento">Tu entrenamiento.</string>
     <string name="subtitulo_entrenamiento">Tus rutinas, a tu ritmo.</string>
+    <string name="txt_subtitlo_ejercicios">Solo puedes modificar o borrar ejercicios que hayas creado.</string>
+    <string name="agregar_a_rutina">Agregar a una rutina</string>
+    <!--<string-array name="orden_rutinas">
+        <item>Fecha reciente</item>
+        <item>Fecha antigua</item>
+        <item>Más realizadas</item>
+        <item>Menos realizadas</item>
+    </string-array>-->
 </resources>

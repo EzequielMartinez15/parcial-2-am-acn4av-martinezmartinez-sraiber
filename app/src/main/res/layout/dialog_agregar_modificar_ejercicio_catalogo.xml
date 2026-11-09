@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/space_large">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campo_nombre_ejercicio"
+            style="@style/Widget.Marber.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/ejercicio_nombre">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_nombre_ejercicio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/control_height"
+                android:paddingStart="@dimen/space_medium"
+                android:paddingEnd="@dimen/space_medium"
+                android:inputType="textCapSentences"
+                android:maxLength="80"
+                android:singleLine="true"
+                android:imeOptions="actionNext"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campo_grupo_muscular"
+            style="@style/Widget.Marber.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:hint="@string/grupo_muscular"
+            app:endIconMode="dropdown_menu">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/input_grupo_muscular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/control_height"
+                android:inputType="none"
+                android:paddingStart="@dimen/space_medium"
+                android:paddingEnd="@dimen/space_medium"
+                android:saveEnabled="false"
+                android:singleLine="true"
+                app:dropDownBackgroundTint="@color/marber_surface"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campo_nombre_foto"
+            style="@style/Widget.Marber.TextInputLayout"
+            app:helperText="Nombre del drawable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:hint="@string/url_foto">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_nombre_foto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:maxLength="80"
+                android:singleLine="true"
+                android:imeOptions="actionDone"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/error_guardado_ejercicio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:text="@string/ejercicio_guardado_error"
+            android:textColor="@color/marber_error"
+            android:accessibilityLiveRegion="polite"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+</ScrollView>

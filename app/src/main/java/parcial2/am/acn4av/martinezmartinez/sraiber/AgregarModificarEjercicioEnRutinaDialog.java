@@ -24,7 +24,7 @@ import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioCatalogo;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
 
 // Usé DialogFragment para que el formulario se conserve al girar el dispositivo.
-public class AgregarModificarEjercicioDialog extends DialogFragment {
+public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
 
     private static final String RUTINA = "rutina";
     private static final String NOMBRE = "nombre";
@@ -39,21 +39,20 @@ public class AgregarModificarEjercicioDialog extends DialogFragment {
 
     }
     public interface ListenerEditarEjercicio {
-        //agregué el métod para editar un ejercicio
         boolean onEditarEjercicio(int posicion, String nombre, int series, int repeticiones);
 
     }
 
-    public static AgregarModificarEjercicioDialog crearAgregar(String rutina) {
-        AgregarModificarEjercicioDialog dialog = new AgregarModificarEjercicioDialog();
+    public static AgregarModificarEjercicioEnRutinaDialog crearAgregar(String rutina) {
+        AgregarModificarEjercicioEnRutinaDialog dialog = new AgregarModificarEjercicioEnRutinaDialog();
         Bundle argumentos = new Bundle();
         argumentos.putString(RUTINA, rutina);
         argumentos.putBoolean(EDITAR, false);
         dialog.setArguments(argumentos);
         return dialog;
     }
-    public static AgregarModificarEjercicioDialog crearEditar(String rutina, EjercicioRutina ejercicio, int posicion) {
-        AgregarModificarEjercicioDialog dialog = new AgregarModificarEjercicioDialog();
+    public static AgregarModificarEjercicioEnRutinaDialog crearEditar(String rutina, EjercicioRutina ejercicio, int posicion) {
+        AgregarModificarEjercicioEnRutinaDialog dialog = new AgregarModificarEjercicioEnRutinaDialog();
 
         Bundle argumentos = new Bundle();
         argumentos.putString(RUTINA, rutina);
@@ -78,7 +77,7 @@ public class AgregarModificarEjercicioDialog extends DialogFragment {
         TextInputLayout campoRepeticiones = formulario.findViewById(R.id.campo_repeticiones_ejercicio);
         MaterialAutoCompleteTextView nombre = formulario.findViewById(R.id.input_nombre_ejercicio);
         java.util.List<String> nombres = new java.util.ArrayList<>();
-        for (EjercicioCatalogo ejercicio : EjercicioRepository.getCatalogoCache()) {//TODO Ver si esto funciona bien
+        for (EjercicioCatalogo ejercicio : EjercicioRepository.getCatalogoCache()) {
             nombres.add(ejercicio.getNombre());
         }
         nombre.setAdapter(new ArrayAdapter<>(builder.getContext(), android.R.layout.simple_dropdown_item_1line, nombres));

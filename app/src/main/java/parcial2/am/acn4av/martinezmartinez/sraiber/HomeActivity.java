@@ -1,5 +1,6 @@
 package parcial2.am.acn4av.martinezmartinez.sraiber;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.FrameLayout;
@@ -51,6 +52,7 @@ public class HomeActivity extends PantallaDatosActivity {
             if (id == Navegacion.HOME) destino = new InicioFragment();
             else if (id == Navegacion.RUTINAS) destino = new RutinasFragment();
             else if (id == Navegacion.HISTORIAL) destino = new HistorialFragment();
+            else if (id == Navegacion.EJERCICIOS) destino = new EjerciciosFragment();
             else {
                 destino = new PendienteFragment();
                 Bundle args = new Bundle(); args.putInt("seccion", id); destino.setArguments(args);

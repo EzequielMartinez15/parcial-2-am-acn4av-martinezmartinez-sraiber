@@ -71,7 +71,18 @@ public final class DatosUsuario {
         //Crea el catálogo de los ejercicios creados por la app y los deja en un hashmap para que se use este en la app y no vaya siempre a la bd para ver los ejercicios
         EjercicioRepository.getCatalogo(new EjercicioRepository.Callback() {
                 @Override
-                public void onSuccess(List<EjercicioCatalogo> ejercicios) {
+                public void onSuccess(List<EjercicioCatalogo> ejerciciosCatalogoApp) {
+                    escuchar();
+                }
+                @Override
+                public void onError(Exception e) {
+                    fallo(e);
+                }
+            }
+        );
+        EjercicioRepository.getCatalogoCreadosUser(uid, new EjercicioRepository.Callback() {
+                @Override
+                public void onSuccess(List<EjercicioCatalogo> ejerciciosCatalogoUser) {
                     escuchar();
                 }
                 @Override

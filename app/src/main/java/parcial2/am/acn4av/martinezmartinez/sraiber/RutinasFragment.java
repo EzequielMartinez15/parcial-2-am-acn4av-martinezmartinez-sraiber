@@ -15,12 +15,10 @@ import java.util.List;
 import java.util.Comparator;
 
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
-import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.EjercicioRepository;
 import parcial2.am.acn4av.martinezmartinez.sraiber.adapter.RutinaAdapter;
-import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Rutina;
 
-public class RutinasFragment extends androidx.fragment.app.Fragment implements AgregarModificarEjercicioDialog.ListenerAgregarEjercicio {
+public class RutinasFragment extends androidx.fragment.app.Fragment implements AgregarModificarEjercicioEnRutinaDialog.ListenerAgregarEjercicio {
     private static final String ORDEN_SELECCIONADO = "orden_seleccionado";
     private int ordenSeleccionado = 0;
 
@@ -58,7 +56,7 @@ public class RutinasFragment extends androidx.fragment.app.Fragment implements A
                 rutinas,
                 rutina -> {
                     if (getChildFragmentManager().findFragmentByTag("agregar_ejercicio") == null) {
-                        AgregarModificarEjercicioDialog.crearAgregar(rutina.getNombre())
+                        AgregarModificarEjercicioEnRutinaDialog.crearAgregar(rutina.getNombre())
                                 .show(getChildFragmentManager(), "agregar_ejercicio");
                     }
                 },

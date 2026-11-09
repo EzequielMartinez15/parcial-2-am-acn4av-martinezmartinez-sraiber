@@ -13,15 +13,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
-import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.EjercicioRepository;
+
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
 import parcial2.am.acn4av.martinezmartinez.sraiber.adapter.EjercicioDetalleRutinaAdapter;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Rutina;
 
 public class DetalleRutinaActivity extends AppCompatActivity implements
-        AgregarModificarEjercicioDialog.ListenerAgregarEjercicio,
-        AgregarModificarEjercicioDialog.ListenerEditarEjercicio {
+        AgregarModificarEjercicioEnRutinaDialog.ListenerAgregarEjercicio,
+        AgregarModificarEjercicioEnRutinaDialog.ListenerEditarEjercicio {
     private View main;
     private RecyclerView rvEjercicios;
     private EjercicioDetalleRutinaAdapter adapter;
@@ -75,7 +75,7 @@ public class DetalleRutinaActivity extends AppCompatActivity implements
         adapter = new EjercicioDetalleRutinaAdapter(this, rutinaActual.getEjercicios(),
                 this::confirmarBorradoEjercicio, ejercicio -> {
                     if (getSupportFragmentManager().findFragmentByTag("ejercicio") == null) {
-                        AgregarModificarEjercicioDialog.crearEditar(rutinaActual.getNombre(), ejercicio,
+                        AgregarModificarEjercicioEnRutinaDialog.crearEditar(rutinaActual.getNombre(), ejercicio,
                                 rutinaActual.getEjercicios().indexOf(ejercicio))
                                 .show(getSupportFragmentManager(), "ejercicio");
                     }
@@ -83,7 +83,7 @@ public class DetalleRutinaActivity extends AppCompatActivity implements
         rvEjercicios.setAdapter(adapter);
         findViewById(R.id.btnAgregarEjercicio).setOnClickListener(v -> {
             if (getSupportFragmentManager().findFragmentByTag("ejercicio") == null) {
-                AgregarModificarEjercicioDialog.crearAgregar(rutinaActual.getNombre())
+                AgregarModificarEjercicioEnRutinaDialog.crearAgregar(rutinaActual.getNombre())
                         .show(getSupportFragmentManager(), "ejercicio");
             }
         });
