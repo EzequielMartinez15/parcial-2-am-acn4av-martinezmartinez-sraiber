@@ -75,6 +75,10 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
 
         });
 
+        view.findViewById(R.id.btn_importar_json).setOnClickListener(v -> {
+            if (getChildFragmentManager().findFragmentByTag("importar_json") == null)
+                new ImportarEjerciciosDialog().show(getChildFragmentManager(), "importar_json");
+        });
         cargarEjercicios();
 
         inicializarRecycler();
@@ -85,6 +89,16 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
         return view;
     }
 
+    @Override public void onViewCreated(View view, Bundle state) {
+        super.onViewCreated(view, state);
+        parcial2.am.acn4av.martinezmartinez.sraiber.Repository.DatosUsuario.obtener(requireContext())
+                .cambios.observe(getViewLifecycleOwner(), n -> {
+                    cargarEjercicios(); aplicarFiltro(menuFiltros.getText().toString());
+                });
+    }
+    private void avisar(int mensaje) {
+        if (getView() != null) Snackbar.make(requireView(), mensaje, Snackbar.LENGTH_LONG).show();
+    }
     private void cargarEjercicios() {
 
         ejercicios.clear();
@@ -213,6 +227,7 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
 
                     @Override
                     public void onSuccess() {
+                        if (!isAdded() || getView() == null) return;
 
                         cargarEjercicios();
 
@@ -220,17 +235,19 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
                                 EjercicioRepository.getIdsEjerciciosUsuario()
                         );
 
-                        mostrarTodos();
+                        aplicarFiltro(menuFiltros.getText().toString());
+                        avisar(R.string.operacion_guardada);
                     }
 
                     @Override
                     public void onError(Exception e) {
 
-                        e.printStackTrace();
+                        avisar(R.string.operacion_error);
 
                     }
                 });
 
+        avisar(R.string.operacion_guardando);
         return true;
     }
 
@@ -258,6 +275,7 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
 
                     @Override
                     public void onSuccess() {
+                        if (!isAdded() || getView() == null) return;
 
                         RutinaRepository.actualizarEjercicioEnRutinas(
                                 requireContext(),
@@ -271,16 +289,18 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
                                 EjercicioRepository.getIdsEjerciciosUsuario()
                         );
 
-                        mostrarTodos();
+                        aplicarFiltro(menuFiltros.getText().toString());
+                        avisar(R.string.operacion_guardada);
                     }
 
                     @Override
                     public void onError(Exception e) {
 
-                        e.printStackTrace();
+                        avisar(R.string.operacion_error);
                     }
                 });
 
+        avisar(R.string.operacion_guardando);
         return true;
     }
 
@@ -295,7 +315,7 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
                 FirebaseAuth.getInstance()
                         .getCurrentUser()
                         .getUid();
-        RutinaRepository.eliminarEjercicioDeTodasLasRutinas(requireContext(), id);
+
         EjercicioRepository.borrarEjercicio(
                 uid,
                 id,
@@ -303,6 +323,7 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
 
                     @Override
                     public void onSuccess() {
+                        if (!isAdded() || getView() == null) return;
 
                         cargarEjercicios();
 
@@ -310,16 +331,18 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
                                 EjercicioRepository.getIdsEjerciciosUsuario()
                         );
 
-                        mostrarTodos();
+                        aplicarFiltro(menuFiltros.getText().toString());
+                        avisar(R.string.operacion_guardada);
                     }
 
                     @Override
                     public void onError(Exception e) {
 
-                        e.printStackTrace();
+                        avisar(R.string.operacion_error);
                     }
                 });
 
+        avisar(R.string.operacion_guardando);
         return true;
     }
 
@@ -328,7 +351,7 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
         try {
             for (Rutina rutina : RutinaRepository.getRutinas(requireContext())) {
                 if (rutina.getNombre().equals(nombreRutina)) {
-                    RutinaRepository.agregarEjercicio(
+                    com.google.android.gms.tasks.Task<Void> guardado = RutinaRepository.agregarEjercicio(
                             requireContext(),
                             rutina,
                             new EjercicioRutina(
@@ -339,6 +362,9 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
                                     ejercicioCatalogo.getNombreFoto()
                             )
                     );
+                    avisar(R.string.operacion_guardando);
+                    guardado.addOnSuccessListener(v -> avisar(R.string.ejercicio_agregado))
+                            .addOnFailureListener(e -> avisar(R.string.operacion_error));
                     return true;
                 }
             }

@@ -99,6 +99,10 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
         boolean desdeEjercicio = requireArguments().getBoolean(DESDE_EJERCICIO, false);
         //Si edita el ejercicio o viene desde ejercicio para agregarlo a una rutina siempre se guarda la id
         String idEjercicio = requireArguments().getString(EJERCICIO_ID);
+        if (getParentFragment() instanceof ListenerAgregarEjercicio) listenerAgregar = (ListenerAgregarEjercicio) getParentFragment();
+        else if (requireActivity() instanceof ListenerAgregarEjercicio) listenerAgregar = (ListenerAgregarEjercicio) requireActivity();
+        else for (androidx.fragment.app.Fragment fragment : getParentFragmentManager().getFragments())
+            if (fragment instanceof EjerciciosFragment) listenerAgregar = (ListenerAgregarEjercicio) fragment;
         TextView txtEjercicioSeleccionado = formulario.findViewById(R.id.txtEjercicioSeleccionado);
         TextInputLayout campoRutina = formulario.findViewById(R.id.campo_rutina);
         MaterialAutoCompleteTextView rutinaSeleccionada = formulario.findViewById(R.id.input_rutina);
@@ -271,7 +275,7 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
                     boolean guardado;
 
                     if (editar) {
-                        guardado = ((ListenerEditarEjercicio) requireActivity()).onEditarEjercicio(requireArguments().getInt(POSICION),idEjercicio, nombreIngresado, cantidadSeries, cantidadRepeticiones);
+                        guardado = ((ListenerEditarEjercicio) requireActivity()).onEditarEjercicio(requireArguments().getInt(POSICION),ejercicioSeleccionado.getId(), ejercicioSeleccionado.getNombre(), cantidadSeries, cantidadRepeticiones);
                     } else {
                         guardado = listenerAgregar.onAgregarEjercicio(rutinaAGuardar, ejercicioSeleccionado, cantidadSeries, cantidadRepeticiones);
                     }

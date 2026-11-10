@@ -34,8 +34,6 @@
             android:name=".DetalleRutinaActivity"
             android:exported="false"
              />
-        <activity
-            android:name=".EjerciciosFragment"
-            android:exported="false"/>
+
     </application>
 </manifest>

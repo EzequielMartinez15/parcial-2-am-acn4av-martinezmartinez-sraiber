@@ -86,19 +86,7 @@ public class EjerciciosAdapterEnActivityEjercicios extends RecyclerView.Adapter<
         holder.txtGrupo.setText(
                 ejercicio.getGrupoMuscular());
 
-        int imagen = holder.itemView.getContext()
-                .getResources()
-                .getIdentifier(
-                        ejercicio.getNombreFoto(),
-                        "drawable",
-                        holder.itemView.getContext().getPackageName()
-                );
-
-        holder.imgEjercicio.setImageResource(
-                imagen != 0
-                        ? imagen
-                        : R.drawable.ic_marber_dumbbell
-        );
+        parcial2.am.acn4av.martinezmartinez.sraiber.FotosEjercicio.cargar(holder.imgEjercicio, ejercicio.getNombreFoto());
 
         boolean editable =
                 idsEjerciciosUsuario.contains(

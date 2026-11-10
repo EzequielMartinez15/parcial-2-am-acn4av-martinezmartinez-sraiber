@@ -22,3 +22,5 @@ Las fotos se incluyen en drawable-nodpi para funcionar sin internet.
 - `extensiones.jpg`: https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Leg_Extensions/1.jpg
 - `curl_femoral.jpg`: https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Lying_Leg_Curls/1.jpg
 - `gemelos.jpg`: https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/Standing_Calf_Raises/1.jpg
+
+Las fotos de `data/ejercicios.json` se cargan por URL desde la misma base (carpeta `exercises/<Ejercicio>/0.jpg`), así la importación también descarga imágenes desde internet.

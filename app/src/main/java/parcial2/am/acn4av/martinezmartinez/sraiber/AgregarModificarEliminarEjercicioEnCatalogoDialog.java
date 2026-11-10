@@ -97,6 +97,13 @@ public class AgregarModificarEliminarEjercicioEnCatalogoDialog extends DialogFra
     public Dialog onCreateDialog(
             @Nullable Bundle savedInstanceState) {
 
+        for (androidx.fragment.app.Fragment fragment : getParentFragmentManager().getFragments()) {
+            if (fragment instanceof EjerciciosFragment) {
+                listenerAgregar = (EjerciciosFragment) fragment;
+                listenerEditar = (EjerciciosFragment) fragment;
+                listenerBorrar = (EjerciciosFragment) fragment;
+            }
+        }
         MaterialAlertDialogBuilder builder =
                 new MaterialAlertDialogBuilder(
                         requireContext(),
@@ -134,6 +141,13 @@ public class AgregarModificarEliminarEjercicioEnCatalogoDialog extends DialogFra
                 formulario.findViewById(
                         R.id.input_nombre_foto);
 
+        campoFoto.setHint(R.string.foto_enlace);
+        foto.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_URI);
+        android.widget.LinearLayout cuerpo = (android.widget.LinearLayout) campoFoto.getParent();
+        android.widget.ImageView previa = new android.widget.ImageView(requireContext());
+        cuerpo.addView(previa, new android.widget.LinearLayout.LayoutParams(-1, UiEntrenamiento.dp(requireContext(), 140)));
+        UiEntrenamiento.boton(cuerpo, R.string.foto_previsualizar, false,
+                v -> FotosEjercicio.cargar(previa, texto(foto)));
         String[] grupos = {
                 "Biceps",
                 "Triceps",
@@ -248,10 +262,10 @@ public class AgregarModificarEliminarEjercicioEnCatalogoDialog extends DialogFra
                                             return;
                                         }
 
-                                        if (fotoIngresada.isEmpty()) {
+                                        if (!FotosEjercicio.valida(fotoIngresada)) {
 
                                             campoFoto.setError(
-                                                    "Ingrese nombre de foto"
+                                                    getString(R.string.foto_enlace_error)
                                             );
 
                                             return;
@@ -299,14 +313,13 @@ public class AgregarModificarEliminarEjercicioEnCatalogoDialog extends DialogFra
 
                                     String idEjercicio = requireArguments().getString(ID);
 
-                                    boolean guardado = listenerBorrar
-                                            .onBorrarEjercicioCatalogo(
-                                                    idEjercicio
-                                            );
-
-                                    if (guardado) {
-                                        dismiss();
-                                    }
+                                    new MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_Marber_Dialog)
+                                            .setTitle(R.string.confirmar_borrar_catalogo)
+                                            .setMessage(R.string.borrar_catalogo_aviso)
+                                            .setNegativeButton(R.string.ejercicio_cancelar, null)
+                                            .setPositiveButton(R.string.confirmar_si, (confirmacion, which) -> {
+                                                if (listenerBorrar != null && listenerBorrar.onBorrarEjercicioCatalogo(idEjercicio)) dismiss();
+                                            }).show();
                                 });
                     }
                 });

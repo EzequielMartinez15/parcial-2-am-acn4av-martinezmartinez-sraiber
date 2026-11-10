@@ -60,7 +60,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/campo_nombre_foto"
             style="@style/Widget.Marber.TextInputLayout"
-            app:helperText="Nombre del drawable"
+            app:helperText="@string/foto_enlace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_small"
@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:maxLength="80"
+                android:maxLength="2048"
                 android:singleLine="true"
                 android:imeOptions="actionDone"/>
 

@@ -52,19 +52,7 @@ public class EjercicioFotoHomeAdapter
                 )
         );
 
-        int imagen = holder.itemView.getContext()
-                .getResources()
-                .getIdentifier(
-                        ejercicio.getNombreImg(),
-                        "drawable",
-                        holder.itemView.getContext().getPackageName()
-                );
-
-        holder.imgEjercicio.setImageResource(
-                imagen != 0
-                        ? imagen
-                        : R.drawable.ic_marber_dumbbell
-        );
+        parcial2.am.acn4av.martinezmartinez.sraiber.FotosEjercicio.cargar(holder.imgEjercicio, ejercicio.getNombreImg());
     }
 
     @Override

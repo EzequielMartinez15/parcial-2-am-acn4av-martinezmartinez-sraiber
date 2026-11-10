@@ -80,6 +80,8 @@
 
     <TextView
         android:id="@+id/txtSinEjercicios"
+        app:layout_constraintTop_toBottomOf="@id/input_filtros"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/no_ejercicios"
@@ -87,6 +89,12 @@
         android:textColor="@color/marber_text_medium"
         android:visibility="gone"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_importar_json" style="@style/Widget.Marber.Button.Quiet"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:text="@string/importar_json" android:layout_marginStart="20dp"
+        app:layout_constraintTop_toBottomOf="@id/input_filtros"
+        app:layout_constraintStart_toStartOf="parent" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvEjercicios"
 
@@ -100,7 +108,7 @@
 
         android:clipToPadding="false"
 
-        app:layout_constraintTop_toBottomOf="@id/input_filtros"
+        app:layout_constraintTop_toBottomOf="@id/btn_importar_json"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
