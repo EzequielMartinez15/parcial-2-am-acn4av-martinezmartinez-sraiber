@@ -16,6 +16,7 @@ import com.google.android.material.button.MaterialButton;
 import java.util.List;
 import java.util.Set;
 
+import parcial2.am.acn4av.martinezmartinez.sraiber.AgregarModificarEjercicioEnRutinaDialog;
 import parcial2.am.acn4av.martinezmartinez.sraiber.AgregarModificarEliminarEjercicioEnCatalogoDialog;
 import parcial2.am.acn4av.martinezmartinez.sraiber.R;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioCatalogo;
@@ -27,6 +28,8 @@ public class EjerciciosAdapterEnActivityEjercicios extends RecyclerView.Adapter<
     private Set<String> idsEjerciciosUsuario;
     private final AgregarModificarEliminarEjercicioEnCatalogoDialog.ListenerEditarEjercicioCatalogo listenerEditar;
     private final AgregarModificarEliminarEjercicioEnCatalogoDialog.ListenerBorrarEjercicioCatalogo listenerBorrar;
+    private final AgregarModificarEjercicioEnRutinaDialog.ListenerAgregarEjercicio listenerAgregarEjercicio;
+//Este es para agregar un ejercicio a una rutina
 
     public EjerciciosAdapterEnActivityEjercicios(
             List<EjercicioCatalogo> ejercicios,
@@ -35,13 +38,16 @@ public class EjerciciosAdapterEnActivityEjercicios extends RecyclerView.Adapter<
             AgregarModificarEliminarEjercicioEnCatalogoDialog
                     .ListenerEditarEjercicioCatalogo listenerEditar,
             AgregarModificarEliminarEjercicioEnCatalogoDialog.
-                            ListenerBorrarEjercicioCatalogo listenerBorrar) {
+                            ListenerBorrarEjercicioCatalogo listenerBorrar,
+            AgregarModificarEjercicioEnRutinaDialog.
+                    ListenerAgregarEjercicio listenerAgregarEjercicio) {
 
         this.ejercicios = ejercicios;
         this.context = context;
         this.idsEjerciciosUsuario = idsEjerciciosUsuario;
         this.listenerEditar = listenerEditar;
         this.listenerBorrar = listenerBorrar;
+        this.listenerAgregarEjercicio = listenerAgregarEjercicio;
     }
     public void actualizarIdsUsuario(
             Set<String> nuevosIds){
@@ -119,18 +125,19 @@ public class EjerciciosAdapterEnActivityEjercicios extends RecyclerView.Adapter<
             );
         });
 
-//        holder.btnEditarEjercicio //TODO boton a agregarEjercicioARutina
-//                .setOnClickListener(v -> {
-//
-//                    AgregarModificarEjercicioEnCatalogoDialog
-//                            .crearEditar(ejercicio)
-//                            .show(
-//                                    ((FragmentActivity) context)
-//                                            .getSupportFragmentManager(),
-//                                    "editarEjercicio"
-//                            );
-//
-//                });
+        holder.btnAgregarARutina.setOnClickListener(v -> {
+            AgregarModificarEjercicioEnRutinaDialog dialog =
+                    AgregarModificarEjercicioEnRutinaDialog
+                            .crearAgregarDesdeEjercicio(ejercicio);
+
+            dialog.setListenerAgregar(listenerAgregarEjercicio);
+            dialog.show(
+                    ((FragmentActivity) context)
+                            .getSupportFragmentManager(),
+                    "agregarRutina"
+            );
+
+        });
     }
 
     @Override
@@ -145,6 +152,7 @@ public class EjerciciosAdapterEnActivityEjercicios extends RecyclerView.Adapter<
         TextView txtNombre;
         TextView txtGrupo;
         MaterialButton btnEditarEjercicio;
+        MaterialButton btnAgregarARutina;
 
         public ViewHolder(
                 @NonNull View itemView) {
@@ -164,6 +172,7 @@ public class EjerciciosAdapterEnActivityEjercicios extends RecyclerView.Adapter<
                             R.id.txtMusculo);
 
             btnEditarEjercicio = itemView.findViewById(R.id.btnEditarEjercicio);
+            btnAgregarARutina = itemView.findViewById(R.id.btnAgregarARutina);
         }
     }
 }

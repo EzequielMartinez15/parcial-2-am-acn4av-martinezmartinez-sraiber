@@ -16,6 +16,8 @@ import java.util.Comparator;
 
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
 import parcial2.am.acn4av.martinezmartinez.sraiber.adapter.RutinaAdapter;
+import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioCatalogo;
+import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Rutina;
 
 public class RutinasFragment extends androidx.fragment.app.Fragment implements AgregarModificarEjercicioEnRutinaDialog.ListenerAgregarEjercicio {
@@ -82,7 +84,7 @@ public class RutinasFragment extends androidx.fragment.app.Fragment implements A
         //este objeto toma el contexto, un layout apra mostrar los datos, los datos
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 requireContext(),
-                android.R.layout.simple_dropdown_item_1line,
+                R.layout.item_dropdown_marber,
                 filtros
         );
 
@@ -113,23 +115,21 @@ public class RutinasFragment extends androidx.fragment.app.Fragment implements A
     }
 
     @Override
-    public boolean onAgregarEjercicio(String nombreRutina, String nombre, int series, int repeticiones) {//TODO
-        //Lo voy a hacer en los siguietnes commits cuando pruebe todos los méthods
-//        for (int i = 0; i < rutinas.size(); i++) {
-//            Rutina rutina = rutinas.get(i);
-//            if (rutina.getNombre().equals(nombreRutina)) {
-//                try {
-//                    RutinaRepository.agregarEjercicio(requireContext(), rutina,
-//                            new EjercicioRutina(nombre, series, repeticiones,
-//                                    EjercicioRepository.imagenPorNombre(nombre)));
-//                    rutinaAdapter.notifyItemChanged(i, RutinaAdapter.EJERCICIO_AGREGADO);
-//                    Snackbar.make(rvRutinas, R.string.ejercicio_agregado, Snackbar.LENGTH_SHORT).show();
-//                    return true;
-//                } catch (IllegalStateException e) {
-//                    return false;
-//                }
-//            }
-//        }
+    public boolean onAgregarEjercicio(String nombreRutina, EjercicioCatalogo ejercicioCatalogo, int series, int repeticiones) {
+        for (int i = 0; i < rutinas.size(); i++) {
+            Rutina rutina = rutinas.get(i);
+            if (rutina.getNombre().equals(nombreRutina)) {
+                try {
+                    RutinaRepository.agregarEjercicio(requireContext(), rutina, new EjercicioRutina(ejercicioCatalogo.getId(), ejercicioCatalogo.getNombre(), series,
+                                    repeticiones, ejercicioCatalogo.getNombreFoto()));
+                    rutinaAdapter.notifyItemChanged(i, RutinaAdapter.EJERCICIO_AGREGADO);
+                    Snackbar.make(rvRutinas, R.string.ejercicio_agregado, Snackbar.LENGTH_SHORT).show();
+                    return true;
+                } catch (IllegalStateException e) {
+                    return false;
+                }
+            }
+        }
         return false;
     }
 

@@ -98,7 +98,13 @@ public class EjercicioRepository {
     }
 
     public static EjercicioCatalogo buscarPorId(String idFirebase) {
-        return catalogo.get(idFirebase);
+        EjercicioCatalogo retorno = catalogo.get(idFirebase);
+
+        if (retorno == null){
+            retorno = catalogoCreadosUser.get(idFirebase);
+            return retorno;
+        }
+        return retorno;
     }
     public static List<EjercicioCatalogo> getCatalogoCache() {
 

@@ -207,7 +207,7 @@ public final class DatosUsuario {
         for (EjercicioRutina e : r.getEjercicios()) {
             Map<String, Object> item = new HashMap<>();
             //Hice un cambio en el For por el refractor de ejercicioRutina y puse la información guardad en la db con el nuevo modelado
-            item.put("ejercicioId", e.getIdFirebase());
+            item.put("ejercicioId", e.getIdEnFirebase());
             item.put("series", e.getSeries());
             item.put("repeticiones", e.getRepeticiones());
 

@@ -11,24 +11,80 @@
         android:orientation="vertical"
         android:padding="@dimen/space_large">
 
+        <TextView
+            android:id="@+id/txtEjercicioSeleccionado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/marber_text_high"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campo_rutina"
+            app:endIconMode="dropdown_menu"
+            style="@style/Widget.Marber.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/elegir_rutina">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/input_rutina"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/control_height"
+                android:inputType="none"
+                android:saveEnabled="false"
+                android:singleLine="true"
+                android:paddingStart="@dimen/space_medium"
+                android:paddingEnd="@dimen/space_medium"
+                android:textColor="@color/marber_text_high"
+                app:dropDownBackgroundTint="@color/marber_surface"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/campo_grupo_muscular"
+            style="@style/Widget.Marber.TextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/grupo_muscular"
+            app:endIconMode="dropdown_menu">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/input_grupo_muscular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/control_height"
+                android:inputType="none"
+                android:saveEnabled="false"
+                android:singleLine="true"
+                android:paddingStart="@dimen/space_medium"
+                android:paddingEnd="@dimen/space_medium"
+                android:textColor="@color/marber_text_high"
+                app:dropDownBackgroundTint="@color/marber_surface"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/campo_nombre_ejercicio"
             style="@style/Widget.Marber.TextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/ejercicio_nombre"
-            app:helperText="@string/catalogo_ayuda">
+            app:endIconMode="dropdown_menu">
+
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/input_nombre_ejercicio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="@dimen/control_height"
+                android:inputType="none"
+                android:saveEnabled="false"
+                android:singleLine="true"
                 android:paddingStart="@dimen/space_medium"
                 android:paddingEnd="@dimen/space_medium"
-                android:inputType="textCapSentences"
-                android:maxLength="80"
-                android:singleLine="true"
-                android:imeOptions="actionNext" />
+                app:dropDownBackgroundTint="@color/marber_surface"/>
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -38,6 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_small"
             android:hint="@string/ejercicio_series">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_series_ejercicio"
                 android:layout_width="match_parent"
@@ -45,6 +102,7 @@
                 android:inputType="number"
                 android:singleLine="true"
                 android:imeOptions="actionNext" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -54,6 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_small"
             android:hint="@string/ejercicio_repeticiones">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_repeticiones_ejercicio"
                 android:layout_width="match_parent"
@@ -61,6 +120,7 @@
                 android:inputType="number"
                 android:singleLine="true"
                 android:imeOptions="actionDone" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -72,5 +132,7 @@
             android:textColor="@color/marber_error"
             android:accessibilityLiveRegion="polite"
             android:visibility="gone" />
+
     </LinearLayout>
+
 </ScrollView>

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -18,12 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.EjercicioRepository;
+import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
 import parcial2.am.acn4av.martinezmartinez.sraiber.adapter.EjerciciosAdapterEnActivityEjercicios;
+import parcial2.am.acn4av.martinezmartinez.sraiber.adapter.RutinaAdapter;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioCatalogo;
+import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
+import parcial2.am.acn4av.martinezmartinez.sraiber.model.Rutina;
 
 public class EjerciciosFragment extends Fragment implements AgregarModificarEliminarEjercicioEnCatalogoDialog.ListenerAgregarEjercicioCatalogo,
         AgregarModificarEliminarEjercicioEnCatalogoDialog.ListenerEditarEjercicioCatalogo,
-        AgregarModificarEliminarEjercicioEnCatalogoDialog.ListenerBorrarEjercicioCatalogo{
+        AgregarModificarEliminarEjercicioEnCatalogoDialog.ListenerBorrarEjercicioCatalogo,
+        AgregarModificarEjercicioEnRutinaDialog.ListenerAgregarEjercicio{
 
     private RecyclerView rvEjercicios;
     private MaterialAutoCompleteTextView menuFiltros;
@@ -102,7 +108,7 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
                 ejerciciosFiltrados,
                 requireContext(),
                 EjercicioRepository.getIdsEjerciciosUsuario(),
-                this, this
+                this, this,this
         );
 
         rvEjercicios.setAdapter(adapter);
@@ -127,7 +133,7 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
         ArrayAdapter<String> adapterFiltros =
                 new ArrayAdapter<>(
                         requireContext(),
-                        android.R.layout.simple_list_item_1,
+                        R.layout.item_dropdown_marber,
                         filtros
                 );
 
@@ -308,5 +314,30 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
                 });
 
         return true;
+    }
+
+    @Override
+    public boolean onAgregarEjercicio(String nombreRutina, EjercicioCatalogo ejercicioCatalogo, int series, int repeticiones) {
+        try {
+            for (Rutina rutina : RutinaRepository.getRutinas(requireContext())) {
+                if (rutina.getNombre().equals(nombreRutina)) {
+                    RutinaRepository.agregarEjercicio(
+                            requireContext(),
+                            rutina,
+                            new EjercicioRutina(
+                                    ejercicioCatalogo.getId(),
+                                    ejercicioCatalogo.getNombre(),
+                                    series,
+                                    repeticiones,
+                                    ejercicioCatalogo.getNombreFoto()
+                            )
+                    );
+                    return true;
+                }
+            }
+        } catch (IllegalStateException e) {
+            return false;
+        }
+        return false;
     }
 }

@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
 import parcial2.am.acn4av.martinezmartinez.sraiber.adapter.EjercicioDetalleRutinaAdapter;
+import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioCatalogo;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Rutina;
 
@@ -131,22 +132,20 @@ public class DetalleRutinaActivity extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onAgregarEjercicio(String rutina, String nombre, int series, int repeticiones) {//TODO HACER BIEN EL METHOD
-        //Lo voy a hacer en los siguietnes commits cuando pruebe todos los méthods
-//        if (!rutinaActual.getNombre().equals(rutina)) return false;
-//        try {
-//            RutinaRepository.agregarEjercicio(this, rutinaActual, new EjercicioRutina(nombre, series,
-//                    repeticiones, null/*EjercicioRepository.imagenPorNombre(nombre)*/));
-//            int posicion = rutinaActual.getEjercicios().size() - 1;
-//            adapter.notifyItemInserted(posicion);
-//            actualizarResumen();
-//            rvEjercicios.smoothScrollToPosition(posicion);
-//            Snackbar.make(main, R.string.ejercicio_agregado, Snackbar.LENGTH_SHORT).show();
-//            return true;
-//        } catch (IllegalStateException e) {
-//            return false;
-//        }
-        return true;
+    public boolean onAgregarEjercicio(String rutina, EjercicioCatalogo ejercicioCatalogo, int series, int repeticiones) {
+        if (!rutinaActual.getNombre().equals(rutina)) return false;
+        try {
+            RutinaRepository.agregarEjercicio(this, rutinaActual, new EjercicioRutina(ejercicioCatalogo.getId(), ejercicioCatalogo.getNombre(), series,
+                    repeticiones, ejercicioCatalogo.getNombreFoto()));
+            int posicion = rutinaActual.getEjercicios().size() - 1;
+            adapter.notifyItemInserted(posicion);
+            actualizarResumen();
+            rvEjercicios.smoothScrollToPosition(posicion);
+            Snackbar.make(main, R.string.ejercicio_agregado, Snackbar.LENGTH_SHORT).show();
+            return true;
+        } catch (IllegalStateException e) {
+            return false;
+        }
     }
 
     @Override

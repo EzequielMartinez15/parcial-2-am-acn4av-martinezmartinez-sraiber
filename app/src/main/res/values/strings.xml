@@ -65,7 +65,7 @@
     <string name="volver_rutinas">Volver a rutinas</string>
     <string name="detalle_sin_ejercicios">Tu rutina está vacía. Agregá el primer ejercicio para empezar.</string>
     <string name="home_sin_rutinas">No tenés rutinas disponibles.</string>
-    <string name="catalogo_ayuda">Elegí una sugerencia para usar su foto, o escribí un ejercicio personalizado.</string>
+    <string name="catalogo_ayuda">Elegí el ejercicio, si no se encuentra el que buscás podes agregarlo en el apartado de ejercicios de la app.</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
     <string name="confirmar_cerrar_sesion">¿Seguro que querés cerrar tu sesión?</string>
     <string name="confirmar_si">Sí</string>

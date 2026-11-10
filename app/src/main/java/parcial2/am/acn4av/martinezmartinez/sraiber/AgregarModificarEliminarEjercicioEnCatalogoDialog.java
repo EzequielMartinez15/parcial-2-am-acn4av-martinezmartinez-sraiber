@@ -149,7 +149,7 @@ public class AgregarModificarEliminarEjercicioEnCatalogoDialog extends DialogFra
         grupo.setAdapter(
                 new ArrayAdapter<>(
                         requireContext(),
-                        android.R.layout.simple_dropdown_item_1line,
+                        R.layout.item_dropdown_marber,
                         grupos
                 )
         );
