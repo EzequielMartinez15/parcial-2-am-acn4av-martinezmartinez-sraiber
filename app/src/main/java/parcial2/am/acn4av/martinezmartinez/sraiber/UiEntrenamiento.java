@@ -57,8 +57,18 @@ public final class UiEntrenamiento {
         padre.addView(layout, p); return input;
     }
     public static void foto(LinearLayout padre, String nombre) {
+        parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioCatalogo e =
+                parcial2.am.acn4av.martinezmartinez.sraiber.Repository.EjercicioRepository.buscarPorNombre(nombre);
+        foto(padre, nombre, e == null ? "" : e.getNombreFoto());
+    }
+    public static void foto(LinearLayout padre, String nombre, String origen) {
         ImageView foto = new ImageView(padre.getContext());
-        foto.setImageResource(parcial2.am.acn4av.martinezmartinez.sraiber.Repository.EjercicioRepository.imagenPorNombre(padre.getContext(), nombre));
+        if (origen == null || origen.isEmpty()) {
+            parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioCatalogo catalogo =
+                    parcial2.am.acn4av.martinezmartinez.sraiber.Repository.EjercicioRepository.buscarPorNombre(nombre);
+            if (catalogo != null) origen = catalogo.getNombreFoto();
+        }
+        FotosEjercicio.cargar(foto, origen);
         foto.setScaleType(ImageView.ScaleType.CENTER_CROP);
         foto.setContentDescription(padre.getContext().getString(R.string.foto_de_ejercicio, nombre));
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(-1, dp(padre.getContext(), 150));

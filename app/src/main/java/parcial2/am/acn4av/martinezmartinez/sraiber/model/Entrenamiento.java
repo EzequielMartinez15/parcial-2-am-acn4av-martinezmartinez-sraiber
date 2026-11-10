@@ -31,11 +31,11 @@ public class Entrenamiento {
     }
 
     public static class Movimiento {
-        public String clave = "", nombre = "", notas = "";
+        public String clave = "", nombre = "", notas = "", foto = "", ejercicioId = "";
         public List<Serie> series = new ArrayList<>();
         public Map<String, Object> datos() {
             Map<String, Object> d = new HashMap<>();
-            d.put("clave", clave); d.put("nombre", nombre); d.put("notas", notas);
+            d.put("foto", foto); d.put("ejercicioId", ejercicioId); d.put("clave", clave); d.put("nombre", nombre); d.put("notas", notas);
             List<Map<String, Object>> lista = new ArrayList<>();
             for (Serie s : series) lista.add(s.datos());
             d.put("series", lista);
@@ -50,6 +50,8 @@ public class Entrenamiento {
         Map<String, Integer> repetidos = new HashMap<>();
         for (EjercicioRutina ejercicio : rutina.getEjercicios()) {
             Movimiento m = new Movimiento(); m.nombre = ejercicio.getNombre();
+            m.foto = ejercicio.getNombreImg() == null ? "" : ejercicio.getNombreImg();
+            m.ejercicioId = ejercicio.getIdEnFirebase() == null ? "" : ejercicio.getIdEnFirebase();
             String base = m.nombre.trim().toLowerCase(java.util.Locale.ROOT);
             int numero = repetidos.getOrDefault(base, 0);
             repetidos.put(base, numero + 1); m.clave = base + "#" + numero;
@@ -102,6 +104,7 @@ public class Entrenamiento {
             if (!(obj instanceof Map)) continue;
             Map<String, Object> md = (Map<String, Object>) obj;
             Movimiento m = new Movimiento(); m.clave = texto(md, "clave");
+            m.foto = texto(md, "foto"); m.ejercicioId = texto(md, "ejercicioId");
             m.nombre = texto(md, "nombre"); m.notas = texto(md, "notas");
             Object series = md.get("series");
             if (series instanceof List) for (Object so : (List<?>) series) {

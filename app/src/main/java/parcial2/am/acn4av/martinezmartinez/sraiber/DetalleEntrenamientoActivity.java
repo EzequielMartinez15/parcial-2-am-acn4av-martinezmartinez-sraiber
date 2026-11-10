@@ -20,9 +20,9 @@ public class DetalleEntrenamientoActivity extends PantallaDatosActivity {
                 e.minutos(), e.totalSeries()), 16, false);
         UiEntrenamiento.texto(contenido, getString(R.string.comparacion_leyenda), 14, false);
         for (Entrenamiento.Movimiento m : e.ejercicios) {
-            LinearLayout card = UiEntrenamiento.tarjeta(contenido); UiEntrenamiento.foto(card, m.nombre);
+            LinearLayout card = UiEntrenamiento.tarjeta(contenido); UiEntrenamiento.foto(card, m.nombre, m.foto);
             UiEntrenamiento.texto(card, m.nombre, 24, true);
-            Entrenamiento.Movimiento previo = anterior(e, m.clave);
+            Entrenamiento.Movimiento previo = anterior(e, m);
             if (previo == null) UiEntrenamiento.texto(card, getString(R.string.sin_comparacion), 14, false);
             TextView cantidad = UiEntrenamiento.texto(card, getString(R.string.series_comparadas,
                     previo == null ? "" : flecha(m.series.size(), previo.series.size()), m.series.size()), 16, true);
@@ -45,10 +45,13 @@ public class DetalleEntrenamientoActivity extends PantallaDatosActivity {
         }
         if (!e.notas.isEmpty()) UiEntrenamiento.texto(contenido, getString(R.string.notas_guardadas, e.notas), 16, false);
     }
-    private Entrenamiento.Movimiento anterior(Entrenamiento actual, String clave) {
+    private Entrenamiento.Movimiento anterior(Entrenamiento actual, Entrenamiento.Movimiento buscado) {
         // Busqué la última sesión anterior de ese ejercicio, aunque haya sido en otra rutina.
         for (Entrenamiento e : datos.historial) if (e.fin < actual.fin && !e.id.equals(actual.id))
-            for (Entrenamiento.Movimiento m : e.ejercicios) if (m.clave.equals(clave)) return m;
+            for (Entrenamiento.Movimiento m : e.ejercicios) if ((!m.ejercicioId.isEmpty() && !buscado.ejercicioId.isEmpty())
+                    ? m.ejercicioId.equals(buscado.ejercicioId) && m.clave.substring(m.clave.lastIndexOf('#') + 1)
+                            .equals(buscado.clave.substring(buscado.clave.lastIndexOf('#') + 1))
+                    : m.clave.equals(buscado.clave)) return m;
         return null;
     }
     private String flecha(double a, double b) { return a > b ? "↑" : a < b ? "↓" : "="; }

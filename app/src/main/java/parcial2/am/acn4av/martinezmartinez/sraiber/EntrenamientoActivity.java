@@ -44,7 +44,7 @@ public class EntrenamientoActivity extends PantallaDatosActivity {
         guardando = UiEntrenamiento.texto(contenido, getString(R.string.guardar_pendiente), 14, false);
         for (Entrenamiento.Movimiento m : modelo.entrenamiento.ejercicios) {
             LinearLayout card = UiEntrenamiento.tarjeta(contenido);
-            UiEntrenamiento.foto(card, m.nombre); UiEntrenamiento.texto(card, m.nombre, 24, true);
+            UiEntrenamiento.foto(card, m.nombre, m.foto); UiEntrenamiento.texto(card, m.nombre, 24, true);
             for (int i = 0; i < m.series.size(); i++) agregarSerie(card, m.series.get(i), i + 1);
             TextInputEditText notas = UiEntrenamiento.campo(card, R.string.notas_ejercicio, m.notas,
                     InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
