@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Armé el perfil con un ConstraintLayout para la cabecera y LinearLayouts para las estadísticas. -->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout android:id="@+id/perfil_contenido"
+        android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="@dimen/space_large">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/perfil_card_radius" app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/marber_surface"
+            app:strokeColor="@color/marber_border" app:strokeWidth="@dimen/stroke_width">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:padding="@dimen/space_large">
+
+                <ImageView android:id="@+id/perfil_foto"
+                    android:layout_width="@dimen/perfil_avatar_size" android:layout_height="@dimen/perfil_avatar_size"
+                    android:background="@drawable/bg_avatar" android:padding="@dimen/perfil_avatar_padding"
+                    android:contentDescription="@string/perfil_foto_descripcion"
+                    android:src="@drawable/ic_nav_perfil"
+                    app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView android:id="@+id/perfil_etiqueta"
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_medium"
+                    android:text="@string/perfil_etiqueta" android:textSize="@dimen/perfil_label_size"
+                    android:letterSpacing="0.16" android:textStyle="bold"
+                    android:textColor="@color/marber_primary_light"
+                    app:layout_constraintStart_toEndOf="@id/perfil_foto" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/perfil_foto"
+                    app:layout_constraintBottom_toTopOf="@id/perfil_email"
+                    app:layout_constraintVertical_chainStyle="packed" />
+
+                <TextView android:id="@+id/perfil_email"
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_medium" android:layout_marginTop="@dimen/space_small"
+                    android:textSize="@dimen/perfil_title_size" android:textStyle="bold"
+                    android:textColor="@color/marber_text_high" android:maxLines="2" android:ellipsize="end"
+                    app:layout_constraintStart_toEndOf="@id/perfil_foto" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/perfil_etiqueta"
+                    app:layout_constraintBottom_toTopOf="@id/perfil_miembro" />
+
+                <TextView android:id="@+id/perfil_miembro"
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/space_medium" android:layout_marginTop="@dimen/space_small"
+                    android:textSize="@dimen/secondary_text_size" android:textColor="@color/marber_text_medium"
+                    app:layout_constraintStart_toEndOf="@id/perfil_foto" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/perfil_email"
+                    app:layout_constraintBottom_toBottomOf="@id/perfil_foto" />
+
+                <LinearLayout android:id="@+id/perfil_acciones_foto"
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_medium" android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/perfil_foto"
+                    app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent">
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/perfil_btn_elegir_foto"
+                        style="@style/Widget.Marber.Button.Quiet"
+                        android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+                        android:text="@string/perfil_elegir_foto" />
+
+                    <com.google.android.material.button.MaterialButton android:id="@+id/perfil_btn_quitar_foto"
+                        style="@style/Widget.Marber.Button.Danger"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/perfil_quitar_foto" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_large"
+            android:text="@string/perfil_estadisticas" android:textSize="@dimen/perfil_label_size"
+            android:letterSpacing="0.16" android:textStyle="bold" android:textColor="@color/marber_primary_light" />
+
+        <TextView android:id="@+id/perfil_estado"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small"
+            android:textSize="@dimen/secondary_text_size" android:textColor="@color/marber_text_medium"
+            android:visibility="gone" />
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small" android:orientation="horizontal"
+            android:baselineAligned="false">
+            <LinearLayout style="@style/Marber.Perfil.Celda">
+                <TextView android:id="@+id/perfil_total" style="@style/Marber.Perfil.Valor" />
+                <TextView style="@style/Marber.Perfil.Etiqueta" android:text="@string/perfil_entrenamientos" />
+            </LinearLayout>
+            <LinearLayout style="@style/Marber.Perfil.Celda">
+                <TextView android:id="@+id/perfil_mes" style="@style/Marber.Perfil.Valor" />
+                <TextView style="@style/Marber.Perfil.Etiqueta" android:text="@string/perfil_este_mes" />
+            </LinearLayout>
+            <LinearLayout style="@style/Marber.Perfil.Celda">
+                <TextView android:id="@+id/perfil_cant_rutinas" style="@style/Marber.Perfil.Valor" />
+                <TextView style="@style/Marber.Perfil.Etiqueta" android:text="@string/perfil_rutinas" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="horizontal" android:baselineAligned="false">
+            <LinearLayout style="@style/Marber.Perfil.Celda">
+                <TextView android:id="@+id/perfil_series" style="@style/Marber.Perfil.Valor" />
+                <TextView style="@style/Marber.Perfil.Etiqueta" android:text="@string/perfil_series" />
+            </LinearLayout>
+            <LinearLayout style="@style/Marber.Perfil.Celda">
+                <TextView android:id="@+id/perfil_minutos" style="@style/Marber.Perfil.Valor" />
+                <TextView style="@style/Marber.Perfil.Etiqueta" android:text="@string/perfil_minutos" />
+            </LinearLayout>
+            <LinearLayout style="@style/Marber.Perfil.Celda">
+                <TextView android:id="@+id/perfil_propios" style="@style/Marber.Perfil.Valor" />
+                <TextView style="@style/Marber.Perfil.Etiqueta" android:text="@string/perfil_ejercicios_propios" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout style="@style/Marber.Perfil.Fila">
+            <TextView style="@style/Marber.Perfil.Etiqueta" android:gravity="start" android:text="@string/perfil_favorita" />
+            <TextView android:id="@+id/perfil_favorita" style="@style/Marber.Perfil.Detalle" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/Marber.Perfil.Fila">
+            <TextView style="@style/Marber.Perfil.Etiqueta" android:gravity="start" android:text="@string/perfil_ultimo" />
+            <TextView android:id="@+id/perfil_ultimo" style="@style/Marber.Perfil.Detalle" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton android:id="@+id/perfil_btn_historial"
+            style="@style/Widget.Marber.Button.Primary"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_large" android:text="@string/perfil_ver_historial" />
+
+        <com.google.android.material.button.MaterialButton android:id="@+id/perfil_btn_password"
+            style="@style/Widget.Marber.Button.Secondary"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small" android:text="@string/perfil_cambiar_password" />
+
+        <com.google.android.material.button.MaterialButton android:id="@+id/perfil_btn_salir"
+            style="@style/Widget.Marber.Button.Danger"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_small" android:text="@string/cerrar_sesion" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

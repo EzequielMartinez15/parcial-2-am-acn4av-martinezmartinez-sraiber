@@ -53,15 +53,14 @@ public class HomeActivity extends PantallaDatosActivity {
             else if (id == Navegacion.RUTINAS) destino = new RutinasFragment();
             else if (id == Navegacion.HISTORIAL) destino = new HistorialFragment();
             else if (id == Navegacion.EJERCICIOS) destino = new EjerciciosFragment();
-            else {
-                destino = new PendienteFragment();
-                Bundle args = new Bundle(); args.putInt("seccion", id); destino.setArguments(args);
-            }
+            else destino = new PerfilFragment();
             cambio.add(R.id.contenedor_pestanas, destino, etiqueta);
         } else cambio.show(destino);
         cambio.setMaxLifecycle(destino, Lifecycle.State.RESUMED).setPrimaryNavigationFragment(destino).commitNow();
         seleccion = id;
     }
+    // Dejé que las pestañas puedan pedir cambiar de sección, por ejemplo Perfil hacia Historial.
+    public void irA(int seccion) { barra.setSelectedItemId(seccion); }
     @Override protected void onSaveInstanceState(Bundle out) {
         out.putInt("pestana", seleccion); super.onSaveInstanceState(out);
     }

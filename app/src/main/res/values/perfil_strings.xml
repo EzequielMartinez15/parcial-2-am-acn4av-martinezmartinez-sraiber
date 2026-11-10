@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="perfil_etiqueta">TU CUENTA</string>
+    <string name="perfil_miembro_desde">Miembro desde %1$s</string>
+    <string name="perfil_foto_descripcion">Foto de perfil</string>
+    <string name="perfil_elegir_foto">Elegir foto de la galería</string>
+    <string name="perfil_quitar_foto">Quitar foto</string>
+    <string name="perfil_foto_guardada">Foto de perfil actualizada</string>
+    <string name="perfil_foto_quitada">Foto de perfil quitada</string>
+    <string name="perfil_foto_error">No pude guardar la foto. Probá con otra imagen.</string>
+    <string name="perfil_estadisticas">ESTADÍSTICAS</string>
+    <string name="perfil_entrenamientos">Entrenamientos</string>
+    <string name="perfil_este_mes">Este mes</string>
+    <string name="perfil_rutinas">Rutinas</string>
+    <string name="perfil_series">Series hechas</string>
+    <string name="perfil_minutos">Minutos</string>
+    <string name="perfil_ejercicios_propios">Ejercicios propios</string>
+    <string name="perfil_favorita">Rutina más realizada</string>
+    <string name="perfil_ultimo">Último entrenamiento</string>
+    <string name="perfil_sin_datos">Todavía sin entrenamientos</string>
+    <plurals name="perfil_favorita_detalle">
+        <item quantity="one">%1$s · %2$d vez</item>
+        <item quantity="other">%1$s · %2$d veces</item>
+    </plurals>
+    <string name="perfil_ver_historial">Ver mi historial</string>
+    <string name="perfil_cambiar_password">Cambiar contraseña</string>
+</resources>

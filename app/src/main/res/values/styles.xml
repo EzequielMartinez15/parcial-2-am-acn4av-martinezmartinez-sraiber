@@ -40,4 +40,46 @@
         <item name="backgroundTint">@color/marber_surface_alt</item>
         <item name="android:textColor">@color/marber_text_high</item>
     </style>
+
+    <!-- Agrupé los estilos de las celdas del perfil para no repetir atributos en el layout. -->
+    <style name="Marber.Perfil.Celda" parent="">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">@dimen/space_small</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/space_medium</item>
+        <item name="android:background">@drawable/bg_perfil_celda</item>
+    </style>
+    <style name="Marber.Perfil.Valor" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/perfil_stat_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/marber_text_high</item>
+    </style>
+    <style name="Marber.Perfil.Etiqueta" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/footer_text_size</item>
+        <item name="android:textColor">@color/marber_text_medium</item>
+    </style>
+    <style name="Marber.Perfil.Fila" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/space_small</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/space_medium</item>
+        <item name="android:background">@drawable/bg_perfil_celda</item>
+    </style>
+    <style name="Marber.Perfil.Detalle" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/space_small</item>
+        <item name="android:textSize">@dimen/input_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/marber_text_high</item>
+    </style>
 </resources>

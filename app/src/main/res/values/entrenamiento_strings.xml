@@ -6,7 +6,6 @@
     <string name="nav_home">Inicio</string>
     <string name="nav_historial">Historial</string>
     <string name="nav_perfil">Perfil</string>
-    <string name="seccion_proximamente">Esta sección estará disponible próximamente.</string>
     <string name="entrenar_titulo">Hoy entrenás vos.</string>
     <string name="entrenar_subtitulo">Elegí tu rutina y registrá cada serie a tu ritmo.</string>
     <string name="elegir_rutina">Elegí una rutina</string>

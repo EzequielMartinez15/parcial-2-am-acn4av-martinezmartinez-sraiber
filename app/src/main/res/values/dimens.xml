@@ -16,4 +16,10 @@
     <dimen name="control_corner_radius">14dp</dimen>
     <dimen name="stroke_width">1dp</dimen>
     <dimen name="stroke_width_focused">2dp</dimen>
+    <dimen name="perfil_avatar_size">96dp</dimen>
+    <dimen name="perfil_avatar_padding">4dp</dimen>
+    <dimen name="perfil_card_radius">24dp</dimen>
+    <dimen name="perfil_label_size">11sp</dimen>
+    <dimen name="perfil_title_size">22sp</dimen>
+    <dimen name="perfil_stat_size">26sp</dimen>
 </resources>
