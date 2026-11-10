@@ -48,7 +48,7 @@ public class ZFlujoEntrenamientoUiTest {
         }
     }
     @Test public void registroRotacionHistorialYComparacion() throws Exception {
-        Rutina r = new Rutina("Rutina de prueba", Arrays.asList(new EjercicioRutina("Sentadilla", 2, 10, 0)), 0, new Date(0));
+        Rutina r = new Rutina("Rutina de prueba", Arrays.asList(new EjercicioRutina("Sentadilla", 2, 10, "sentadilla")), 0, new Date(0));
         InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> datos.guardarRutina(r));
         await(db.waitForPendingWrites()); hasta(() -> datos.buscarRutina(r.getId()) != null);
         try (ActivityScenario<HomeActivity> home = ActivityScenario.launch(HomeActivity.class)) { captura("home"); }
@@ -109,6 +109,69 @@ public class ZFlujoEntrenamientoUiTest {
             captura("detalle");
         }
     }
+    @Test public void creaRutinaYConfirmaBorradoDelCatalogo() throws Exception {
+        try (ActivityScenario<HomeActivity> escenario = ActivityScenario.launch(HomeActivity.class)) {
+            escenario.onActivity(a -> {
+                ((com.google.android.material.bottomnavigation.BottomNavigationView)a.findViewById(R.id.barra_principal))
+                        .setSelectedItemId(Navegacion.EJERCICIOS);
+                AgregarModificarEliminarEjercicioEnCatalogoDialog.crearAgregar().showNow(a.getSupportFragmentManager(), "catalogo_prueba");
+            });
+            captura("crear-rutina");
+            escenario.recreate();
+            escenario.onActivity(a -> {
+                androidx.fragment.app.DialogFragment fragment = (androidx.fragment.app.DialogFragment)a.getSupportFragmentManager().findFragmentByTag("catalogo_prueba");
+                androidx.appcompat.app.AlertDialog dialog = (androidx.appcompat.app.AlertDialog) fragment.requireDialog();
+                ((EditText)dialog.findViewById(R.id.input_nombre_ejercicio)).setText("Ejercicio QA");
+                ((com.google.android.material.textfield.MaterialAutoCompleteTextView)dialog.findViewById(R.id.input_grupo_muscular)).setText("Piernas", false);
+                ((EditText)dialog.findViewById(R.id.input_nombre_foto)).setText("https://example.com/foto.jpg");
+                dialog.getButton(-1).performClick();
+            });
+            hasta(() -> EjercicioRepository.getCatalogoCreadosUserCache().size() == 1);
+            escenario.onActivity(a -> {
+                ((com.google.android.material.bottomnavigation.BottomNavigationView)a.findViewById(R.id.barra_principal)).setSelectedItemId(Navegacion.RUTINAS);
+                new CrearRutinaDialog().showNow(a.getSupportFragmentManager(), "rutina_prueba");
+                androidx.fragment.app.DialogFragment f = (androidx.fragment.app.DialogFragment)a.getSupportFragmentManager().findFragmentByTag("rutina_prueba");
+                List<EditText> campos = buscar(f.requireDialog().getWindow().getDecorView(), EditText.class);
+                campos.get(0).setText("Rutina QA");
+                // Marqué el ejercicio creado en la prueba y no el primero del catálogo general.
+                for (CheckBox check : buscar(f.requireDialog().getWindow().getDecorView(), CheckBox.class))
+                    if (check.getText().toString().contains("Ejercicio QA")) check.setChecked(true);
+            });
+            captura("crear-rutina");
+            escenario.recreate();
+            escenario.onActivity(a -> {
+                androidx.fragment.app.DialogFragment f = (androidx.fragment.app.DialogFragment)a.getSupportFragmentManager().findFragmentByTag("rutina_prueba");
+                assertEquals("Rutina QA", buscar(f.requireDialog().getWindow().getDecorView(), EditText.class).get(0).getText().toString());
+                boolean marcado = false;
+                for (CheckBox check : buscar(f.requireDialog().getWindow().getDecorView(), CheckBox.class))
+                    if (check.getText().toString().contains("Ejercicio QA")) marcado = check.isChecked();
+                assertTrue(marcado);
+                ((androidx.appcompat.app.AlertDialog)f.requireDialog()).getButton(-1).performClick();
+            });
+            // Busqué la rutina por nombre porque las cuentas nuevas ya traen las rutinas predeterminadas.
+            hasta(() -> datos.buscarRutina("Rutina QA") != null && !datos.pendientes);
+            assertEquals(3, datos.buscarRutina("Rutina QA").getEjercicios().get(0).getSeries());
+            escenario.onActivity(a -> {
+                ((com.google.android.material.bottomnavigation.BottomNavigationView)a.findViewById(R.id.barra_principal)).setSelectedItemId(Navegacion.EJERCICIOS);
+                AgregarModificarEliminarEjercicioEnCatalogoDialog.crearEditar(EjercicioRepository.getCatalogoCreadosUserCache().get(0))
+                        .showNow(a.getSupportFragmentManager(), "editar_qa");
+            });
+            InstrumentationRegistry.getInstrumentation().waitForIdleSync();
+            escenario.onActivity(a -> {
+                androidx.fragment.app.DialogFragment f = (androidx.fragment.app.DialogFragment)a.getSupportFragmentManager().findFragmentByTag("editar_qa");
+                ((androidx.appcompat.app.AlertDialog)f.requireDialog()).getButton(-3).performClick();
+            });
+            onView(withText(R.string.ejercicio_cancelar)).inRoot(androidx.test.espresso.matcher.RootMatchers.isDialog())
+                    .perform(click());
+            assertEquals(1, EjercicioRepository.getCatalogoCreadosUserCache().size());
+            escenario.onActivity(a -> {
+                androidx.fragment.app.DialogFragment f = (androidx.fragment.app.DialogFragment)a.getSupportFragmentManager().findFragmentByTag("editar_qa");
+                ((androidx.appcompat.app.AlertDialog)f.requireDialog()).getButton(-3).performClick();
+            });
+            onView(withText(R.string.confirmar_si)).inRoot(androidx.test.espresso.matcher.RootMatchers.isDialog()).perform(click());
+            hasta(() -> EjercicioRepository.getCatalogoCreadosUserCache().isEmpty() && datos.buscarRutina("Rutina QA").getEjercicios().isEmpty());
+        }
+    }
     private static <T extends View> List<T> buscar(View v, Class<T> clase) {
         List<T> salida = new ArrayList<>(); if (clase.isInstance(v)) salida.add(clase.cast(v));
         if (v instanceof ViewGroup) for (int i = 0; i < ((ViewGroup)v).getChildCount(); i++)
@@ -119,7 +182,7 @@ public class ZFlujoEntrenamientoUiTest {
         InstrumentationRegistry.getInstrumentation().waitForIdleSync();
         Thread.sleep(400);
         Bitmap b = InstrumentationRegistry.getInstrumentation().getUiAutomation().takeScreenshot();
-        try (FileOutputStream out = new FileOutputStream(new File(context.getExternalFilesDir(null), "qa-" + nombre + ".png"))) {
+        try (FileOutputStream out = new FileOutputStream(new File(context.getFilesDir(), "qa-" + nombre + ".png"))) {
             b.compress(Bitmap.CompressFormat.PNG, 100, out);
         }
         b.recycle();

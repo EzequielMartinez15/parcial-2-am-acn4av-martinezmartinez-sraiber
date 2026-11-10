@@ -44,6 +44,15 @@ public class FirestoreEntrenamientoTest {
         db = FirebaseFirestore.getInstance(app); db.useEmulator("10.0.2.2", 8088);
         db.setFirestoreSettings(new FirebaseFirestoreSettings.Builder().setLocalCacheSettings(MemoryCacheSettings.newBuilder().build()).build());
         esperar(auth.createUserWithEmailAndPassword(UUID.randomUUID() + "@example.com", "Prueba123456"));
+        for (int i = 0; i < 3; i++) {
+            Rutina rutina = new Rutina("Prueba " + i,
+                    Arrays.asList(new EjercicioRutina("Sentadilla", 2, 10, "sentadilla")), 0, new Date(0));
+            esperar(db.collection("usuarios").document(auth.getCurrentUser().getUid()).collection("rutinas")
+                    .document(rutina.getId()).set(DatosUsuario.datosRutina(rutina)));
+        }
+        // Marqué la cuenta como inicializada para que no se le sumen las rutinas predeterminadas.
+        esperar(db.collection("usuarios").document(auth.getCurrentUser().getUid()).collection("estado")
+                .document("migracion").set(java.util.Collections.singletonMap("version", 1)));
         conectar();
     }
     private void conectar() throws Exception {
@@ -83,7 +92,10 @@ public class FirestoreEntrenamientoTest {
         e.notas = "Sesión de prueba";
         esperar(principal(() -> datos.finalizar(e))); esperar(principal(() -> datos.finalizar(e)));
         hasta(() -> datos.historial.size() == 1 && datos.activo == null);
-        assertEquals(1, datos.rutinasConEstadisticas().stream().filter(x -> x.getId().equals(r.getId())).findFirst().get().getVecesRealizada());
+        InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> {
+            assertEquals(r.getId(), datos.historial.get(0).rutinaId);
+            assertEquals(1, datos.rutinasConEstadisticas().stream().filter(x -> x.getId().equals(r.getId())).findFirst().get().getVecesRealizada());
+        });
         InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> datos.borrarRutina(r));
         esperar(db.waitForPendingWrites()); hasta(() -> datos.rutinas.size() == 2);
         assertEquals("Sesión de prueba", datos.historial.get(0).notas);

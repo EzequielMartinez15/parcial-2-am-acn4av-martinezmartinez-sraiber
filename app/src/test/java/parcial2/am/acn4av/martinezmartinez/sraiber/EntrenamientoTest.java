@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class EntrenamientoTest {
     private Rutina rutina() {
-        return new Rutina("Prueba", Arrays.asList(new EjercicioRutina("Sentadilla", 2, 8, 0)), 0, new Date(0));
+        return new Rutina("Prueba", Arrays.asList(new EjercicioRutina("Sentadilla", 2, 8, "sentadilla")), 0, new Date(0));
     }
     @Test public void capturaNoCambiaCuandoEditoLaRutina() {
         Rutina r = rutina(); Entrenamiento e = Entrenamiento.iniciar(r);
@@ -31,7 +31,7 @@ public class EntrenamientoTest {
         assertEquals(e.datos(), copia.datos()); assertEquals(e.id, copia.id);
     }
     @Test public void distingueEjerciciosRepetidos() {
-        Rutina r = rutina(); r.getEjercicios().add(new EjercicioRutina("Sentadilla", 1, 10, 0));
+        Rutina r = rutina(); r.getEjercicios().add(new EjercicioRutina("Sentadilla", 1, 10, "sentadilla"));
         Entrenamiento e = Entrenamiento.iniciar(r);
         assertNotEquals(e.ejercicios.get(0).clave, e.ejercicios.get(1).clave);
     }
