@@ -113,10 +113,11 @@ public class DetalleRutinaActivity extends AppCompatActivity implements
                 .setPositiveButton(R.string.eliminar, (dialog, which) -> {
                     int posicion = rutinaActual.getEjercicios().indexOf(ejercicio);
                     if (posicion < 0) return;
-                    RutinaRepository.eliminarEjercicio(this, rutinaActual, ejercicio);
+                    RutinaRepository.eliminarEjercicio(this, rutinaActual, ejercicio)
+                            .addOnSuccessListener(this, v -> Snackbar.make(main, R.string.ejercicio_eliminado, Snackbar.LENGTH_SHORT).show());
                     adapter.notifyItemRemoved(posicion);
                     actualizarResumen();
-                    Snackbar.make(main, R.string.ejercicio_eliminado, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(main, R.string.operacion_guardando, Snackbar.LENGTH_SHORT).show();
                 }).show();
     }
 
@@ -127,6 +128,9 @@ public class DetalleRutinaActivity extends AppCompatActivity implements
                 .setNegativeButton(R.string.ejercicio_cancelar, null)
                 .setPositiveButton(R.string.eliminar, (dialog, which) -> {
                     RutinaRepository.eliminarRutina(this, rutinaActual);
+                    // Usé un Toast porque la pantalla se cierra y un Snackbar desaparecería con ella.
+                    android.widget.Toast.makeText(getApplicationContext(), R.string.rutina_eliminada,
+                            android.widget.Toast.LENGTH_SHORT).show();
                     finish();
                 }).show();
     }
@@ -135,13 +139,14 @@ public class DetalleRutinaActivity extends AppCompatActivity implements
     public boolean onAgregarEjercicio(String rutina, EjercicioCatalogo ejercicioCatalogo, int series, int repeticiones) {
         if (!rutinaActual.getNombre().equals(rutina)) return false;
         try {
-            RutinaRepository.agregarEjercicio(this, rutinaActual, new EjercicioRutina(ejercicioCatalogo.getId(), ejercicioCatalogo.getNombre(), series,
+            com.google.android.gms.tasks.Task<Void> guardado = RutinaRepository.agregarEjercicio(this, rutinaActual, new EjercicioRutina(ejercicioCatalogo.getId(), ejercicioCatalogo.getNombre(), series,
                     repeticiones, ejercicioCatalogo.getNombreFoto()));
             int posicion = rutinaActual.getEjercicios().size() - 1;
             adapter.notifyItemInserted(posicion);
             actualizarResumen();
             rvEjercicios.smoothScrollToPosition(posicion);
-            Snackbar.make(main, R.string.ejercicio_agregado, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(main, R.string.operacion_guardando, Snackbar.LENGTH_SHORT).show();
+            guardado.addOnSuccessListener(this, v -> Snackbar.make(main, R.string.ejercicio_agregado, Snackbar.LENGTH_SHORT).show());
             return true;
         } catch (IllegalStateException e) {
             return false;
@@ -153,10 +158,11 @@ public class DetalleRutinaActivity extends AppCompatActivity implements
         if (posicion < 0 || posicion >= rutinaActual.getEjercicios().size()) return false;
         try {
             // Recuperé el ejercicio de la lista actual para soportar la rotación del formulario.
-            RutinaRepository.editarEjercicio(this, rutinaActual, rutinaActual.getEjercicios().get(posicion),
+            com.google.android.gms.tasks.Task<Void> guardado = RutinaRepository.editarEjercicio(this, rutinaActual, rutinaActual.getEjercicios().get(posicion),
                     idEnFirebase, nombre, series, repeticiones);
             adapter.notifyItemChanged(posicion);
-            Snackbar.make(main, R.string.ejercicio_editado, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(main, R.string.operacion_guardando, Snackbar.LENGTH_SHORT).show();
+            guardado.addOnSuccessListener(this, v -> Snackbar.make(main, R.string.ejercicio_editado, Snackbar.LENGTH_SHORT).show());
             return true;
         } catch (IllegalStateException e) {
             return false;

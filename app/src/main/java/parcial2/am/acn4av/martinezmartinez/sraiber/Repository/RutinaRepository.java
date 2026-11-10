@@ -8,18 +8,19 @@ public class RutinaRepository {
     //Dejé tod muy similar, pero en los siguientes commits voy a probar todos los methods y arreglar su funcionamiento si es necesario
     //TODO
     public static List<Rutina> getRutinas(Context c) { return DatosUsuario.obtener(c).rutinasConEstadisticas(); }
-    public static void agregarEjercicio(Context c, Rutina r, EjercicioRutina e) {
-        r.getEjercicios().add(e); DatosUsuario.obtener(c).guardarRutina(r);
+    public static com.google.android.gms.tasks.Task<Void> agregarEjercicio(Context c, Rutina r, EjercicioRutina e) {
+        r.getEjercicios().add(e); return DatosUsuario.obtener(c).guardarRutina(r);
     }
-    public static void editarEjercicio(Context c, Rutina r, EjercicioRutina e, String idEnFirebase, String nombre, int series, int reps) {
+    public static com.google.android.gms.tasks.Task<Void> editarEjercicio(Context c, Rutina r, EjercicioRutina e, String idEnFirebase, String nombre, int series, int reps) {
         int i = r.getEjercicios().indexOf(e);
         if (i < 0) throw new IllegalStateException("El ejercicio ya no existe");
-        r.getEjercicios().set(i, new EjercicioRutina(idEnFirebase, nombre, series, reps, ""));
-        DatosUsuario.obtener(c).guardarRutina(r);
+        r.getEjercicios().set(i, new EjercicioRutina(idEnFirebase, nombre, series, reps,
+                EjercicioRepository.buscarPorId(idEnFirebase) == null ? e.getNombreImg() : EjercicioRepository.buscarPorId(idEnFirebase).getNombreFoto()));
+        return DatosUsuario.obtener(c).guardarRutina(r);
     }
-    public static void eliminarEjercicio(Context c, Rutina r, EjercicioRutina e) {
+    public static com.google.android.gms.tasks.Task<Void> eliminarEjercicio(Context c, Rutina r, EjercicioRutina e) {
         if (!r.getEjercicios().remove(e)) throw new IllegalStateException("El ejercicio ya no existe");
-        DatosUsuario.obtener(c).guardarRutina(r);
+        return DatosUsuario.obtener(c).guardarRutina(r);
     }
     public static void eliminarEjercicioDeTodasLasRutinas(Context c, String idEjercicio) {
 

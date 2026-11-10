@@ -44,6 +44,16 @@ public class RutinasFragment extends androidx.fragment.app.Fragment implements A
         home.findViewById(R.id.btn_logout).setVisibility(View.GONE);
         ((View)home.findViewById(R.id.btn_logout).getParent()).setVisibility(View.GONE);
         rutinas = RutinaRepository.getRutinas(requireContext());
+        android.widget.LinearLayout root = (android.widget.LinearLayout) home;
+        com.google.android.material.button.MaterialButton crear = UiEntrenamiento.boton(root, R.string.crear_rutina, true, v -> {
+            if (getChildFragmentManager().findFragmentByTag("crear_rutina") == null)
+                new CrearRutinaDialog().show(getChildFragmentManager(), "crear_rutina");
+        });
+        root.removeView(crear);
+        android.widget.LinearLayout.LayoutParams espacio = new android.widget.LinearLayout.LayoutParams(-1, -2);
+        espacio.setMargins(UiEntrenamiento.dp(requireContext(), 20), UiEntrenamiento.dp(requireContext(), 12),
+                UiEntrenamiento.dp(requireContext(), 20), 0);
+        root.addView(crear, 3, espacio);
 
         //declaración de las variables de los botones de la activity
         menuFiltros = home.findViewById(R.id.menu_drop_filtros);
@@ -120,10 +130,12 @@ public class RutinasFragment extends androidx.fragment.app.Fragment implements A
             Rutina rutina = rutinas.get(i);
             if (rutina.getNombre().equals(nombreRutina)) {
                 try {
-                    RutinaRepository.agregarEjercicio(requireContext(), rutina, new EjercicioRutina(ejercicioCatalogo.getId(), ejercicioCatalogo.getNombre(), series,
+                    com.google.android.gms.tasks.Task<Void> guardado = RutinaRepository.agregarEjercicio(requireContext(), rutina, new EjercicioRutina(ejercicioCatalogo.getId(), ejercicioCatalogo.getNombre(), series,
                                     repeticiones, ejercicioCatalogo.getNombreFoto()));
                     rutinaAdapter.notifyItemChanged(i, RutinaAdapter.EJERCICIO_AGREGADO);
-                    Snackbar.make(rvRutinas, R.string.ejercicio_agregado, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(rvRutinas, R.string.operacion_guardando, Snackbar.LENGTH_SHORT).show();
+                    guardado.addOnSuccessListener(v -> { if (getView() != null)
+                        Snackbar.make(rvRutinas, R.string.ejercicio_agregado, Snackbar.LENGTH_SHORT).show(); });
                     return true;
                 } catch (IllegalStateException e) {
                     return false;
