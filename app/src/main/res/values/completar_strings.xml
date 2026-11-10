@@ -1,0 +1,27 @@
+<resources>
+    <string name="crear_rutina">Crear rutina</string>
+    <string name="nombre_rutina_nueva">Nombre de la rutina</string>
+    <string name="rutina_nueva_ayuda">Elegí los ejercicios. Después podés ajustar las series y repeticiones desde el detalle.</string>
+    <string name="rutina_nombre_error">Escribí un nombre diferente de hasta 80 caracteres</string>
+    <string name="rutina_ejercicios_error">Elegí al menos un ejercicio</string>
+    <string name="rutina_creada">Rutina creada</string>
+    <string name="operacion_guardando">Guardando cambios…</string>
+    <string name="operacion_guardada">Cambios guardados</string>
+    <string name="operacion_error">No se pudo completar. Revisá la conexión y volvé a intentar.</string>
+    <string name="confirmar_borrar_catalogo">¿Borrar este ejercicio?</string>
+    <string name="borrar_catalogo_aviso">También se quitará de tus rutinas. Los entrenamientos del historial se conservarán.</string>
+    <string name="catalogo_borrado">Ejercicio eliminado de tu catálogo y tus rutinas</string>
+    <string name="foto_enlace">Foto local o URL de imagen</string>
+    <string name="foto_enlace_error">Ingresá una URL HTTPS válida o el nombre de una foto local</string>
+    <string name="foto_previsualizar">Ver foto</string>
+    <string name="importar_json">Importar ejercicios desde URL</string>
+    <string name="json_url">URL HTTPS del archivo JSON</string>
+    <string name="json_url_ejemplo" translatable="false">https://raw.githubusercontent.com/EzequielMartinez15/parcial-2-am-acn4av-martinezmartinez-sraiber/master/data/ejercicios.json</string>
+    <string name="json_ayuda">El archivo debe contener una lista de ejercicios con nombre, grupoMuscular y nombreFoto. Podés revisar los nombres antes de agregarlos a tu catálogo.</string>
+    <string name="json_revisar">Revisar</string>
+    <string name="json_confirmar">Agregar %1$d ejercicios a mi catálogo</string>
+    <string name="json_error">No se pudo leer el archivo. Revisá la URL y el formato del JSON.</string>
+    <string name="json_importado">Ejercicios importados</string>
+    <string name="rutina_eliminada">Rutina eliminada</string>
+    <string name="datos_error_inicializacion">No pude cargar las rutinas iniciales de tu cuenta. Tocá para reintentar.</string>
+</resources>

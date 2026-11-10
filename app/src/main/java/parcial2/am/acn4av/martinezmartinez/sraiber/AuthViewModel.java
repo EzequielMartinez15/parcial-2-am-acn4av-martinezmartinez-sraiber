@@ -9,13 +9,6 @@ import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.WriteBatch;
-
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 public class AuthViewModel extends ViewModel {
     final MutableLiveData<Boolean> ocupado = new MutableLiveData<>(false);
@@ -53,16 +46,9 @@ public class AuthViewModel extends ViewModel {
                             R.string.auth_reset_enviado
                     );
 
-                } else if (registro) {
-
-                    inicializarUsuarioNuevo(
-                            FirebaseAuth.getInstance()
-                                    .getCurrentUser()
-                                    .getUid()
-                    );
-
                 } else {
-
+                    // Abrí la Home tanto al registrarse como al ingresar: DatosUsuario copia las rutinas
+                    // predeterminadas si la cuenta todavía no las tiene, y lo reintenta si algo falla.
                     autenticado.setValue(true);
                 }
             }else {
@@ -91,46 +77,6 @@ public class AuthViewModel extends ViewModel {
         return R.string.auth_error_general;
     }
 
-    //Acá inicializa el usuarioNuevo, poniendolo en la BD, junto con las rutinas predeterminadas de la app. Además de guardar la fecha en la que creó la cuenta
-    private void inicializarUsuarioNuevo(String uid) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("rutinasPredeterminadas")
-                .get()
-                .addOnSuccessListener(snapshot -> {
-
-                    WriteBatch batch = db.batch();
-
-                    Map<String, Object> datosUsuario = new HashMap<>();
-
-                    datosUsuario.put("uid", uid);
-                    datosUsuario.put("fechaCreacion", System.currentTimeMillis());
-
-                    batch.set(db.collection("usuarios").document(uid), datosUsuario);
-
-                    batch.set(
-                            db.collection("usuarios")
-                                    .document(uid)
-                                    .collection("estado")
-                                    .document("migracion"),
-                            Collections.singletonMap("version",1)
-                    );
-
-                    for (DocumentSnapshot doc : snapshot.getDocuments()) {
-
-                        batch.set(db.collection("usuarios")
-                                        .document(uid)
-                                        .collection("rutinas")
-                                        .document(doc.getId()),
-                                doc.getData()
-                        );
-                    }
-
-                    batch.commit()
-                            .addOnSuccessListener(v -> {autenticado.setValue(true);})
-                            .addOnFailureListener(e -> {});
-                })
-                .addOnFailureListener(e -> mensaje.setValue(R.string.auth_error_general)
-                );
-    }
+    // Moví la carga de rutinas predeterminadas a Repository/InicializacionCuenta. Antes corría solo al
+    // registrarse: si se cortaba, la cuenta quedaba sin rutinas para siempre porque al volver a entrar no se repetía.
 }

@@ -68,30 +68,35 @@ public final class DatosUsuario {
     private void iniciar(Context context) {
         if (iniciando) return;
         iniciando = true; error.setValue("");
-        //Crea el catálogo de los ejercicios creados por la app y los deja en un hashmap para que se use este en la app y no vaya siempre a la bd para ver los ejercicios
-        EjercicioRepository.getCatalogo(new EjercicioRepository.Callback() {
-                @Override
-                public void onSuccess(List<EjercicioCatalogo> ejerciciosCatalogoApp) {
-                    escuchar();
-                }
-                @Override
-                public void onError(Exception e) {
-                    fallo(e);
-                }
-            }
-        );
-        EjercicioRepository.getCatalogoCreadosUser(uid, new EjercicioRepository.Callback() {
-                @Override
-                public void onSuccess(List<EjercicioCatalogo> ejerciciosCatalogoUser) {
-                    escuchar();
-                }
-                @Override
-                public void onError(Exception e) {
-                    fallo(e);
-                }
-            }
-        );
+        EjercicioRepository.preparar(db, uid);
+        // Completé la cuenta antes de escuchar las rutinas, por si el registro se cortó a mitad de la copia.
+        long fechaCreacion = auth.getCurrentUser() != null && auth.getCurrentUser().getMetadata() != null
+                ? auth.getCurrentUser().getMetadata().getCreationTimestamp() : System.currentTimeMillis();
+        InicializacionCuenta.asegurar(db, uid, fechaCreacion).addOnCompleteListener(inicio -> {
+            if (cerrado) return;
+            if (inicio.isSuccessful()) { cargarCatalogos(); return; }
+            iniciando = false;
+            if (inicio.getException() instanceof InicializacionCuenta.SinRutinasPredeterminadas) {
+                error.setValue(contexto.getString(parcial2.am.acn4av.martinezmartinez.sraiber.R.string.datos_error_inicializacion));
+                notificar();
+            } else fallo(inicio.getException());
+        });
     }
+
+    private void cargarCatalogos() {
+        // Espere ambos catalogos antes de reconstruir las rutinas por ID.
+        EjercicioRepository.getCatalogo(new EjercicioRepository.Callback() {
+            public void onSuccess(List<EjercicioCatalogo> lista) {
+                if (cerrado) return;
+                EjercicioRepository.getCatalogoCreadosUser(uid, new EjercicioRepository.Callback() {
+                    public void onSuccess(List<EjercicioCatalogo> propios) { if (!cerrado) escuchar(); }
+                    public void onError(Exception e) { iniciando = false; fallo(e); }
+                });
+            }
+            public void onError(Exception e) { iniciando = false; fallo(e); }
+        });
+    }
+
     //Borré el méthod que migraba todos los datos del almacenamiento local. En el authViewModel se cargan las rutinas predefinidas de un nuevo user y más abajo se cargan las rutinas de un user logeado
     private void escuchar() {
         if (cerrado) return;
@@ -150,8 +155,8 @@ public final class DatosUsuario {
             throw new IllegalStateException("La cuenta no está lista");
     }
 
-    public void guardarRutina(Rutina r) {
-        comprobar(); usuario.collection("rutinas").document(r.getId()).set(datosRutina(r)).addOnFailureListener(this::fallo);
+    public Task<Void> guardarRutina(Rutina r) {
+        comprobar(); return usuario.collection("rutinas").document(r.getId()).set(datosRutina(r)).addOnFailureListener(this::fallo);
     }
     public void borrarRutina(Rutina r) {
         comprobar(); usuario.collection("rutinas").document(r.getId()).delete().addOnFailureListener(this::fallo);
@@ -208,6 +213,8 @@ public final class DatosUsuario {
             Map<String, Object> item = new HashMap<>();
             //Hice un cambio en el For por el refractor de ejercicioRutina y puse la información guardad en la db con el nuevo modelado
             item.put("ejercicioId", e.getIdEnFirebase());
+            item.put("nombre", e.getNombre());
+            item.put("nombreFoto", e.getNombreImg());
             item.put("series", e.getSeries());
             item.put("repeticiones", e.getRepeticiones());
 
@@ -227,7 +234,14 @@ public final class DatosUsuario {
             int repeticiones = (int) Entrenamiento.numero(e, "repeticiones");
 
             EjercicioCatalogo catalogo = EjercicioRepository.buscarPorId(ejercicioId);
+            if (catalogo == null && ejercicioId.isEmpty()) {
+                catalogo = EjercicioRepository.buscarPorNombre(Entrenamiento.texto(e, "nombre"));
+                if (catalogo != null) ejercicioId = catalogo.getId();
+            }
             if (catalogo == null) {
+                String nombre = Entrenamiento.texto(e, "nombre");
+                if (!nombre.isEmpty()) ejercicios.add(new EjercicioRutina(ejercicioId, nombre,
+                        series, repeticiones, Entrenamiento.texto(e, "nombreFoto")));
                 continue;
             }
 
