@@ -227,6 +227,10 @@ public final class DatosUsuario {
             int repeticiones = (int) Entrenamiento.numero(e, "repeticiones");
 
             EjercicioCatalogo catalogo = EjercicioRepository.buscarPorId(ejercicioId);
+            if (catalogo == null) {
+                continue;
+            }
+
             //cuando lee la rutina busca el ejercicio específico por la id de firestore y lo agrega a la lista de ejercicios de la rutina
             ejercicios.add(
                     new EjercicioRutina(

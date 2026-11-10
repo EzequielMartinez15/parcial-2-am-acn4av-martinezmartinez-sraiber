@@ -259,6 +259,12 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
                     @Override
                     public void onSuccess() {
 
+                        RutinaRepository.actualizarEjercicioEnRutinas(
+                                requireContext(),
+                                id,
+                                nombre,
+                                nombreFoto
+                        );
                         cargarEjercicios();
 
                         adapter.actualizarIdsUsuario(
@@ -289,6 +295,7 @@ public class EjerciciosFragment extends Fragment implements AgregarModificarElim
                 FirebaseAuth.getInstance()
                         .getCurrentUser()
                         .getUid();
+        RutinaRepository.eliminarEjercicioDeTodasLasRutinas(requireContext(), id);
         EjercicioRepository.borrarEjercicio(
                 uid,
                 id,

@@ -21,5 +21,42 @@ public class RutinaRepository {
         if (!r.getEjercicios().remove(e)) throw new IllegalStateException("El ejercicio ya no existe");
         DatosUsuario.obtener(c).guardarRutina(r);
     }
+    public static void eliminarEjercicioDeTodasLasRutinas(Context c, String idEjercicio) {
+
+        DatosUsuario datos = DatosUsuario.obtener(c);
+
+        for (Rutina rutina : datos.rutinas) {
+            boolean modificada = rutina.getEjercicios().removeIf(e -> idEjercicio.equals(e.getIdEnFirebase()));
+            if (modificada) {
+                datos.guardarRutina(rutina);
+            }
+        }
+    }
     public static void eliminarRutina(Context c, Rutina r) { DatosUsuario.obtener(c).borrarRutina(r); }
+
+    //Actualiza en Firebase el ejercicio en rutina por si un ejercicio de catalogo se actualizó
+    public static void actualizarEjercicioEnRutinas(Context c, String idEjercicio, String nombre, String nombreFoto) {
+
+        DatosUsuario datos = DatosUsuario.obtener(c);
+
+        for (Rutina rutina : datos.rutinas) {
+            boolean modificada = false;
+            for (EjercicioRutina ejercicio : rutina.getEjercicios()) {
+                if (idEjercicio.equals(ejercicio.getIdEnFirebase())) {
+
+                    ejercicio.setNombre(nombre);
+                    ejercicio.setNombreImg(nombreFoto);
+
+                    modificada = true;
+                }
+            }
+
+            if (modificada) {
+                datos.guardarRutina(rutina);
+            }
+        }
+
+        datos.cambios.setValue(datos.cambios.getValue() + 1
+        );
+    }
 }
