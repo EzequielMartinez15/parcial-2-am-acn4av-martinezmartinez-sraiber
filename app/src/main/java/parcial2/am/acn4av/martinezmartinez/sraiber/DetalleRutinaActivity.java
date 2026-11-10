@@ -149,12 +149,12 @@ public class DetalleRutinaActivity extends AppCompatActivity implements
     }
 
     @Override
-    public boolean onEditarEjercicio(int posicion, String nombre, int series, int repeticiones) {
+    public boolean onEditarEjercicio(int posicion, String idEnFirebase, String nombre, int series, int repeticiones) {
         if (posicion < 0 || posicion >= rutinaActual.getEjercicios().size()) return false;
         try {
             // Recuperé el ejercicio de la lista actual para soportar la rotación del formulario.
             RutinaRepository.editarEjercicio(this, rutinaActual, rutinaActual.getEjercicios().get(posicion),
-                    nombre, series, repeticiones);
+                    idEnFirebase, nombre, series, repeticiones);
             adapter.notifyItemChanged(posicion);
             Snackbar.make(main, R.string.ejercicio_editado, Snackbar.LENGTH_SHORT).show();
             return true;

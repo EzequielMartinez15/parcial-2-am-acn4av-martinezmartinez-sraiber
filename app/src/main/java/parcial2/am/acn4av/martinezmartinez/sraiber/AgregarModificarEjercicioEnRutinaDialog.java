@@ -52,7 +52,7 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
         boolean onAgregarEjercicio(String rutina, EjercicioCatalogo ejercicio, int series, int repeticiones);
     }
     public interface ListenerEditarEjercicio {
-        boolean onEditarEjercicio(int posicion, String nombre, int series, int repeticiones);
+        boolean onEditarEjercicio(int posicion, String idEnFirebase, String nombre, int series, int repeticiones);
 
     }
 
@@ -80,6 +80,7 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
         argumentos.putString(RUTINA, rutina);
         argumentos.putBoolean(EDITAR, true);
         argumentos.putInt(POSICION, posicion);
+        argumentos.putString(EJERCICIO_ID, ejercicio.getIdEnFirebase());
         argumentos.putString(NOMBRE, ejercicio.getNombre());
         argumentos.putInt(SERIES, ejercicio.getSeries());
         argumentos.putInt(REPETICIONES, ejercicio.getRepeticiones());
@@ -96,7 +97,8 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
                 .inflate(R.layout.dialog_agregar_modificar_ejercicio, null);
 
         boolean desdeEjercicio = requireArguments().getBoolean(DESDE_EJERCICIO, false);
-
+        //Si edita el ejercicio o viene desde ejercicio para agregarlo a una rutina siempre se guarda la id
+        String idEjercicio = requireArguments().getString(EJERCICIO_ID);
         TextView txtEjercicioSeleccionado = formulario.findViewById(R.id.txtEjercicioSeleccionado);
         TextInputLayout campoRutina = formulario.findViewById(R.id.campo_rutina);
         MaterialAutoCompleteTextView rutinaSeleccionada = formulario.findViewById(R.id.input_rutina);
@@ -124,15 +126,14 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
                 )
         );
 
-        List<EjercicioCatalogo> ejercicios = new ArrayList<>();
-        ejercicios.addAll(EjercicioRepository.getCatalogoCache());
-        ejercicios.addAll(EjercicioRepository.getCatalogoCreadosUserCache());
+        List<EjercicioCatalogo> ejerciciosCatalogo = new ArrayList<>();
+        ejerciciosCatalogo.addAll(EjercicioRepository.getCatalogoCache());
+        ejerciciosCatalogo.addAll(EjercicioRepository.getCatalogoCreadosUserCache());
         java.util.Set<String> grupos = new java.util.HashSet<>();
 
         //Si entra desde la parte de ejercicios
         if (desdeEjercicio) {
-            String idEjercicio = requireArguments().getString(EJERCICIO_ID);
-            for (EjercicioCatalogo ejercicio : ejercicios) {
+            for (EjercicioCatalogo ejercicio : ejerciciosCatalogo) {
                 if (ejercicio.getId().equals(idEjercicio)) {
                     ejercicioSeleccionado = ejercicio;
                     break;
@@ -149,7 +150,7 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
             campoRutina.setVisibility(View.GONE);
         }
 
-        for (EjercicioCatalogo ejercicio : ejercicios) {
+        for (EjercicioCatalogo ejercicio : ejerciciosCatalogo) {
             grupos.add(ejercicio.getGrupoMuscular());
         }
         //editar dice si el dialog va a ser de edición o para agregar y que agregue la información si es necesaria
@@ -168,6 +169,17 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
                 )
         );
 
+        List<String> nombresEjercicios = new ArrayList<>();
+        for (EjercicioCatalogo ejercicio : ejerciciosCatalogo) {
+            nombresEjercicios.add(ejercicio.getNombre());
+        }
+        nombre.setAdapter(
+                new ArrayAdapter<>(
+                        builder.getContext(),
+                        R.layout.item_dropdown_marber,
+                        nombresEjercicios
+                )
+        );
         filtroGrupo.setOnClickListener(v -> filtroGrupo.showDropDown());
         campoGrupo.setEndIconOnClickListener(v -> filtroGrupo.showDropDown());
         campoNombre.setEndIconOnClickListener(v -> nombre.showDropDown());
@@ -180,7 +192,7 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
 
             java.util.List<String> nombresFiltrados = new java.util.ArrayList<>();
 
-            for (EjercicioCatalogo ejercicio : ejercicios) {
+            for (EjercicioCatalogo ejercicio : ejerciciosCatalogo) {
                 if (grupo.equals(ejercicio.getGrupoMuscular())) {
                     nombresFiltrados.add(ejercicio.getNombre());
                 }
@@ -201,7 +213,7 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
         nombre.setOnItemClickListener((parent, view, position, id) -> {
             String nombreElegido = (String) parent.getItemAtPosition(position);
 
-            for (EjercicioCatalogo ejercicio : ejercicios) {
+            for (EjercicioCatalogo ejercicio : ejerciciosCatalogo) {
                 if (ejercicio.getNombre().equals(nombreElegido)) {
 
                     ejercicioSeleccionado = ejercicio;
@@ -212,16 +224,16 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
 
         if (editar) {
 
-            String nombreEditado = requireArguments().getString(NOMBRE);
+            String nombreEjercicioAEditar = requireArguments().getString(NOMBRE);
 
-            for (EjercicioCatalogo ejercicio : ejercicios) {
-                if (ejercicio.getNombre().equals(nombreEditado)) {
+            for (EjercicioCatalogo ejercicio : ejerciciosCatalogo) {
+                if (ejercicio.getNombre().equals(nombreEjercicioAEditar)) {
                     ejercicioSeleccionado = ejercicio;
+                    filtroGrupo.setText(ejercicio.getGrupoMuscular(), false);
+                    nombre.setText(ejercicio.getNombre(), false);
                     break;
                 }
             }
-
-            nombre.setText(nombreEditado, false);
 
             series.setText(String.valueOf(requireArguments().getInt(SERIES)));
 
@@ -259,7 +271,7 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
                     boolean guardado;
 
                     if (editar) {
-                        guardado = ((ListenerEditarEjercicio) requireActivity()).onEditarEjercicio(requireArguments().getInt(POSICION), nombreIngresado, cantidadSeries, cantidadRepeticiones);
+                        guardado = ((ListenerEditarEjercicio) requireActivity()).onEditarEjercicio(requireArguments().getInt(POSICION),idEjercicio, nombreIngresado, cantidadSeries, cantidadRepeticiones);
                     } else {
                         guardado = listenerAgregar.onAgregarEjercicio(rutinaAGuardar, ejercicioSeleccionado, cantidadSeries, cantidadRepeticiones);
                     }

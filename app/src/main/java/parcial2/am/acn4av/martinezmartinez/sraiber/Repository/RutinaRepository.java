@@ -11,11 +11,11 @@ public class RutinaRepository {
     public static void agregarEjercicio(Context c, Rutina r, EjercicioRutina e) {
         r.getEjercicios().add(e); DatosUsuario.obtener(c).guardarRutina(r);
     }
-    public static void editarEjercicio(Context c, Rutina r, EjercicioRutina e, String nombre, int series, int reps) {
+    public static void editarEjercicio(Context c, Rutina r, EjercicioRutina e, String idEnFirebase, String nombre, int series, int reps) {
         int i = r.getEjercicios().indexOf(e);
         if (i < 0) throw new IllegalStateException("El ejercicio ya no existe");
-        //TODO r.getEjercicios().set(i, new EjercicioRutina(nombre, series, reps, EjercicioRepository.imagenPorNombre(nombre)));
-        //DatosUsuario.obtener(c).guardarRutina(r);
+        r.getEjercicios().set(i, new EjercicioRutina(idEnFirebase, nombre, series, reps, ""));
+        DatosUsuario.obtener(c).guardarRutina(r);
     }
     public static void eliminarEjercicio(Context c, Rutina r, EjercicioRutina e) {
         if (!r.getEjercicios().remove(e)) throw new IllegalStateException("El ejercicio ya no existe");
