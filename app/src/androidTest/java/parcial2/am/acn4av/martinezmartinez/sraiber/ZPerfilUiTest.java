@@ -65,8 +65,9 @@ public class ZPerfilUiTest {
             login.onActivity(a -> a.findViewById(R.id.create_account_button).performClick());
             captura("02-registro");
         }
-        Tasks.await(auth.createUserWithEmailAndPassword("prueba-" + UUID.randomUUID().toString().substring(0, 6)
-                + "@marber.app", "Prueba123456"), 20, TimeUnit.SECONDS);
+        // Usé un email corto para las capturas; sin capturas uso uno aleatorio para no chocar con otras corridas.
+        String email = capturas ? "atleta@marber.app" : "prueba-" + UUID.randomUUID().toString().substring(0, 6) + "@marber.app";
+        Tasks.await(auth.createUserWithEmailAndPassword(email, "Prueba123456"), 20, TimeUnit.SECONDS);
         InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> datos = DatosUsuario.obtener(context));
         hasta(() -> datos.listo && datos.rutinas.size() >= 2);
 
@@ -87,6 +88,19 @@ public class ZPerfilUiTest {
             assertTrue(leer(home, R.id.perfil_ultimo).startsWith(favorita.getNombre()));
             assertTrue(leer(home, R.id.perfil_miembro).length() > 0);
 
+            // Saqué las capturas de las pestañas antes de cambiar la foto para que no aparezca su aviso.
+            if (capturas) {
+                capturarPestana(home, Navegacion.HOME, "03-inicio");
+                capturarPestana(home, Navegacion.RUTINAS, "04-rutinas");
+                abrirDialogo(home, Navegacion.RUTINAS, new CrearRutinaDialog(), "08-crear-rutina");
+                capturarPestana(home, Navegacion.EJERCICIOS, "05-ejercicios");
+                abrirDialogo(home, Navegacion.EJERCICIOS, AgregarModificarEliminarEjercicioEnCatalogoDialog.crearAgregar(), "09-nuevo-ejercicio");
+                abrirDialogo(home, Navegacion.EJERCICIOS, new ImportarEjerciciosDialog(), "10-importar-json");
+                capturarPestana(home, Navegacion.HISTORIAL, "06-historial");
+                home.onActivity(a -> a.irA(Navegacion.PERFIL));
+                Thread.sleep(800);
+            }
+
             // Simulé la elección de la galería con una foto del proyecto para probar la copia y la vista.
             Uri foto = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.drawable.sentadilla);
             home.onActivity(a -> ((PerfilFragment) a.getSupportFragmentManager()
@@ -98,18 +112,9 @@ public class ZPerfilUiTest {
                 home.onActivity(a -> visible.set(a.findViewById(R.id.perfil_btn_quitar_foto).getVisibility()));
                 return visible.get() == android.view.View.VISIBLE;
             });
+            // Esperé a que se vaya el aviso de la foto antes de capturar el perfil.
+            if (capturas) Thread.sleep(3500);
             captura("07-perfil");
-
-            if (capturas) {
-                capturarPestana(home, Navegacion.HOME, "03-inicio");
-                capturarPestana(home, Navegacion.RUTINAS, "04-rutinas");
-                abrirDialogo(home, Navegacion.RUTINAS, new CrearRutinaDialog(), "08-crear-rutina");
-                capturarPestana(home, Navegacion.EJERCICIOS, "05-ejercicios");
-                abrirDialogo(home, Navegacion.EJERCICIOS, AgregarModificarEliminarEjercicioEnCatalogoDialog.crearAgregar(), "09-nuevo-ejercicio");
-                abrirDialogo(home, Navegacion.EJERCICIOS, new ImportarEjerciciosDialog(), "10-importar-json");
-                capturarPestana(home, Navegacion.HISTORIAL, "06-historial");
-                capturarPestana(home, Navegacion.PERFIL, "07-perfil");
-            }
 
             home.onActivity(a -> a.findViewById(R.id.perfil_btn_historial).performClick());
             hasta(() -> {
