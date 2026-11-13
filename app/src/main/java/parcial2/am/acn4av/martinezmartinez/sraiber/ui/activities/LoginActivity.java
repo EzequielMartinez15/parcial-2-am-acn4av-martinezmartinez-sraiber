@@ -52,8 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        // Acá agarro el padding de la barra de estado/navegación y le sumo el alto del
-        // teclado cuando está abierto, para que no me tape los campos de abajo.
         main = findViewById(R.id.main);
         ViewCompat.setOnApplyWindowInsetsListener(main, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -71,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
         controller.setAppearanceLightNavigationBars(false);
         ViewCompat.requestApplyInsets(main);
 
-        // Enlacé el formulario con la misma operación de Firebase aunque gire la pantalla.
+
         emailLayout = findViewById(R.id.email_layout);
         passwordLayout = findViewById(R.id.password_layout);
         emailInput = findViewById(R.id.email_input);
@@ -111,8 +109,7 @@ public class LoginActivity extends AppCompatActivity {
         });
         actualizarFormulario();
 
-        // Si el usuario aprieta "Listo" en el teclado (en el campo de contraseña), quiero
-        // que dispare el mismo submitLogin() que el botón, así no lo obligo a tocar la pantalla.
+
         passwordInput.setOnEditorActionListener((view, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 submitLogin();
@@ -184,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
     private void recuperarPassword() {
         if (auth.estaOcupado() || !validarEmail()) return;
         String email = emailInput.getText().toString().trim();
-        // Pedí confirmar el destinatario antes de enviar el enlace de recuperación.
+
         new MaterialAlertDialogBuilder(this, R.style.ThemeOverlay_Marber_Dialog)
                 .setTitle(R.string.auth_reset_titulo)
                 .setMessage(getString(R.string.auth_reset_confirmacion, email))
@@ -194,8 +191,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void configureField(TextInputLayout layout, TextInputEditText input) {
-        // Le pinto el borde a mano en vez de dejar el color que trae Material por defecto,
-        // porque si no, en algunos celulares me toma el tema claro del sistema y rompe la paleta.
+
         int restingColor = ContextCompat.getColor(this, R.color.marber_surface_alt);
         int focusedColor = ContextCompat.getColor(this, R.color.marber_primary);
         layout.setBoxStrokeColorStateList(new ColorStateList(
@@ -207,8 +203,7 @@ public class LoginActivity extends AppCompatActivity {
                 },
                 new int[] {restingColor, focusedColor, restingColor, restingColor}));
 
-        // Le agrego este listener para que, apenas el usuario vuelve a escribir en el campo,
-        // le saque el mensaje de error a ESE campo (el otro campo no se toca).
+
         input.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence text, int start, int count, int after) {
@@ -258,7 +253,7 @@ public class LoginActivity extends AppCompatActivity {
             confirmLayout.setError(getString(R.string.auth_password_distinta));
             valid = false;
         }
-        // Abrí la Home únicamente después de que Firebase confirmó el ingreso o el registro.
+
         if (valid) auth.ingresar(emailText.toString().trim(), passwordText.toString(), registro);
     }
 }

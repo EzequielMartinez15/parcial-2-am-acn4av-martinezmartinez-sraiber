@@ -46,7 +46,7 @@ public class DetalleRutinaActivity extends AppCompatActivity implements
             return insets;
         });
         findViewById(R.id.btn_volver).setOnClickListener(v -> finish());
-        // Esperé la carga de Firestore antes de buscar la rutina al recrear la pantalla.
+
         parcial2.am.acn4av.martinezmartinez.sraiber.Repository.DatosUsuario datos =
                 parcial2.am.acn4av.martinezmartinez.sraiber.Repository.DatosUsuario.obtener(this);
         datos.cambios.observe(this, cambio -> { if (datos.listo) cargarRutina(); });
@@ -131,7 +131,7 @@ public class DetalleRutinaActivity extends AppCompatActivity implements
                 .setNegativeButton(R.string.ejercicio_cancelar, null)
                 .setPositiveButton(R.string.eliminar, (dialog, which) -> {
                     RutinaRepository.eliminarRutina(this, rutinaActual);
-                    // Usé un Toast porque la pantalla se cierra y un Snackbar desaparecería con ella.
+
                     android.widget.Toast.makeText(getApplicationContext(), R.string.rutina_eliminada,
                             android.widget.Toast.LENGTH_SHORT).show();
                     finish();
@@ -160,7 +160,7 @@ public class DetalleRutinaActivity extends AppCompatActivity implements
     public boolean onEditarEjercicio(int posicion, String idEnFirebase, String nombre, int series, int repeticiones) {
         if (posicion < 0 || posicion >= rutinaActual.getEjercicios().size()) return false;
         try {
-            // Recuperé el ejercicio de la lista actual para soportar la rotación del formulario.
+
             com.google.android.gms.tasks.Task<Void> guardado = RutinaRepository.editarEjercicio(this, rutinaActual, rutinaActual.getEjercicios().get(posicion),
                     idEnFirebase, nombre, series, repeticiones);
             adapter.notifyItemChanged(posicion);

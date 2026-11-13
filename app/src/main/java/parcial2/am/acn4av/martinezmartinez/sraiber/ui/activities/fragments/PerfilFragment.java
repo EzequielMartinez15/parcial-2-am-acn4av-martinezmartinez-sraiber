@@ -44,7 +44,7 @@ public class PerfilFragment extends DatosFragment {
     private final ExecutorService copia = Executors.newSingleThreadExecutor();
     private final Handler principal = new Handler(Looper.getMainLooper());
 
-    // Usé el selector de fotos del sistema: no pide permisos y solo me da la imagen que elige el usuario.
+
     private final ActivityResultLauncher<PickVisualMediaRequest> elegirFoto =
             registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), this::guardarFoto);
 
@@ -85,7 +85,7 @@ public class PerfilFragment extends DatosFragment {
         if (vista == null || datos == null) return;
         TextView estado = vista.findViewById(R.id.perfil_estado);
         String error = datos.error.getValue();
-        // Mostré el estado de carga en el mismo texto para no dejar las estadísticas en blanco sin explicación.
+
         if (error != null && !error.isEmpty()) estado.setText(error);
         else if (!datos.listo) estado.setText(R.string.cargando_datos);
         estado.setVisibility((error != null && !error.isEmpty()) || !datos.listo ? View.VISIBLE : View.GONE);
@@ -96,7 +96,7 @@ public class PerfilFragment extends DatosFragment {
         inicioMes.set(Calendar.HOUR_OF_DAY, 0); inicioMes.set(Calendar.MINUTE, 0);
         inicioMes.set(Calendar.SECOND, 0); inicioMes.set(Calendar.MILLISECOND, 0);
         int esteMes = 0, series = 0; long minutos = 0;
-        // Conté las veces por nombre de rutina porque el historial guarda una copia del nombre.
+
         Map<String, Integer> veces = new HashMap<>();
         for (Entrenamiento e : datos.historial) {
             if (e.fin >= inicioMes.getTimeInMillis()) esteMes++;
@@ -118,7 +118,7 @@ public class PerfilFragment extends DatosFragment {
                 : getResources().getQuantityString(R.plurals.perfil_favorita_detalle, maximo, favorita, maximo));
         if (datos.historial.isEmpty()) texto(vista, R.id.perfil_ultimo, getString(R.string.perfil_sin_datos));
         else {
-            // El historial ya viene ordenado del más reciente al más viejo.
+
             Entrenamiento ultimo = datos.historial.get(0);
             texto(vista, R.id.perfil_ultimo, ultimo.nombre + " · "
                     + DateFormat.getDateInstance(DateFormat.MEDIUM, ES).format(new Date(ultimo.fin)));
@@ -127,7 +127,7 @@ public class PerfilFragment extends DatosFragment {
 
     private static void texto(View vista, int id, String valor) { ((TextView) vista.findViewById(id)).setText(valor); }
 
-    // Guardé la foto en el almacenamiento interno de la app, con un archivo por cuenta.
+
     private File archivoFoto() {
         FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
         String uid = usuario == null ? "sin_sesion" : usuario.getUid();
@@ -141,17 +141,17 @@ public class PerfilFragment extends DatosFragment {
         File archivo = archivoFoto();
         vista.findViewById(R.id.perfil_btn_quitar_foto).setVisibility(archivo.exists() ? View.VISIBLE : View.GONE);
         if (!archivo.exists()) { Glide.with(this).clear(foto); foto.setImageResource(R.drawable.ic_nav_perfil); return; }
-        // Usé la fecha de modificación como firma para que Glide no muestre la foto vieja desde su caché.
+
         Glide.with(this).load(archivo).signature(new ObjectKey(archivo.lastModified()))
                 .circleCrop().placeholder(R.drawable.ic_nav_perfil).into(foto);
     }
 
-    // Lo dejé visible dentro del paquete para probar la copia sin abrir el selector del sistema.
+
     public void guardarFoto(Uri uri) {
         if (uri == null) return;
         File destino = archivoFoto();
         android.content.ContentResolver resolver = requireContext().getContentResolver();
-        // Copié la imagen en otro hilo para no trabar la pantalla con fotos pesadas.
+
         copia.execute(() -> {
             boolean ok;
             File temporal = new File(destino.getParentFile(), destino.getName() + ".tmp");
@@ -191,7 +191,7 @@ public class PerfilFragment extends DatosFragment {
         FirebaseUser usuario = FirebaseAuth.getInstance().getCurrentUser();
         if (usuario == null || usuario.getEmail() == null) return;
         String email = usuario.getEmail();
-        // Reutilicé el envío del enlace de recuperación para cambiar la contraseña sin pedir la actual.
+
         new MaterialAlertDialogBuilder(requireContext(), R.style.ThemeOverlay_Marber_Dialog)
                 .setTitle(R.string.perfil_cambiar_password)
                 .setMessage(getString(R.string.auth_reset_confirmacion, email))

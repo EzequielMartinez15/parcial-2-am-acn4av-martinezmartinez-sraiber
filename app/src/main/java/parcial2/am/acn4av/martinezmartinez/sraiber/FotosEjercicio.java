@@ -23,7 +23,6 @@ public final class FotosEjercicio {
                 if (id != 0) origen = id;
             }
         }
-        // Conserve las fotos locales y agregue descarga con cache para las URL.
         Glide.with(vista).load(origen).placeholder(R.drawable.ic_marber_dumbbell)
                 .error(R.drawable.ic_marber_dumbbell).centerCrop().into(vista);
     }

@@ -38,7 +38,7 @@ public class EntrenamientoViewModel extends ViewModel {
         if (ocupado || terminado) return;
         if (!entrenamiento.completo()) { mensaje = R.string.entrenamiento_incompleto; notificar(); return; }
         handler.removeCallbacks(guardar); ocupado = true; modificado = false; notificar();
-        // Conservé la tarea al rotar y esperé la confirmación del servidor antes de mostrar el éxito.
+
         datos.finalizar(entrenamiento).addOnCompleteListener(tarea -> {
             ocupado = false;
             if (tarea.isSuccessful()) { terminado = true; mensaje = R.string.entrenamiento_guardado; }

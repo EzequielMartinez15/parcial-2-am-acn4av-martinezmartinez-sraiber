@@ -69,7 +69,6 @@ public final class DatosUsuario {
         if (iniciando) return;
         iniciando = true; error.setValue("");
         EjercicioRepository.preparar(db, uid);
-        // Completé la cuenta antes de escuchar las rutinas, por si el registro se cortó a mitad de la copia.
         long fechaCreacion = auth.getCurrentUser() != null && auth.getCurrentUser().getMetadata() != null
                 ? auth.getCurrentUser().getMetadata().getCreationTimestamp() : System.currentTimeMillis();
         InicializacionCuenta.asegurar(db, uid, fechaCreacion).addOnCompleteListener(inicio -> {
@@ -84,7 +83,6 @@ public final class DatosUsuario {
     }
 
     private void cargarCatalogos() {
-        // Espere ambos catalogos antes de reconstruir las rutinas por ID.
         EjercicioRepository.getCatalogo(new EjercicioRepository.Callback() {
             public void onSuccess(List<EjercicioCatalogo> lista) {
                 if (cerrado) return;
@@ -97,7 +95,6 @@ public final class DatosUsuario {
         });
     }
 
-    //Borré el méthod que migraba todos los datos del almacenamiento local. En el authViewModel se cargan las rutinas predefinidas de un nuevo user y más abajo se cargan las rutinas de un user logeado
     private void escuchar() {
         if (cerrado) return;
         if (!escuchas.isEmpty()) return;
@@ -172,7 +169,6 @@ public final class DatosUsuario {
     public Task<Entrenamiento> empezar(Rutina r) {
         comprobar(); Entrenamiento nuevo = Entrenamiento.iniciar(r);
         DocumentReference ref = usuario.collection("estado").document("activo");
-        // Comprobé en una transacción que no haya otro entrenamiento activo en otro dispositivo.
         return db.runTransaction(tx -> {
             DocumentSnapshot existente = tx.get(ref);
             if (existente.exists()) return Entrenamiento.leer(existente.getData());
@@ -189,7 +185,6 @@ public final class DatosUsuario {
         comprobar();
         if (!e.completo()) return Tasks.forException(new IllegalArgumentException("Hay series incompletas"));
         if (e.fin == 0) e.fin = System.currentTimeMillis();
-        // Usé el mismo ID al reintentar para no duplicar el historial ni contar dos veces una sesión.
         WriteBatch lote = db.batch();
         lote.set(usuario.collection("entrenamientos").document(e.id), e.datos());
         lote.delete(usuario.collection("estado").document("activo"));
@@ -211,7 +206,6 @@ public final class DatosUsuario {
         List<Map<String, Object>> lista = new ArrayList<>();
         for (EjercicioRutina e : r.getEjercicios()) {
             Map<String, Object> item = new HashMap<>();
-            //Hice un cambio en el For por el refractor de ejercicioRutina y puse la información guardad en la db con el nuevo modelado
             item.put("ejercicioId", e.getIdEnFirebase());
             item.put("nombre", e.getNombre());
             item.put("nombreFoto", e.getNombreImg());
@@ -245,7 +239,6 @@ public final class DatosUsuario {
                 continue;
             }
 
-            //cuando lee la rutina busca el ejercicio específico por la id de firestore y lo agrega a la lista de ejercicios de la rutina
             ejercicios.add(
                     new EjercicioRutina(
                             ejercicioId,

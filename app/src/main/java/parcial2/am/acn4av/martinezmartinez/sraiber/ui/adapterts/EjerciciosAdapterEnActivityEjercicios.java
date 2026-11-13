@@ -29,7 +29,6 @@ public class EjerciciosAdapterEnActivityEjercicios extends RecyclerView.Adapter<
     private final AgregarModificarEliminarEjercicioEnCatalogoDialog.ListenerEditarEjercicioCatalogo listenerEditar;
     private final AgregarModificarEliminarEjercicioEnCatalogoDialog.ListenerBorrarEjercicioCatalogo listenerBorrar;
     private final AgregarModificarEjercicioEnRutinaDialog.ListenerAgregarEjercicio listenerAgregarEjercicio;
-//Este es para agregar un ejercicio a una rutina
 
     public EjerciciosAdapterEnActivityEjercicios(
             List<EjercicioCatalogo> ejercicios,

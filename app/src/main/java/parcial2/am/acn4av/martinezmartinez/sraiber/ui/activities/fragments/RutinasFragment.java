@@ -61,10 +61,8 @@ public class RutinasFragment extends androidx.fragment.app.Fragment implements A
                 UiEntrenamiento.dp(requireContext(), 20), 0);
         root.addView(crear, 3, espacio);
 
-        //declaración de las variables de los botones de la activity
         menuFiltros = home.findViewById(R.id.menu_drop_filtros);
 
-        //Pongo datos en el card para probar
         rvRutinas = home.findViewById(R.id.rv_rutinas);
 
         rvRutinas.setLayoutManager(
@@ -94,24 +92,21 @@ public class RutinasFragment extends androidx.fragment.app.Fragment implements A
                 }
         );
         rvRutinas.setAdapter(rutinaAdapter);
-        //Estos son los filtros que van a aparecer en el layout, osea el xml
+
         String[] filtros = getResources().getStringArray(R.array.orden_rutinas);
 
-        //este objeto toma el contexto, un layout apra mostrar los datos, los datos
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 requireContext(),
                 R.layout.item_dropdown_marber,
                 filtros
         );
 
-        //acá estoy pasando los datos para el layout nuestro y que se agregue eso a nuestro filtro
         menuFiltros.setAdapter(adapter);
         menuFiltros.setOnClickListener(v -> menuFiltros.showDropDown());
         com.google.android.material.textfield.TextInputLayout campoOrden = home.findViewById(R.id.input_filtros);
         campoOrden.setEndIconOnClickListener(v -> menuFiltros.showDropDown());
 
         menuFiltros.setOnItemClickListener((parent, itemView, position, id) -> aplicarOrden(position));
-        // Guardé la selección para mantener el orden cuando se recrea la pantalla.
         if (savedInstanceState != null) {
             ordenSeleccionado = savedInstanceState.getInt(ORDEN_SELECCIONADO, 0);
         }
@@ -176,7 +171,6 @@ public class RutinasFragment extends androidx.fragment.app.Fragment implements A
                 ordenSeleccionado = 0;
                 ordenarPorFechaReciente();
         }
-        // Usé false para que el texto elegido no filtre las opciones del desplegable.
         menuFiltros.setText(getResources().getStringArray(R.array.orden_rutinas)[ordenSeleccionado], false);
         rutinaAdapter.notifyDataSetChanged();
 

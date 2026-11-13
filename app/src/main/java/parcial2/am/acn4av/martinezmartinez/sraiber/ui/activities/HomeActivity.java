@@ -66,7 +66,7 @@ public class HomeActivity extends PantallaDatosActivity {
         cambio.setMaxLifecycle(destino, Lifecycle.State.RESUMED).setPrimaryNavigationFragment(destino).commitNow();
         seleccion = id;
     }
-    // Dejé que las pestañas puedan pedir cambiar de sección, por ejemplo Perfil hacia Historial.
+
     public void irA(int seccion) { barra.setSelectedItemId(seccion); }
     @Override protected void onSaveInstanceState(Bundle out) {
         out.putInt("pestana", seleccion); super.onSaveInstanceState(out);

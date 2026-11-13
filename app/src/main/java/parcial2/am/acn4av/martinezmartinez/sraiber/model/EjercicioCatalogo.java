@@ -1,7 +1,6 @@
 package parcial2.am.acn4av.martinezmartinez.sraiber.model;
 
 public class EjercicioCatalogo {
-    //Esta clase refiere a los ejercicios que se crean y se guardan como ejercicio normal sin que se asocie a una rutina, por ejemplo, Bici estática
 
     public void setId(String id) {
         this.id = id;

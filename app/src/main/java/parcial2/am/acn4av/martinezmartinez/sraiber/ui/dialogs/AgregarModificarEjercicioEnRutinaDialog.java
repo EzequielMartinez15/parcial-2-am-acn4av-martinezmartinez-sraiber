@@ -31,7 +31,7 @@ import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioCatalogo;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Rutina;
 
-// Usé DialogFragment para que el formulario se conserve al girar el dispositivo.
+
 public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
 
     private static final String RUTINA = "rutina";
@@ -99,7 +99,7 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
                 .inflate(R.layout.dialog_agregar_modificar_ejercicio, null);
 
         boolean desdeEjercicio = requireArguments().getBoolean(DESDE_EJERCICIO, false);
-        //Si edita el ejercicio o viene desde ejercicio para agregarlo a una rutina siempre se guarda la id
+
         String idEjercicio = requireArguments().getString(EJERCICIO_ID);
         if (getParentFragment() instanceof ListenerAgregarEjercicio) listenerAgregar = (ListenerAgregarEjercicio) getParentFragment();
         else if (requireActivity() instanceof ListenerAgregarEjercicio) listenerAgregar = (ListenerAgregarEjercicio) requireActivity();
@@ -137,7 +137,7 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
         ejerciciosCatalogo.addAll(EjercicioRepository.getCatalogoCreadosUserCache());
         java.util.Set<String> grupos = new java.util.HashSet<>();
 
-        //Si entra desde la parte de ejercicios
+
         if (desdeEjercicio) {
             for (EjercicioCatalogo ejercicio : ejerciciosCatalogo) {
                 if (ejercicio.getId().equals(idEjercicio)) {
@@ -159,7 +159,7 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
         for (EjercicioCatalogo ejercicio : ejerciciosCatalogo) {
             grupos.add(ejercicio.getGrupoMuscular());
         }
-        //editar dice si el dialog va a ser de edición o para agregar y que agregue la información si es necesaria
+
         boolean editar = requireArguments().getBoolean(EDITAR, false);
         rutinaAGuardar = requireArguments().getString(RUTINA);
 
@@ -192,7 +192,6 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
         nombre.setOnClickListener(v -> nombre.showDropDown());
 
 
-        //Guiarda el filtro del grupo y filtra por el grupoMuscuolar seleccionado
         filtroGrupo.setOnItemClickListener((parent, view, position, id) -> {
             String grupo = (String) parent.getItemAtPosition(position);
 
@@ -215,7 +214,7 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
             );
             nombre.showDropDown();
         });
-        //Elige el nombre del ejercicio seleccionado de la lista.
+
         nombre.setOnItemClickListener((parent, view, position, id) -> {
             String nombreElegido = (String) parent.getItemAtPosition(position);
 
@@ -253,7 +252,6 @@ public class AgregarModificarEjercicioEnRutinaDialog extends DialogFragment {
                 .setPositiveButton(R.string.ejercicio_guardar, null)
                 .create();
 
-        // Reemplacé el clic de Guardar para que el diálogo no se cierre si hay errores.
         dialog.setOnShowListener(ignored -> dialog.getButton(AlertDialog.BUTTON_POSITIVE)
                 .setOnClickListener(v -> {
                     String nombreIngresado = texto(nombre);

@@ -5,8 +5,6 @@ import java.util.List;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.*;
 
 public class RutinaRepository {
-    //Dejé tod muy similar, pero en los siguientes commits voy a probar todos los methods y arreglar su funcionamiento si es necesario
-    //TODO
     public static List<Rutina> getRutinas(Context c) { return DatosUsuario.obtener(c).rutinasConEstadisticas(); }
     public static com.google.android.gms.tasks.Task<Void> agregarEjercicio(Context c, Rutina r, EjercicioRutina e) {
         r.getEjercicios().add(e); return DatosUsuario.obtener(c).guardarRutina(r);
@@ -35,7 +33,7 @@ public class RutinaRepository {
     }
     public static void eliminarRutina(Context c, Rutina r) { DatosUsuario.obtener(c).borrarRutina(r); }
 
-    //Actualiza en Firebase el ejercicio en rutina por si un ejercicio de catalogo se actualizó
+
     public static void actualizarEjercicioEnRutinas(Context c, String idEjercicio, String nombre, String nombreFoto) {
 
         DatosUsuario datos = DatosUsuario.obtener(c);

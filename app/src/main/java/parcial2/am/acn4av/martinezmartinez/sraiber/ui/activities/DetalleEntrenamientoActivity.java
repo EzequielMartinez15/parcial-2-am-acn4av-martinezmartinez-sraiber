@@ -48,7 +48,7 @@ public class DetalleEntrenamientoActivity extends PantallaDatosActivity {
         if (!e.notas.isEmpty()) UiEntrenamiento.texto(contenido, getString(R.string.notas_guardadas, e.notas), 16, false);
     }
     private Entrenamiento.Movimiento anterior(Entrenamiento actual, Entrenamiento.Movimiento buscado) {
-        // Busqué la última sesión anterior de ese ejercicio, aunque haya sido en otra rutina.
+
         for (Entrenamiento e : datos.historial) if (e.fin < actual.fin && !e.id.equals(actual.id))
             for (Entrenamiento.Movimiento m : e.ejercicios) if ((!m.ejercicioId.isEmpty() && !buscado.ejercicioId.isEmpty())
                     ? m.ejercicioId.equals(buscado.ejercicioId) && m.clave.substring(m.clave.lastIndexOf('#') + 1)

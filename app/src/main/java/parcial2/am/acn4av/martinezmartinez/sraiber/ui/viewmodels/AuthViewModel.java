@@ -22,7 +22,6 @@ public class AuthViewModel extends ViewModel {
         ocupado.setValue(true);
         mensaje.setValue(0);
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        // Conservé la operación al girar la pantalla sin guardar la contraseña en el ViewModel.
         completar(registro ? auth.createUserWithEmailAndPassword(email, password)
                 : auth.signInWithEmailAndPassword(email, password), false, registro);
     }
@@ -47,8 +46,6 @@ public class AuthViewModel extends ViewModel {
                     );
 
                 } else {
-                    // Abrí la Home tanto al registrarse como al ingresar: DatosUsuario copia las rutinas
-                    // predeterminadas si la cuenta todavía no las tiene, y lo reintenta si algo falla.
                     autenticado.setValue(true);
                 }
             }else {
@@ -77,6 +74,4 @@ public class AuthViewModel extends ViewModel {
         return R.string.auth_error_general;
     }
 
-    // Moví la carga de rutinas predeterminadas a Repository/InicializacionCuenta. Antes corría solo al
-    // registrarse: si se cortaba, la cuenta quedaba sin rutinas para siempre porque al volver a entrar no se repetía.
 }

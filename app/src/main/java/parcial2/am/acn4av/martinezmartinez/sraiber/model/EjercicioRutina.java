@@ -1,7 +1,6 @@
 package parcial2.am.acn4av.martinezmartinez.sraiber.model;
 
 public class EjercicioRutina {
-    //Esta clase refiere a los ejercicios que están en la clase de Rutina. Puse el idFirebase porque con esa luego vamos a buscar en el catálogo de ejercicios guardados la información de los ejercicios, como el nombre y vamos a agregar esa info a una instrancia de esta clase
     private String idEnFirebase;
     private String nombre;
     private int series;

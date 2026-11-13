@@ -17,7 +17,6 @@ import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioCatalogo;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
 
 public class EjercicioRepository {
-    //Cambie toda la clase para migrar todos los datos a la BD y que obtenga los datos de ahí y no de manera local como estaba antes.
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static String cuenta = "";
     public static void preparar(FirebaseFirestore firestore, String uid) {
@@ -46,7 +45,6 @@ public class EjercicioRepository {
     private static final Map<String, EjercicioCatalogo> catalogoCreadosUser = new HashMap<>();
     public static void getCatalogo(Callback callback) {
         final String solicitudCuenta = cuenta;
-    //este getCatalogo se produce solo 1 vez al iniciar la app, cuando está iniciada toda la aplicación se maneja con el méthod de getCatalogoCache (está más abajo)
         db.collection("ejerciciosPropiosDeLaApp")
                 .get()
                 .addOnSuccessListener(snapshot -> {
@@ -279,8 +277,6 @@ public class EjercicioRepository {
     public static int imagenPorNombre(
             Context context,
             String nombre) {
-        //cambié el méthod para que dependiendo del nombre del ejercicio y el contexto busque la foto, si no la encuentra pone el ícono de la app
-        //TODO dsps hay que adaptarlo para que tome los valores de una URL capaz, o una foto de la galeria del user.
         for (EjercicioCatalogo ejercicio : catalogo.values()) {
 
             if (ejercicio.getNombre().equalsIgnoreCase(nombre)) {

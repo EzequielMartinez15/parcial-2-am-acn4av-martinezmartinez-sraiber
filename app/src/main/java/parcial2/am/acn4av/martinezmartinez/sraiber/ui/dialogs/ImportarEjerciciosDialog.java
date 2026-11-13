@@ -33,7 +33,6 @@ public class ImportarEjerciciosDialog extends DialogFragment {
         int margen = UiEntrenamiento.dp(requireContext(), 20); contenido.setPadding(margen, margen, margen, margen);
         ScrollView scroll = new ScrollView(builder.getContext()); scroll.addView(contenido);
         UiEntrenamiento.texto(contenido, getString(R.string.json_ayuda), 14, false);
-        // Dejé cargada la URL del JSON publicado en el repo para poder probar la importación sin tipearla.
         url = UiEntrenamiento.campo(contenido, R.string.json_url,
                 state == null ? getString(R.string.json_url_ejemplo) : state.getString("url", ""),
                 InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_URI);
@@ -87,7 +86,6 @@ public class ImportarEjerciciosDialog extends DialogFragment {
             if (nombre.isEmpty() || nombre.length() > 100 || grupo.isEmpty() || grupo.length() > 40 || !FotosEjercicio.valida(foto))
                 throw new JSONException("Ejercicio invalido");
             EjercicioCatalogo e = new EjercicioCatalogo();
-            // Use un ID estable para que reintentar el mismo archivo no duplique ejercicios.
             e.setId("importado_" + UUID.nameUUIDFromBytes((nombre + "|" + grupo + "|" + foto).getBytes(java.nio.charset.StandardCharsets.UTF_8)));
             e.setNombre(nombre); e.setGrupoMuscular(grupo); e.setNombreFoto(foto); salida.add(e);
         }

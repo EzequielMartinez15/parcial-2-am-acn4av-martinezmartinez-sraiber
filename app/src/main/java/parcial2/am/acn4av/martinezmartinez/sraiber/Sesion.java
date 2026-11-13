@@ -21,7 +21,7 @@ public final class Sesion {
     }
 
     public static boolean exigir(Activity activity) {
-        // Comprobé la sesión real; no usé los extras como prueba de autenticación.
+
         if (FirebaseAuth.getInstance().getCurrentUser() != null) return true;
         volverAlLogin(activity);
         return false;
