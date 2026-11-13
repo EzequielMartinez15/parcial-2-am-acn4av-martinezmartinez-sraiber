@@ -1,4 +1,4 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities;
 
 import android.os.Bundle;
 import android.view.View;
@@ -14,11 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
-import parcial2.am.acn4av.martinezmartinez.sraiber.adapter.EjercicioDetalleRutinaAdapter;
+import parcial2.am.acn4av.martinezmartinez.sraiber.Sesion;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.adapterts.EjercicioDetalleRutinaAdapter;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioCatalogo;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Rutina;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs.AgregarModificarEjercicioEnRutinaDialog;
 
 public class DetalleRutinaActivity extends AppCompatActivity implements
         AgregarModificarEjercicioEnRutinaDialog.ListenerAgregarEjercicio,

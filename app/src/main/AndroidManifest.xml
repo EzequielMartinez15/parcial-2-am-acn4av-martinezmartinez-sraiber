@@ -12,13 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Marber">
-        <activity android:name=".RutinasActivity" android:exported="false" />
-        <activity android:name=".EntrenamientoActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".HistorialActivity" android:exported="false" />
-        <activity android:name=".DetalleEntrenamientoActivity" android:exported="false" />
-        <activity android:name=".SeccionPendienteActivity" android:exported="false" />
+        <activity android:name=".ui.activities.RutinasActivity" android:exported="false" />
+        <activity android:name=".ui.activities.EntrenamientoActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.activities.HistorialActivity" android:exported="false" />
+        <activity android:name=".ui.activities.DetalleEntrenamientoActivity" android:exported="false" />
+        <activity android:name=".ui.activities.SeccionPendienteActivity" android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.activities.LoginActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
@@ -28,10 +28,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeActivity"
+            android:name=".ui.activities.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".DetalleRutinaActivity"
+            android:name=".ui.activities.DetalleRutinaActivity"
             android:exported="false"
              />
 

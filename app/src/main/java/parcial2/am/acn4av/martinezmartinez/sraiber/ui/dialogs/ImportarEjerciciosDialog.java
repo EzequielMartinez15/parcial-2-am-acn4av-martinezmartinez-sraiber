@@ -1,4 +1,4 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -14,7 +14,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import java.util.*;
 import org.json.*;
+
+import parcial2.am.acn4av.martinezmartinez.sraiber.FotosEjercicio;
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.*;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.UiEntrenamiento;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioCatalogo;
 
 public class ImportarEjerciciosDialog extends DialogFragment {

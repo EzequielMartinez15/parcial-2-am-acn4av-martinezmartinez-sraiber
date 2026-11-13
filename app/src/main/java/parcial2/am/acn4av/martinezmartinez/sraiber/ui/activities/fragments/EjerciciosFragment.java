@@ -1,4 +1,4 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.fragments;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -18,13 +18,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.EjercicioRepository;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
-import parcial2.am.acn4av.martinezmartinez.sraiber.adapter.EjerciciosAdapterEnActivityEjercicios;
-import parcial2.am.acn4av.martinezmartinez.sraiber.adapter.RutinaAdapter;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.adapterts.EjerciciosAdapterEnActivityEjercicios;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioCatalogo;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Rutina;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs.AgregarModificarEjercicioEnRutinaDialog;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs.AgregarModificarEliminarEjercicioEnCatalogoDialog;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs.ImportarEjerciciosDialog;
 
 public class EjerciciosFragment extends Fragment implements AgregarModificarEliminarEjercicioEnCatalogoDialog.ListenerAgregarEjercicioCatalogo,
         AgregarModificarEliminarEjercicioEnCatalogoDialog.ListenerEditarEjercicioCatalogo,

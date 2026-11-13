@@ -8,7 +8,7 @@
     android:background="@color/marber_background"
     android:fillViewport="true"
     android:clipToPadding="false"
-    tools:context=".LoginActivity">
+    tools:context=".ui.activities.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -1,9 +1,11 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.viewmodels;
 
 import android.os.Handler;
 import android.os.Looper;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.DatosUsuario;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Entrenamiento;
 

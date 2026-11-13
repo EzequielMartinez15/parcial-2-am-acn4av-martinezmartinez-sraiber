@@ -18,6 +18,13 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicReference;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.*;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.*;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.DetalleEntrenamientoActivity;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.EntrenamientoActivity;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.HistorialActivity;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.HomeActivity;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs.AgregarModificarEliminarEjercicioEnCatalogoDialog;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs.CrearRutinaDialog;
+
 import static org.junit.Assert.*;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;

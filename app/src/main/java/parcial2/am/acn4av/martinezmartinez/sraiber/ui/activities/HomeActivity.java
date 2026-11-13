@@ -1,6 +1,5 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.FrameLayout;
@@ -9,6 +8,14 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import androidx.activity.OnBackPressedCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.fragments.EjerciciosFragment;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.fragments.HistorialFragment;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.fragments.InicioFragment;
+import parcial2.am.acn4av.martinezmartinez.sraiber.Navegacion;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.fragments.PerfilFragment;
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.fragments.RutinasFragment;
 
 public class HomeActivity extends PantallaDatosActivity {
     private int seleccion = Navegacion.HOME;

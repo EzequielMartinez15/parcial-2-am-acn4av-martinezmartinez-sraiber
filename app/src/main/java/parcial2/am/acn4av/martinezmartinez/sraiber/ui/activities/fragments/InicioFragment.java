@@ -1,4 +1,4 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,14 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import java.util.*;
 import java.text.SimpleDateFormat;
+
+import parcial2.am.acn4av.martinezmartinez.sraiber.FechasEntrenamiento;
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
+import parcial2.am.acn4av.martinezmartinez.sraiber.Sesion;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.UiEntrenamiento;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.*;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.DetalleEntrenamientoActivity;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.EntrenamientoActivity;
 
 public class InicioFragment extends DatosFragment {
     private String seleccion = "";

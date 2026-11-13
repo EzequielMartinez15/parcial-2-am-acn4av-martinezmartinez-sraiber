@@ -1,10 +1,12 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities;
 
 import android.os.Bundle;
 import android.widget.*;
 import androidx.core.content.ContextCompat;
 import java.text.*;
 import java.util.*;
+
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Entrenamiento;
 
 public class DetalleEntrenamientoActivity extends PantallaDatosActivity {

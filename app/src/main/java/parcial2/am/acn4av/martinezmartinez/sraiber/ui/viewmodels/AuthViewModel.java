@@ -1,6 +1,4 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
-
-import android.util.Log;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.viewmodels;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -10,14 +8,16 @@ import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
+
 public class AuthViewModel extends ViewModel {
-    final MutableLiveData<Boolean> ocupado = new MutableLiveData<>(false);
-    final MutableLiveData<Integer> mensaje = new MutableLiveData<>(0);
-    final MutableLiveData<Boolean> autenticado = new MutableLiveData<>(false);
+    public final MutableLiveData<Boolean> ocupado = new MutableLiveData<>(false);
+    public final MutableLiveData<Integer> mensaje = new MutableLiveData<>(0);
+    public final MutableLiveData<Boolean> autenticado = new MutableLiveData<>(false);
 
-    boolean estaOcupado() { return Boolean.TRUE.equals(ocupado.getValue()); }
+    public boolean estaOcupado() { return Boolean.TRUE.equals(ocupado.getValue()); }
 
-    void ingresar(String email, String password, boolean registro) {
+    public void ingresar(String email, String password, boolean registro) {
         if (estaOcupado()) return;
         ocupado.setValue(true);
         mensaje.setValue(0);
@@ -27,7 +27,7 @@ public class AuthViewModel extends ViewModel {
                 : auth.signInWithEmailAndPassword(email, password), false, registro);
     }
 
-    void recuperar(String email) {
+    public void recuperar(String email) {
         if (estaOcupado()) return;
         ocupado.setValue(true);
         mensaje.setValue(0);
@@ -57,7 +57,7 @@ public class AuthViewModel extends ViewModel {
         });
     }
 
-    static int error(Exception exception) {
+    public static int error(Exception exception) {
         if (exception instanceof FirebaseNetworkException) return R.string.auth_error_red;
         if (exception instanceof FirebaseTooManyRequestsException) return R.string.auth_error_intentos;
         if (exception instanceof FirebaseAuthException) {

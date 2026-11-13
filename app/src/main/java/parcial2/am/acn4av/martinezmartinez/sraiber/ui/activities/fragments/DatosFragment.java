@@ -1,10 +1,13 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.fragments;
 
 import android.os.Bundle;
 import android.view.*;
 import android.widget.LinearLayout;
 import androidx.fragment.app.Fragment;
+
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.DatosUsuario;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.UiEntrenamiento;
 
 public abstract class DatosFragment extends Fragment {
     protected LinearLayout contenido;

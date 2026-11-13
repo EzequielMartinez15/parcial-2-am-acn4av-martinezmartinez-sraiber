@@ -1,4 +1,4 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber.adapter;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.adapterts;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,8 +16,8 @@ import com.google.android.material.button.MaterialButton;
 import java.util.List;
 import java.util.Set;
 
-import parcial2.am.acn4av.martinezmartinez.sraiber.AgregarModificarEjercicioEnRutinaDialog;
-import parcial2.am.acn4av.martinezmartinez.sraiber.AgregarModificarEliminarEjercicioEnCatalogoDialog;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs.AgregarModificarEjercicioEnRutinaDialog;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs.AgregarModificarEliminarEjercicioEnCatalogoDialog;
 import parcial2.am.acn4av.martinezmartinez.sraiber.R;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioCatalogo;
 

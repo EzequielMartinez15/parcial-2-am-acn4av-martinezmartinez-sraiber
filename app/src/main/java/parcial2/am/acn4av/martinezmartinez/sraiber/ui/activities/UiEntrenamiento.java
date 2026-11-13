@@ -1,4 +1,4 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -8,6 +8,9 @@ import androidx.core.content.ContextCompat;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.*;
+
+import parcial2.am.acn4av.martinezmartinez.sraiber.FotosEjercicio;
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
 
 public final class UiEntrenamiento {
     private UiEntrenamiento() { }

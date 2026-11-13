@@ -5,6 +5,8 @@ import android.content.Intent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.LoginActivity;
+
 public final class Sesion {
     public static final String EXTRA_UID = "usuario_uid";
     public static final String EXTRA_EMAIL = "usuario_email";

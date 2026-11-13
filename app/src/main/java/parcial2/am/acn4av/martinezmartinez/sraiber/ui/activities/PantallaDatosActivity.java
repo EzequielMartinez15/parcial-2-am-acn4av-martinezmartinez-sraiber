@@ -1,4 +1,4 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
@@ -7,7 +7,10 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.*;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.DatosUsuario;
+import parcial2.am.acn4av.martinezmartinez.sraiber.Sesion;
 
 public abstract class PantallaDatosActivity extends AppCompatActivity {
     protected LinearLayout contenido;

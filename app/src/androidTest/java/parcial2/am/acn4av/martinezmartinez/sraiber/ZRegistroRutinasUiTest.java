@@ -8,7 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import androidx.test.runner.lifecycle.Stage;
-import com.google.android.gms.tasks.Task;
+
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -27,6 +27,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.DatosUsuario;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Rutina;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.HomeActivity;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.LoginActivity;
+
 import static org.junit.Assert.*;
 
 // Probé el registro y la recuperación de cuentas a medio inicializar solo contra los emuladores.

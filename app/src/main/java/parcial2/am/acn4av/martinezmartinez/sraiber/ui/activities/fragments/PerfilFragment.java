@@ -1,4 +1,4 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.fragments;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,8 +30,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import parcial2.am.acn4av.martinezmartinez.sraiber.Navegacion;
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.EjercicioRepository;
+import parcial2.am.acn4av.martinezmartinez.sraiber.Sesion;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Entrenamiento;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.HomeActivity;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.viewmodels.AuthViewModel;
 
 public class PerfilFragment extends DatosFragment {
     private static final Locale ES = new Locale("es", "AR");
@@ -141,7 +147,7 @@ public class PerfilFragment extends DatosFragment {
     }
 
     // Lo dejé visible dentro del paquete para probar la copia sin abrir el selector del sistema.
-    void guardarFoto(Uri uri) {
+    public void guardarFoto(Uri uri) {
         if (uri == null) return;
         File destino = archivoFoto();
         android.content.ContentResolver resolver = requireContext().getContentResolver();

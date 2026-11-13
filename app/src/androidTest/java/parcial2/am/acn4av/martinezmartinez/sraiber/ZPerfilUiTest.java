@@ -29,6 +29,16 @@ import java.util.concurrent.atomic.AtomicReference;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.DatosUsuario;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Entrenamiento;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Rutina;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.DetalleEntrenamientoActivity;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.DetalleRutinaActivity;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.EntrenamientoActivity;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.HomeActivity;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.LoginActivity;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.fragments.PerfilFragment;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs.AgregarModificarEliminarEjercicioEnCatalogoDialog;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs.CrearRutinaDialog;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs.ImportarEjerciciosDialog;
+
 import static org.junit.Assert.*;
 
 // Probé el perfil con datos conocidos contra los emuladores. Con -e capturas true también guardo

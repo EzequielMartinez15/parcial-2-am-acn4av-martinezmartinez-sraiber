@@ -1,4 +1,4 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber.adapter;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.adapterts;
 
 import android.content.Context;
 import android.view.LayoutInflater;

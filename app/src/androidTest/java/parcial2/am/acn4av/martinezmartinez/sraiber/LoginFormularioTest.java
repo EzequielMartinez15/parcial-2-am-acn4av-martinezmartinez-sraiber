@@ -12,6 +12,8 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 import static org.junit.Assume.assumeTrue;
 
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.LoginActivity;
+
 @RunWith(AndroidJUnit4.class)
 public class LoginFormularioTest {
     @Before public void sinSesionExistente() {

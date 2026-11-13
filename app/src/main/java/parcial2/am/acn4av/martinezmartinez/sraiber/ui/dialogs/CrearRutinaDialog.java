@@ -1,4 +1,4 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -13,7 +13,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.*;
+
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.*;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.UiEntrenamiento;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.*;
 
 public class CrearRutinaDialog extends DialogFragment {

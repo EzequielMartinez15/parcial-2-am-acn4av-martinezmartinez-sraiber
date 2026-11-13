@@ -1,8 +1,7 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -10,6 +9,9 @@ import android.widget.TextView;
 import android.widget.EditText;
 import android.widget.ArrayAdapter;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
+
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.fragments.EjerciciosFragment;
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.EjercicioRepository;
 
 import androidx.annotation.NonNull;

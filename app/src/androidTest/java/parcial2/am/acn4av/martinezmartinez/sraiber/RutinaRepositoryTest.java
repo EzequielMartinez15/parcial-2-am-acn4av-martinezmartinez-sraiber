@@ -5,6 +5,8 @@ import org.junit.runner.RunWith;
 import java.util.*;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.DatosUsuario;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.*;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs.ImportarEjerciciosDialog;
+
 import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class RutinaRepositoryTest {

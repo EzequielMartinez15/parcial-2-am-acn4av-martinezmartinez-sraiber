@@ -1,4 +1,4 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,13 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.text.*;
 import java.util.*;
+
+import parcial2.am.acn4av.martinezmartinez.sraiber.FechasEntrenamiento;
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
+import parcial2.am.acn4av.martinezmartinez.sraiber.Sesion;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.UiEntrenamiento;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Entrenamiento;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.DetalleEntrenamientoActivity;
 
 public class HistorialFragment extends DatosFragment {
     private Calendar mes = Calendar.getInstance();

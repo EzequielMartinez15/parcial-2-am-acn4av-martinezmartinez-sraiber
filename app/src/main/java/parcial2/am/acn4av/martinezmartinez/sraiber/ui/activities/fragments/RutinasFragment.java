@@ -1,4 +1,4 @@
-package parcial2.am.acn4av.martinezmartinez.sraiber;
+package parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,11 +14,17 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.List;
 import java.util.Comparator;
 
+import parcial2.am.acn4av.martinezmartinez.sraiber.R;
 import parcial2.am.acn4av.martinezmartinez.sraiber.Repository.RutinaRepository;
-import parcial2.am.acn4av.martinezmartinez.sraiber.adapter.RutinaAdapter;
+import parcial2.am.acn4av.martinezmartinez.sraiber.Sesion;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.UiEntrenamiento;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.adapterts.RutinaAdapter;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioCatalogo;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.EjercicioRutina;
 import parcial2.am.acn4av.martinezmartinez.sraiber.model.Rutina;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.DetalleRutinaActivity;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs.AgregarModificarEjercicioEnRutinaDialog;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.dialogs.CrearRutinaDialog;
 
 public class RutinasFragment extends androidx.fragment.app.Fragment implements AgregarModificarEjercicioEnRutinaDialog.ListenerAgregarEjercicio {
     private static final String ORDEN_SELECCIONADO = "orden_seleccionado";

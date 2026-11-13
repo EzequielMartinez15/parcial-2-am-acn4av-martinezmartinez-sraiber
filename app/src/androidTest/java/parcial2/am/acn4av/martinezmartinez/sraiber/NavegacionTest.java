@@ -9,6 +9,10 @@ import org.junit.*;
 import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.HomeActivity;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.fragments.HistorialFragment;
+import parcial2.am.acn4av.martinezmartinez.sraiber.ui.activities.fragments.InicioFragment;
+
 @RunWith(AndroidJUnit4.class)
 public class NavegacionTest {
     @Test public void conservaBarraPestanasYRotacion() {
